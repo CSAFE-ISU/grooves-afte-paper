@@ -1,0 +1,51 @@
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=6.25000in]{./images/3d_plot_top.png}
+\caption{Visualization of 3D data collected through high resolution
+scanning of a land engraved area. Striations on the surface of the
+object can be seen by viewing this data from ``above'', as presented
+here.}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[htbp]
+\centering
+\includegraphics{writeup_files/figure-latex/unnamed-chunk-2-1.pdf}
+\caption{Single crosscut of 3D bullet land data. The main data
+structure, located in the center, is comprised of the land engraved
+area. The groove engraved areas occur to the left and right sides of the
+crosscut.}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[htbp]
+\centering
+\includegraphics{writeup_files/figure-latex/unnamed-chunk-3-1.pdf}
+\caption{Example of a quadratic linear model fit and resulting residuals
+(top) compared to a robust quadratic linear model fit and residuals
+(bottom) for a single crosscut. The robust model is able to more
+effectively capture the curved structure of the LEA without being
+influenced by the GEA.}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[htbp]
+\centering
+\includegraphics{writeup_files/figure-latex/unnamed-chunk-4-1.pdf}
+\caption{Example of a LOESS model fit and residuals (top) compared to a
+robust LOESS model fit and residuals (bottom) for a single crosscut. The
+robust model is again able to more effectively capture the curved
+structure of the LEA without being influenced by the GEA.}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[htbp]
+\centering
+\includegraphics{./images/afte_results.png}
+\caption{Distribution of inaccuracy scores for data smoothing method,
+robust linear model method, and robust LOESS method, separated by left
+and right shoulder locations. A tight distribution with few high values
+indicates good performance across the LEAs in the data set.}
+\end{figure}
+\efloatseparator
+ 

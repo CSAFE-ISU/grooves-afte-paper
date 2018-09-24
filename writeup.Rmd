@@ -1,15 +1,21 @@
 ---
-title: "A Robust Approach to Automatic Groove Identification in 3D Bullet Land Scans"
-author: Kiegan Rice, M.Sc., Heike Hofmann, Ph.D., Ulrike Genschel, Ph.D. 
+title: "A Robust Approach to Automatic Groove Identification in 3D Bullet Land Scans"  
+affiliation: Department of Statistics, Iowa State University and CSAFE (Center for Statistics and Applications in Forensic Evidence)
+authors: Kiegan Rice, M.Sc., Heike Hofmann, Ph.D., Ulrike Genschel, Ph.D. 
 output: 
   pdf_document: 
+    citation_package: natbib
+    keep_tex: yes
+    latex_engine: pdflatex
+    template: template.tex
     number_sections: true
     fig_caption: yes
 bibliography: bibliography.bib
+biblio-style: jfs
 nocite: | 
   @locfit, @MASS
-bst: jfs-authoryear.bst
 ---
+
 
 
 ```{r, echo = F, warning = F, message = F}
@@ -39,7 +45,7 @@ Distinguishing between land and groove engraved areas is a problem at which huma
 
 The data used in this paper are high resolution 3D scans of 208 bullet land engraved areas. The scanned bullets come from Hamby Set 44 [@Hamby]. They consist of 35 total bullets from a set of 10 consecutively rifled Ruger P85 barrels. These LEAs were scanned at Iowa State University's High Resolution Microscopy Facility, and the scans are stored in 3D format as x3p files **reference ISO standard**. The data are gathered at a resolution of .645 microns per pixel. Physically, each land is approximately 2 millimeters in width. With a .645 micron per pixel resolution, data structures can contain more than 3 million individual data points. The 35 total bullets with 6 lands per bullet result in 210 individual lands.  
 
-![Visualization of 3D data collected through high resolution scanning of a land engraved area. Striations on the surface of the object can be seen by viewing this data from "above", as presented here.](./images/3d_plot_top.png)  
+![Visualization of 3D data collected through high resolution scanning of a land engraved area. Striations on the surface of the object can be seen by viewing this data from "above", as presented here.](./images/3d_plot_top.png){width=600px}  
 
 
 
