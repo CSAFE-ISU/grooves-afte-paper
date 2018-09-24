@@ -4,11 +4,18 @@ author: Kiegan Rice, M.Sc., Heike Hofmann, Ph.D., Ulrike Genschel, Ph.D.
 output: 
   pdf_document: 
     number_sections: true
+    fig_caption: yes
 bibliography: bibliography.bib
 nocite: | 
   @locfit, @MASS
+bst: jfs-authoryear.bst
 ---
 
+
+```{r, echo = F, warning = F, message = F}
+#install.packages("tidyverse")
+library(tidyverse)
+```
 \section{Background}  
 
 For years, forensic firearms examiners have analyzed bullet striations through a process of visual feature comparison to determine whether two patterns are in sufficient agreement [@AFTE]. Examiners compare striation marks on land engraved areas of a bullet fired from a known barrel to a questioned bullet when investigating whether both bullets were propelled through the same gun barrel.  
@@ -32,17 +39,23 @@ Distinguishing between land and groove engraved areas is a problem at which huma
 
 The data used in this paper are high resolution 3D scans of 208 bullet land engraved areas. The scanned bullets come from Hamby Set 44 [@Hamby]. They consist of 35 total bullets from a set of 10 consecutively rifled Ruger P85 barrels. These LEAs were scanned at Iowa State University's High Resolution Microscopy Facility, and the scans are stored in 3D format as x3p files **reference ISO standard**. The data are gathered at a resolution of .645 microns per pixel. Physically, each land is approximately 2 millimeters in width. With a .645 micron per pixel resolution, data structures can contain more than 3 million individual data points. The 35 total bullets with 6 lands per bullet result in 210 individual lands.  
 
-![Visualization of 3D data collected through high resolution scanning of a land engraved area. Striations on the surface of the object can be seen by viewing this data from "above", as presented here.](../images/3d_plot_top.png)  
+![Visualization of 3D data collected through high resolution scanning of a land engraved area. Striations on the surface of the object can be seen by viewing this data from "above", as presented here.](./images/3d_plot_top.png)  
 
-![Alternate view of 3D data collected through high resolution scanning of a land engraved area. The globally curved structure of the bullet, as well as portions of the groove engraved area, can be seen clearly when viewing these data from the "side", as presented here.](../images/3d_plot_side.png)  
 
 
 Image-analysis algorithms, while flexible enough to focus on a variety of patterns in the data, should mainly focus on comparison of striation marks and related characteristics that can be calculated. This focus addresses two concerns associated with introducing an automated approach. First, it ensures physical interpretability of characteristics that are calculated from the gathered data. Further, researchers are able to directly compare the visual process examiners use to an automated method which is rooted in the same principles; for example, when a data-based Consecutively Matching Striae (CMS) measure is calculated as part of the algorithm. This striation-focused approach suggests mainly utilizing horizontal slices of the 3D scan, called crosscuts, that capture the striation pattern horizontally across the surface, as seen in Figure 3.  
 
+```{r, echo = F, warning = F, message = F, fig.height = 3, fig.cap = "Single crosscut of 3D bullet land data. The main data structure, located in the center, is comprised of the land engraved area. The groove engraved areas occur to the left and right sides of the crosscut."}
+hamby44_eval <- readRDS("data/hamby44/hamby44_eval.rda")
+bullet <- hamby44_eval$ccdata_w_resid[[48]]
+bullet %>% ggplot() + 
+  geom_point(aes(x = x, y = value_std)) + 
+  theme_bw() + 
+  labs(x = expression(paste("Relative Location (", mu, "m)")), 
+       y = expression(paste("Relative Height (", mu, "m)"))) 
+  
+```
 
-
-![Single crosscut of 3D bullet land data. The main data structure, located in the center, is comprised of the land engraved area. The groove engraved areas occur to the left and right sides of the crosscut.](../images/Profile_1.png)  
- 
 
 The final data consists of 2D crosscuts gathered from 3D imaging. The height values in the crosscuts were averaged over several crosscuts spaced out along the 3D image. This ensures predicted locations will be relatively applicable across the depth of the bullet. Two scans were removed from consideration due to data quality concerns, leaving 208 individual crosscuts which function as the dataset.  
 
@@ -59,7 +72,68 @@ Due to the curved nature of the bullet, a quadratic linear model is a good candi
 
 The robust approach under the linear model framework focuses on minimizing the least absolute deviations. This method of minimization is less influenced by possibly large outlying values present in the GEA data. Due to the overwhelming majority of data being from the LEA structure, minimizing the least absolute deviations will favor fitting the LEA structure and allowing GEA data to have large residual values. This is preferable to the traditional linear model, which corrects for the presence of GEA data by compromising between the two competing structures, and does not fit either structure appropriately. A striking example of the difference in results from these two model frameworks is seen in Figure 4.  
 
-![Example of a quadratic linear model fit (orange) compared to a robust quadratic linear model fit (blue) to a single crosscut. The robust model is able to more effectively capture the curved structure of the LEA without being influenced by the GEA.](../images/LinearvRLM.png)  
+```{r, echo = F, warning = F, message = F, fig.height = 4, fig.cap = "Example of a quadratic linear model fit and resulting residuals (top) compared to a robust quadratic linear model fit and residuals (bottom) for a single crosscut. The robust model is able to more effectively capture the curved structure of the LEA without being influenced by the GEA."}
+
+lm <- lm(value_std~poly(x,2), data = bullet)
+bullet$lm_pred <- predict(lm, newdata = bullet)
+bullet$lm_resid <- with(bullet, value_std-lm_pred)
+lm0 <- MASS::rlm(value_std~poly(x,2), data=bullet, maxit=100)
+bullet$rlm_pred <- predict(lm0, newdata=bullet)
+#bullet$rlm_absresid <- with(bullet, abs(value_std-pred))
+bullet$rlm_resid <- with(bullet, value_std-rlm_pred)
+
+p1_rlm <- bullet %>% ggplot() + 
+  geom_point(aes(x = x, y = value_std)) + 
+  theme_bw() + 
+  labs(x = expression(paste("Relative Location (", mu, "m)")), 
+       y = expression(paste("Relative Height (", mu, "m)")), title = "Linear Model Fit") + 
+  geom_line(aes(x = x, y = lm_pred), color = "red") +
+  theme(axis.title.x = element_text(size = rel(0.7)), 
+        axis.title.y = element_text(size = rel(0.7)), 
+        axis.text.x = element_text(size = rel(0.7)),
+        axis.text.y = element_text(size = rel(0.7)), 
+        title = element_text(size = rel(0.8)))
+
+p2_rlm <- bullet %>% ggplot() + 
+  geom_point(aes(x = x, y = lm_resid)) + 
+  theme_bw() + 
+  labs(x = expression(paste("Relative Location (", mu, "m)")), 
+       y = expression(paste("Residual Height (", mu, "m)")), title = "Linear Model Residuals") + 
+  geom_hline(yintercept = 0, color = "red") +
+  theme(axis.title.x = element_text(size = rel(0.7)), 
+        axis.title.y = element_text(size = rel(0.7)), 
+        axis.text.x = element_text(size = rel(0.7)),
+        axis.text.y = element_text(size = rel(0.7)), 
+        title = element_text(size = rel(0.8)))
+
+p3_rlm <- bullet %>% ggplot() + 
+  geom_point(aes(x = x, y = value_std)) + 
+  theme_bw() + 
+  labs(x = expression(paste("Relative Location (", mu, "m)")), 
+       y = expression(paste("Relative Height (", mu, "m)")), title = "Robust Linear Model Fit") + 
+  geom_line(aes(x = x, y = rlm_pred), color = "red") +
+  theme(axis.title.x = element_text(size = rel(0.7)), 
+        axis.title.y = element_text(size = rel(0.7)), 
+        axis.text.x = element_text(size = rel(0.7)),
+        axis.text.y = element_text(size = rel(0.7)), 
+        title = element_text(size = rel(0.8)))
+
+p4_rlm <- bullet %>% ggplot() + 
+    geom_point(aes(x = x, y = rlm_resid)) + 
+  theme_bw() + 
+  labs(x = expression(paste("Relative Location (", mu, "m)")), 
+       y = expression(paste("Residual Height (", mu, "m)")), title = "Robust Linear Model Residuals") + 
+  geom_hline(yintercept = 0, color = "red") +
+  theme(axis.title.x = element_text(size = rel(0.7)), 
+        axis.title.y = element_text(size = rel(0.7)), 
+        axis.text.x = element_text(size = rel(0.7)),
+        axis.text.y = element_text(size = rel(0.7)), 
+        title = element_text(size = rel(0.8)))
+
+library(gridExtra)
+grid.arrange(p1_rlm, p2_rlm, p3_rlm, p4_rlm, ncol =2 )
+
+```
 
 
 Once a model has been fit for each crosscut, residual values are calculated. The model, having fit the structure of the LEA, results in small residuals scattered around zero in the LEA zone, and larger, mostly positive residuals in the GEA zones. Thus, the magnitudes of the residuals themselves can serve as one indicator of whether a data point is part of the LEA structure or the GEA structure. A cutoff value for the magnitude to separate the residuals from the two zones can be employed. Investigating the median absolute residual (MAR) value, a cutoff that works well to distinguish between GEA and LEA data residuals on the Hamby set 44 is 4*MAR. Any residual value larger than 4 times the median absolute residual value can be seen as a "large" residual.  
@@ -75,8 +149,6 @@ Shoulder location predictions are calculated for each crosscut in the following 
 \item Identify the range of the remaining X values - these are the predicted shoulder locations for that crosscut.   
 \end{enumerate}
 
-![Residual values resulting from a robust quadratic linear model. Data points that exist in the GEA structure are clearly separated from the LEA structure. ](../images/RLM_resids.png)  
-
 
 \subsection{Robust LOESS}  
 
@@ -88,7 +160,68 @@ Just as the nature of LOESS models differs from traditional linear models, the r
 
 While robust LOESS methods are more flexible than robust linear models, a model that is accurately fit to the LEA structure will result in the same expected residual structure as with robust linear models: positive and negative residuals scattered around zero in the LEA zone, and positive, possibly large residuals in the GEA zones. A similar approach as with the robust linear model cutoff value to distinguish between "large" residual values and reasonable ones; however, because this model is more flexible and fits more closely to the specific data at hand, our cutoff will be lower. A cutoff that performs well on the Hamby set 44 is twice the median absolute residual (2*MAR). 
 
-![Example of a LOESS model fit (orange) compared to a robust LOESS model fit (blue) to a single crosscut. The robust model is again able to more effectively capture the curved structure of the LEA without being influenced by the GEA.](../images/LOESSvRLOESS.png)  
+
+```{r, echo = F, warning = F, message = F, fig.height = 4, fig.cap = "Example of a LOESS model fit and residuals (top) compared to a robust LOESS model fit and residuals (bottom) for a single crosscut. The robust model is again able to more effectively capture the curved structure of the LEA without being influenced by the GEA."}
+lo <- loess(value_std~x, data = bullet, span = 1)
+bullet$lo_pred <- predict(lo, newdata = bullet)
+bullet$lo_resid <- bullet$value_std - bullet$lo_pred
+
+
+p1_rlo <- bullet %>% ggplot() + 
+  geom_point(aes(x = x, y = value_std)) + 
+  theme_bw() + 
+  labs(x = expression(paste("Relative Location (", mu, "m)")), 
+       y = expression(paste("Relative Height (", mu, "m)")), title = "LOESS Fit") + 
+  geom_line(aes(x = x, y = lo_pred), color = "red") +
+  theme(axis.title.x = element_text(size = rel(0.7)), 
+        axis.title.y = element_text(size = rel(0.7)), 
+        axis.text.x = element_text(size = rel(0.7)),
+        axis.text.y = element_text(size = rel(0.7)), 
+        title = element_text(size = rel(0.8)))
+
+p2_rlo <- bullet %>% ggplot() + 
+  geom_point(aes(x = x, y = lo_resid)) + 
+  theme_bw() + 
+  labs(x = expression(paste("Relative Location (", mu, "m)")), 
+       y = expression(paste("Residual Height (", mu, "m)")), title = "LOESS Residuals") + 
+  geom_hline(yintercept = 0, color = "red") +
+  theme(axis.title.x = element_text(size = rel(0.7)), 
+        axis.title.y = element_text(size = rel(0.7)), 
+        axis.text.x = element_text(size = rel(0.7)),
+        axis.text.y = element_text(size = rel(0.7)), 
+        title = element_text(size = rel(0.8)))
+
+
+p3_rlo <- bullet %>% ggplot() + 
+  geom_point(aes(x = x, y = value_std)) + 
+  theme_bw() + 
+  labs(x = expression(paste("Relative Location (", mu, "m)")), 
+       y = expression(paste("Relative Height (", mu, "m)")), title = "Robust LOESS Fit") + 
+  geom_line(aes(x = x, y = rlo_pred), color = "red") +
+  theme(axis.title.x = element_text(size = rel(0.7)), 
+        axis.title.y = element_text(size = rel(0.7)), 
+        axis.text.x = element_text(size = rel(0.7)),
+        axis.text.y = element_text(size = rel(0.7)), 
+        title = element_text(size = rel(0.8)))
+
+
+p4_rlo <- bullet %>% ggplot() + 
+    geom_point(aes(x = x, y = rlo_resid)) + 
+  theme_bw() + 
+  labs(x = expression(paste("Relative Location (", mu, "m)")), 
+       y = expression(paste("Residual Height (", mu, "m)")), title = "Robust LOESS Residuals") + 
+  geom_hline(yintercept = 0, color = "red") +
+  theme(axis.title.x = element_text(size = rel(0.7)), 
+        axis.title.y = element_text(size = rel(0.7)), 
+        axis.text.x = element_text(size = rel(0.7)),
+        axis.text.y = element_text(size = rel(0.7)), 
+        title = element_text(size = rel(0.8)))
+
+
+#library(gridExtra)
+grid.arrange(p1_rlo, p2_rlo, p3_rlo, p4_rlo, ncol =2 )
+```
+
 
 Shoulder location predictions are calculated for each crosscut in the following manner: 
 \begin{enumerate}
@@ -99,8 +232,6 @@ Shoulder location predictions are calculated for each crosscut in the following 
 \item Identify the range of the remaining Y values - these are the predicted shoulder locations for that crosscut.   
 \end{enumerate}
 
-
-![Residual values resulting from a robust LOESS model. Data points that exist in the GEA structure are clearly separated from the LEA structure. These residuals are very similar to those from the robust quadratic linear model for this particular crosscut.](../images/RLOESS_resids.png)  
 
 
 
@@ -122,7 +253,7 @@ It is important to note that different results are expected for the left and rig
 
 **Once results are re-run on fresh manual identifications, there may be discussion here of differences between left and right seen in our data.**  
 
-![Distribution of inaccuracy scores for data smoothing method, robust linear model method, and robust LOESS method, separated by left and right shoulder locations. A tight distribution with few high values indicates good performance across the LEAs in the data set.](../images/afte_results.png)  
+![Distribution of inaccuracy scores for data smoothing method, robust linear model method, and robust LOESS method, separated by left and right shoulder locations. A tight distribution with few high values indicates good performance across the LEAs in the data set.](./images/afte_results.png)  
 
 
 
