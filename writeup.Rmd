@@ -1,7 +1,7 @@
 ---
 title: "A Robust Approach to Automatic Groove Identification in 3D Bullet Land Scans"  
 affiliation: Department of Statistics, Iowa State University and CSAFE (Center for Statistics and Applications in Forensic Evidence)
-authors: Kiegan Rice, M.Sc., Heike Hofmann, Ph.D., Ulrike Genschel, Ph.D. 
+authors: Kiegan Rice, M.Sc., Heike Hofmann, Ph.D., Genschel, Ph.D. 
 output: 
   pdf_document: 
     citation_package: natbib

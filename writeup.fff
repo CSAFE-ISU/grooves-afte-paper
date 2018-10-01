@@ -1,4 +1,4 @@
-\begin{figure}[htbp]
+\begin{figure}
 \centering
 \includegraphics[width=6.25000in]{./images/3d_plot_top.png}
 \caption{Visualization of 3D data collected through high resolution
@@ -8,7 +8,7 @@ here.}
 \end{figure}
 \efloatseparator
  
-\begin{figure}[htbp]
+\begin{figure}
 \centering
 \includegraphics{writeup_files/figure-latex/unnamed-chunk-2-1.pdf}
 \caption{Single crosscut of 3D bullet land data. The main data
@@ -18,7 +18,7 @@ crosscut.}
 \end{figure}
 \efloatseparator
  
-\begin{figure}[htbp]
+\begin{figure}
 \centering
 \includegraphics{writeup_files/figure-latex/unnamed-chunk-3-1.pdf}
 \caption{Example of a quadratic linear model fit and resulting residuals
@@ -29,7 +29,7 @@ influenced by the GEA.}
 \end{figure}
 \efloatseparator
  
-\begin{figure}[htbp]
+\begin{figure}
 \centering
 \includegraphics{writeup_files/figure-latex/unnamed-chunk-4-1.pdf}
 \caption{Example of a LOESS model fit and residuals (top) compared to a
@@ -39,7 +39,7 @@ structure of the LEA without being influenced by the GEA.}
 \end{figure}
 \efloatseparator
  
-\begin{figure}[htbp]
+\begin{figure}
 \centering
 \includegraphics{./images/afte_results.png}
 \caption{Distribution of inaccuracy scores for data smoothing method,
