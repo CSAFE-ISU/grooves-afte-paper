@@ -199,11 +199,13 @@ Distinguishing between land and groove engraved areas is a problem at
 which human vision excels, but it is quite challenging for automatic
 procedures due to the nature of the data collected: the bullet curvature
 presents the main structure in the data, but the abrupt change between
-land and groove engraved areas introduces a competing structure. This
-overwhelms standard statistical modeling techniques. An early solution
-based on data smoothing falls prey to misidentification of deep striae
-as shoulder locations. The following work describes a better solution to
-this pre-processing problem based on robust statistical methods.
+land and groove engraved areas introduces a competing structure. The
+atypical structure overwhelms standard statistical modeling techniques
+which cannot distinguish between the structures. An early solution based
+on data smoothing (described in \citep{Hare1}) can result in
+misidentification of deep striae as shoulder locations. The following
+work describes a better solution to this pre-processing problem based on
+robust statistical methods.
 
 \section{Data Source}
 
@@ -213,11 +215,11 @@ land engraved areas. The scanned bullets come from Hamby Set 44
 consecutively rifled Ruger P85 barrels. These LEAs were scanned at Iowa
 State University's High Resolution Microscopy Facility, and the scans
 are stored in 3D format as x3p files \textbf{reference ISO standard}.
-The data are gathered at a resolution of .645 microns per pixel.
-Physically, each land is approximately 2 millimeters in width. With a
-.645 micron per pixel resolution, data structures can contain more than
-3 million individual data points. The 35 total bullets with 6 lands per
-bullet result in 210 individual lands.
+The data, seen in Figure 1, are gathered at a resolution of .645 microns
+per pixel. Physically, each land is approximately 2 millimeters in
+width. With a .645 micron per pixel resolution, data structures can
+contain more than 3 million individual data points. The 35 total bullets
+with 6 lands per bullet result in 210 individual lands.
 
 \begin{figure}[htbp]
 \centering
