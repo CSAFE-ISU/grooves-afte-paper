@@ -214,12 +214,13 @@ land engraved areas. The scanned bullets come from Hamby Set 44
 \citep{Hamby}. They consist of 35 total bullets from a set of 10
 consecutively rifled Ruger P85 barrels. These LEAs were scanned at Iowa
 State University's High Resolution Microscopy Facility, and the scans
-are stored in 3D format as x3p files \textbf{reference ISO standard}.
-The data, seen in Figure 1, are gathered at a resolution of .645 microns
-per pixel. Physically, each land is approximately 2 millimeters in
-width. With a .645 micron per pixel resolution, data structures can
-contain more than 3 million individual data points. The 35 total bullets
-with 6 lands per bullet result in 210 individual lands.
+are stored in 3D format as x3p files, conforming to the ISO5436-2
+standard \textbf{cite ISO standard from sourceforge here??}. The data,
+seen in Figure 1, are gathered at a resolution of .645 microns per
+pixel. Physically, each land is approximately 2 millimeters in width.
+With a .645 micron per pixel resolution, data structures can contain
+more than 3 million individual data points. The 35 total bullets with 6
+lands per bullet result in 210 individual lands.
 
 \begin{figure}
 \centering
@@ -346,12 +347,12 @@ the forces of a gun barrel and striae have been impressed upon it.
 LOESS fits many models to small subsets of the data and combines them
 into one non-parametric fit of the data, rather than focusing on the
 overall structure of the data. This allows for greater flexibility.
-However, it also means that traditional LOESS models are affected by GEA
-structures in a much more unpredictable manner. A model fitted on a
-subset of data that mainly falls in the GEA structure will look vastly
-different than another model fit with data from the LEA. This results in
-a combined prediction that misrepresents much of the data near one or
-both shoulder locations (see Figure 6).
+However, it also means that LOESS models are affected by GEA structures
+in a much more unpredictable manner. A model fitted on a subset of data
+that mainly falls in the GEA structure will look vastly different than
+another model fit with data from the LEA. This results in a combined
+prediction that misrepresents much of the data near one or both shoulder
+locations (see Figure 6).
 
 Just as the nature of LOESS models differs from traditional linear
 models, the robust approach must differ too. Robust LOESS utilizes an
@@ -397,12 +398,12 @@ following manner:
 
 \section{Results}
 
-In order to assess the accuracy of these predictions, we must also take
-a unique approach. To calculate a quantitative measure for the overall
-performance of predictions, ``ground truth'' shoulder locations were
-manually identified.
+In order to assess the accuracy of these predictions, we take a unique
+approach. To calculate a quantitative measure for the overall
+performance of predictions, we first manually identified ``ground
+truth'' shoulder locations.
 
-Numerical comparison of predicted and manually identified locations
+The numerical comparison of predicted and manually identified locations
 presents a troubling issue; raw distance metrics can misrepresent the
 true character of a prediction's accuracy. For example, take a predicted
 shoulder location that falls 10 data points away from the manually
