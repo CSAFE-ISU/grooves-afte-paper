@@ -1,0 +1,33 @@
+---
+title: "afte_paper_code"
+output: html_document
+---
+
+
+We are first starting with the "hamby44_eval" file, which has the column "rlo_resid" already calculated, using my (Kiegan's) updated robust loess function.  
+
+
+```{r packages-and-data, echo = F, message = F, warning = F}
+library(devtools)
+#install.packages("tidyverse")
+#library(tidyverse)
+library(tidyr)
+library(dplyr)
+library(purrr)
+library(ggplot2)
+
+#hamby44 <- readRDS("//opt/hamby44/hamby44.rda") ## this gives the whole thing, we just want to focus on the`ccdata`.
+#hamby44[1:6,]
+
+hamby44 <- readRDS("data/hamby44/hamby44_eval.rda")
+hamby44[1:6,]
+```
+
+
+```{r, echo = F, warning = F, message = F}
+
+
+
+
+```
+
