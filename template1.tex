@@ -4,22 +4,42 @@
 \usepackage{amsthm}
 \usepackage{graphicx,psfrag,epsf}
 \usepackage{enumerate}
+%\usepackage[numbers]{natbib}
+\usepackage[nomarkers]{endfloat}
 \usepackage{natbib}
+\setcitestyle{numbers} 
+\makeatletter % Reference list option change
+\renewcommand\@biblabel[1]{#1. } % from [1] to 1
+\makeatother %
+
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
+\usepackage{adjustbox}
 \usepackage{multirow}
 \usepackage{subfig}
-\usepackage[table]{xcolor}
+\usepackage[table,xcdraw]{xcolor}
 \usepackage{wrapfig}
 \usepackage{float}
-\usepackage{colortbl}
-\usepackage{hyperref}
+%\usepackage{colortbl}
+\usepackage[colorlinks]{hyperref}
+\hypersetup{
+  colorlinks=true,
+  citecolor=black,
+  linkcolor=black,
+  urlcolor=blue}
+  
 \usepackage{pdflscape}
 \usepackage{tabu}
 \usepackage{threeparttable}
-
 \usepackage{url} % not crucial - just used below for the URL
+
+\usepackage{etoolbox}% http://ctan.org/pkg/etoolbox
+\makeatletter
+\patchcmd{\subsection}{\bfseries}{\relax}{}{}% Non-bold \subsection
+\patchcmd{\subsubsection}{\bfseries}{\relax}{}{}% Non-bold \subsection
+\makeatother
+
 
 %\pdfminorversion=4
 % NOTE: To produce blinded version, replace "0" with "1" below.
@@ -49,6 +69,7 @@
 
 \def\spacingset#1{\renewcommand{\baselinestretch}%
 {#1}\small\normalsize} \spacingset{1}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -91,7 +112,7 @@ $abstract$
 
 $body$
 
-\bibliographystyle{agsm}
+\bibliographystyle{jfs-authoryear}
 \bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}
 
 \end{document}
