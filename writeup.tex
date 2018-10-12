@@ -4,22 +4,42 @@
 \usepackage{amsthm}
 \usepackage{graphicx,psfrag,epsf}
 \usepackage{enumerate}
+%\usepackage[numbers]{natbib}
+\usepackage[nomarkers]{endfloat}
 \usepackage{natbib}
+\setcitestyle{numbers} 
+\makeatletter % Reference list option change
+\renewcommand\@biblabel[1]{#1. } % from [1] to 1
+\makeatother %
+
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
+\usepackage{adjustbox}
 \usepackage{multirow}
 \usepackage{subfig}
-\usepackage[table]{xcolor}
+\usepackage[table,xcdraw]{xcolor}
 \usepackage{wrapfig}
 \usepackage{float}
-\usepackage{colortbl}
-\usepackage{hyperref}
+%\usepackage{colortbl}
+\usepackage[colorlinks]{hyperref}
+\hypersetup{
+  colorlinks=true,
+  citecolor=black,
+  linkcolor=black,
+  urlcolor=blue}
+  
 \usepackage{pdflscape}
 \usepackage{tabu}
 \usepackage{threeparttable}
-
 \usepackage{url} % not crucial - just used below for the URL
+
+\usepackage{etoolbox}% http://ctan.org/pkg/etoolbox
+\makeatletter
+\patchcmd{\subsection}{\bfseries}{\relax}{}{}% Non-bold \subsection
+\patchcmd{\subsubsection}{\bfseries}{\relax}{}{}% Non-bold \subsection
+\makeatother
+
 
 %\pdfminorversion=4
 % NOTE: To produce blinded version, replace "0" with "1" below.
@@ -51,19 +71,20 @@
 {#1}\small\normalsize} \spacingset{1}
 
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%\if0\blind
-%{
+\if0\blind
+{
   \title{\bf A Robust Approach to Automatic Groove Identification in 3D Bullet Land
 Scans}
 
   \author{
-         %\\
+         \\
     \\
       }
   \maketitle
-%} \fi
+} \fi
 
 \if1\blind
 {
@@ -456,7 +477,7 @@ human intervention in the automated process.
 
 \section{References}
 
-\bibliographystyle{agsm}
+\bibliographystyle{jfs-authoryear}
 \bibliography{bibliography.bib}
 
 \end{document}

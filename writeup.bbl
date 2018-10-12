@@ -1,74 +1,80 @@
-\begin{thebibliography}{xx}
+\begin{thebibliography}{12}
 
-\harvarditem{{AFTE Glossary}}{1998}{AFTE}
-{AFTE Glossary}  \harvardyearleft 1998\harvardyearright , `Theory of
-  identification as it relates to toolmarks', {\em AFTE Journal} {\bf
-  30}(1),~86--88.
+\bibitem[{{AFTE Glossary}(1998)}]{AFTE}
+{AFTE Glossary}.
+\newblock Theory of Identification as it Relates to Toolmarks.
+\newblock AFTE Journal  1998;30(1):86--88.
 
-\harvarditem{Bachrach}{2002}{Bachrach1}
-Bachrach, B.  \harvardyearleft 2002\harvardyearright , `Development of a
-  3d-based automated firearms evidence comparison system', {\em Journal of
-  Forensic Sciences} {\bf 47}(6),~1253--1264.
+\bibitem[{{National Research Council}(2009)}]{NRC2009}
+{National Research Council}.
+\newblock Strengthening Forensic Science in the United States: A Path Forward.
+\newblock Washington, D.C.: The National Academies Press; 2009.
 
-\harvarditem[Chu et~al.]{Chu, Song, Vorburger, Yen, Ballou \harvardand\
-  Bacharach}{2010}{Chu1}
-Chu, W., Song, T., Vorburger, J., Yen, J., Ballou, S. \harvardand\ Bacharach,
-  B.  \harvardyearleft 2010\harvardyearright , `Pilot study of automated bullet
-  signature identification based on topography measurements and correlations',
-  {\em Journal of Forensic Sciences} {\bf 55}(2),~341--47.
+\bibitem[{De~Kinder et~al.(1998)De Kinder, J. and Prevot, P. and Pirlot, M. and
+  Nys, B.}]{DeKinder1}
+De~Kinder J, Prevot P, Pirlot M, Nys B.
+\newblock Surface topology of bullet striations: an innovating technique.
+\newblock AFTE Journal  1998;30(2):294--299.
 
-\harvarditem[Chu et~al.]{Chu, Thompson, Song \harvardand\
-  Vorburger}{2013}{Chu2}
-Chu, W., Thompson, R.~M., Song, J. \harvardand\ Vorburger, T.~V.
-  \harvardyearleft 2013\harvardyearright , `Automatic identification of bullet
-  signatures based on consecutive matching striae (cms) criteria', {\em
-  Forensic Science International} {\bf 231}(1-3),~137--41.
+\bibitem[{De~Kinder and Bonifanti(1999)De Kinder, J. and Bonifanti,
+  M.}]{DeKinder2}
+De~Kinder J, Bonifanti M.
+\newblock Automated comparison of bullet striations based on 3D topography.
+\newblock Forensic Science International  1999;101:85--93.
 
-\harvarditem{Cleveland}{1979}{Cleveland1}
-Cleveland, W.~S.  \harvardyearleft 1979\harvardyearright , `Robust locally
-  weighted regression and smoothing scatterplots', {\em Journal of the American
-  Statistical Association} {\bf 74}(368),~829--836.
+\bibitem[{Bachrach(2002)Bachrach, Benjamin}]{Bachrach1}
+Bachrach B.
+\newblock Development of a 3D-based Automated Firearms Evidence Comparison
+  System.
+\newblock Journal of Forensic Sciences  2002;47(6):1253--1264.
 
-\harvarditem{De~Kinder \harvardand\ Bonifanti}{1999}{DeKinder2}
-De~Kinder, J. \harvardand\ Bonifanti, M.  \harvardyearleft
-  1999\harvardyearright , `Automated comparison of bullet striations based on
-  3d topography', {\em Forensic Science International} {\bf 101},~85--93.
+\bibitem[{Ma et~al.(2004)Ma, L. and Song, J. and Whitenton, E. and Zheng, A.
+  and Vorburger, T. and Zhou, J.}]{Ma1}
+Ma L, Song J, Whitenton E, Zheng A, Vorburger T, Zhou J.
+\newblock NIST bullet signature measurement system for RM (Reference Material)
+  8240 standard bullets.
+\newblock Journal of Forensic Sciences  2004;49(4):649--59.
 
-\harvarditem[De~Kinder et~al.]{De~Kinder, Prevot, Pirlot \harvardand\
-  Nys}{1998}{DeKinder1}
-De~Kinder, J., Prevot, P., Pirlot, M. \harvardand\ Nys, B.  \harvardyearleft
-  1998\harvardyearright , `Surface topology of bullet striations: an innovating
-  technique', {\em AFTE Journal} {\bf 30}(2),~294--299.
+\bibitem[{Chu et~al.(2010)Chu, Wei and Song, T. and Vorburger, J. and Yen, J.
+  and Ballou, S. and Bacharach, B.}]{Chu1}
+Chu W, Song T, Vorburger J, Yen J, Ballou S, Bacharach B.
+\newblock Pilot study of automated bullet signature identification based on
+  topography measurements and correlations.
+\newblock Journal of Forensic Sciences  2010;55(2):341--47.
 
-\harvarditem[Hamby et~al.]{Hamby, Brundage \harvardand\ Thorpe}{2009}{Hamby}
-Hamby, J.~E., Brundage, D.~J. \harvardand\ Thorpe, J.~W.  \harvardyearleft
-  2009\harvardyearright , `The identification of bullets fired from 10
-  consecutively rifled 9mm ruger pistol barrels: A research project involving
-  507 participants from 20 countries.', {\em AFTE Journal} {\bf
-  41}(2),~99--110.
+\bibitem[{Chu et~al.(2013)Chu, Wei and Robert M Thompson and John Song and
+  Theodore V Vorburger}]{Chu2}
+Chu W, Thompson RM, Song J, Vorburger TV.
+\newblock Automatic identification of bullet signatures based on consecutive
+  matching striae (CMS) criteria.
+\newblock Forensic Science International  2013;231(1-3):137--41.
 
-\harvarditem[Hare et~al.]{Hare, Hofmann \harvardand\ Carriquiry}{2017}{Hare1}
-Hare, E., Hofmann, H. \harvardand\ Carriquiry, A.  \harvardyearleft
-  2017\harvardyearright , `Automatic matching of bullet land impressions', {\em
-  The Annals of Applied Statistics} {\bf 11},~2332--2356.
+\bibitem[{Hare et~al.(2017)Hare, Eric and Hofmann, Heike and Carriquiry,
+  Alicia}]{Hare1}
+Hare E, Hofmann H, Carriquiry A.
+\newblock Automatic matching of bullet land impressions.
+\newblock The Annals of Applied Statistics  2017 12;11:2332--2356.
 
-\harvarditem[Ma et~al.]{Ma, Song, Whitenton, Zheng, Vorburger \harvardand\
-  Zhou}{2004}{Ma1}
-Ma, L., Song, J., Whitenton, E., Zheng, A., Vorburger, T. \harvardand\ Zhou, J.
-   \harvardyearleft 2004\harvardyearright , `Nist bullet signature measurement
-  system for rm (reference material) 8240 standard bullets', {\em Journal of
-  Forensic Sciences} {\bf 49}(4),~649--59.
+\bibitem[{{President's Council of Advisors on Science and
+  Technology}(2016)}]{PCAST2016}
+{President's Council of Advisors on Science and Technology}. Forensic Science
+  in Criminal Courts: Ensuring Scientific Validity of Feature-Comparison
+  Methods; 2016.
+\newblock
+  \url{https://www.whitehouse.gov/sites/default/files/microsites/ostp/PCAST/pcast_forensic_science_report_final.pdf}.
 
-\harvarditem{{National Research Council}}{2009}{NRC2009}
-{National Research Council}  \harvardyearleft 2009\harvardyearright , {\em
-  Strengthening Forensic Science in the United States: A Path Forward}, The
-  National Academies Press, Washington, D.C.
+\bibitem[{Hamby et~al.(2009)Hamby, James E. and David J. Brundage and James W.
+  Thorpe}]{Hamby}
+Hamby JE, Brundage DJ, Thorpe JW.
+\newblock The Identification of Bullets Fired from 10 Consecutively Rifled 9mm
+  Ruger Pistol Barrels: A Research Project Involving 507 Participants from 20
+  Countries.
+\newblock AFTE Journal  2009;41(2):99--110.
 
-\harvarditem{{President's Council of Advisors on Science and
-  Technology}}{2016}{PCAST2016}
-{President's Council of Advisors on Science and Technology}  \harvardyearleft
-  2016\harvardyearright , `Forensic science in criminal courts: Ensuring
-  scientific validity of feature-comparison methods'.
-\newline\harvardurl{https://www.whitehouse.gov/sites/default/files/microsites/ostp/PCAST/pcast_forensic_science_report_final.pdf}
+\bibitem[{Cleveland(1979)Cleveland, William S.}]{Cleveland1}
+Cleveland WS.
+\newblock Robust Locally Weighted Regression and Smoothing Scatterplots.
+\newblock Journal of the American Statistical Association
+  1979;74(368):829--836.
 
 \end{thebibliography}
