@@ -43,7 +43,7 @@
 
 %\pdfminorversion=4
 % NOTE: To produce blinded version, replace "0" with "1" below.
-\newcommand{\blind}{$blinded$}
+%\newcommand{\blind}{$blinded$}
 
 % DON'T change margins - should be 1 inch all around.
 \addtolength{\oddsidemargin}{-.5in}%
@@ -73,15 +73,15 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\if0\blind
-{
+%\if0\blind
+%{
   \title{\bf $title$}
 
   \author{
     $for(authors)$
     $authors.name$\\ %$if(authors.thanks)$\thanks{$authors.thanks$} $endif$\\
-    $authors.degree$\\
-    % $authors.affiliation$\\
+    %$authors.degree$\\
+    %$authors.affiliation$\\
     $sep$ and \\ $endfor$
   }
     \maketitle
@@ -91,35 +91,35 @@
   \textbf{Affiliation(s)}\\
   $affiliation$\\
   \bigskip
-  \textbf{Source of funding}\\
-  $funding$\\
-  \bigskip
-  \textbf{Acknowledgement}\\
-  $thank$\\
-  \bigskip
-  \textbf{Information on presentation of work}\\
-  $presentedat$
+  %\textbf{Source of funding}\\
+  %$funding$\\
+  %\bigskip
+  %\textbf{Acknowledgement}\\
+  %$thank$\\
+  %\bigskip
+  %\textbf{Information on presentation of work}\\
+  %$presentedat$
   }
   \end{center}
 
-} \fi
+%} \fi
 
   % \bigskip
 
   % \bigskip
 \newpage
 
-\if0\blind
-{
-  \bigskip
-  \bigskip
-  \bigskip
-  \begin{center}
-  \title{\LARGE\bf $title$}
-  \end{center}
-  \bigskip
-  \maketitle
-} \fi
+%\if0\blind
+%{
+%  \bigskip
+%  \bigskip
+%  \bigskip
+ % \begin{center}
+%  \title{\LARGE\bf $title$}
+%  \end{center}
+%  \bigskip
+%  \maketitle
+%} \fi
 
 
 \bigskip

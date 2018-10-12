@@ -4,42 +4,22 @@
 \usepackage{amsthm}
 \usepackage{graphicx,psfrag,epsf}
 \usepackage{enumerate}
-%\usepackage[numbers]{natbib}
-\usepackage[nomarkers]{endfloat}
 \usepackage{natbib}
-\setcitestyle{numbers} 
-\makeatletter % Reference list option change
-\renewcommand\@biblabel[1]{#1. } % from [1] to 1
-\makeatother %
-
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
-\usepackage{adjustbox}
 \usepackage{multirow}
 \usepackage{subfig}
-\usepackage[table,xcdraw]{xcolor}
+\usepackage[table]{xcolor}
 \usepackage{wrapfig}
 \usepackage{float}
-%\usepackage{colortbl}
-\usepackage[colorlinks]{hyperref}
-\hypersetup{
-  colorlinks=true,
-  citecolor=black,
-  linkcolor=black,
-  urlcolor=blue}
-  
+\usepackage{colortbl}
+\usepackage{hyperref}
 \usepackage{pdflscape}
 \usepackage{tabu}
 \usepackage{threeparttable}
+
 \usepackage{url} % not crucial - just used below for the URL
-
-\usepackage{etoolbox}% http://ctan.org/pkg/etoolbox
-\makeatletter
-\patchcmd{\subsection}{\bfseries}{\relax}{}{}% Non-bold \subsection
-\patchcmd{\subsubsection}{\bfseries}{\relax}{}{}% Non-bold \subsection
-\makeatother
-
 
 %\pdfminorversion=4
 % NOTE: To produce blinded version, replace "0" with "1" below.
@@ -73,55 +53,29 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\if0\blind
-{
+%\if0\blind
+%{
   \title{\bf A Robust Approach to Automatic Groove Identification in 3D Bullet Land
 Scans}
 
   \author{
-        \\ %\\
+         %\\
     \\
-    % \\
       }
-    \maketitle
-  \bigskip
-  \begin{center}
-  {
-  \textbf{Affiliation(s)}\\
-  Department of Statistics, Iowa State University and CSAFE (Center for
-  Statistics and Applications in Forensic Evidence)\\
-  \bigskip
-  \textbf{Source of funding}\\
-  \\
-  \bigskip
-  \textbf{Acknowledgement}\\
-  \\
-  \bigskip
-  \textbf{Information on presentation of work}\\
-  
-  }
-  \end{center}
+  \maketitle
+%} \fi
 
-} \fi
-
-  % \bigskip
-
-  % \bigskip
-\newpage
-
-\if0\blind
+\if1\blind
 {
   \bigskip
   \bigskip
   \bigskip
   \begin{center}
-  \title{\LARGE\bf A Robust Approach to Automatic Groove Identification in 3D Bullet Land
+    {\LARGE\bf A Robust Approach to Automatic Groove Identification in 3D Bullet Land
 Scans}
   \end{center}
-  \bigskip
-  \maketitle
+  \medskip
 } \fi
-
 
 \bigskip
 \begin{abstract}
@@ -273,12 +227,16 @@ line to the curve of the bullet and analyzing the pattern of deviations
 from that curve. That is, fitting a statistical model to the curve of
 the bullet and examining the residual values.
 
-Due to two competing structures in the data, the ideal statistical model
-is one which treats the secondary structure of the GEA as outlying data
-and fits the curve of the LEA alone. We examine two methods for fitting
-the LEA structure that are based on robust statistical methods. While
-the two approaches differ in methodology, they are both rooted in the
-ability to mitigate undue influence caused by outlying data.
+This 2-step process can e achieved with a statistical method which
+treats the secondary sstructure of the GEA as outlying data and fits the
+curve of the LEA alone. We examine and compare two methods for fitting
+the LEA structure. While the two approaches differ in methodology, they
+are both rooted in the ability to mitigate undue influence caused by
+outlying data.
+
+Once an appropriate fit is obtained, the fitted curve is used to obtain
+residual values and determine a good cutoff which separates the two
+competing structures within the residuals.
 
 \subsection{Robust Linear Models}
 
@@ -320,9 +278,9 @@ mostly positive residuals in the GEA zones. Thus, the magnitudes of the
 residuals themselves can serve as one indicator of whether a data point
 is part of the LEA structure or the GEA structure. A cutoff value for
 the magnitude to separate the residuals from the two zones can be
-employed. Investigating the median absolute residual (MAR) value, a
+employed. Investigating the median absolute deviation (MAD) value, a
 cutoff that works well to distinguish between GEA and LEA data residuals
-on the Hamby set 44 is 4*MAR. Any residual value larger than 4 times the
+on the Hamby set 44 is 4*MAD. Any residual value larger than 4 times the
 median absolute residual value can be seen as a ``large'' residual.
 
 Shoulder location predictions are calculated for each crosscut in the
@@ -331,8 +289,8 @@ following manner:\\
 \begin{enumerate}
 \item Fit a robust linear model of order 2 (i.e., quadratic) to the averaged crosscut.   
 \item Calculate a residual value for each data point on the crosscut.  
-\item Calculate the median absolute residual (MAR) for the crosscut.  
-\item Remove all data points on the crosscut whose absolute residual value is greater than 4*MAR.  
+\item Calculate the median absolute residual (MAD) for the crosscut.  
+\item Remove all data points on the crosscut whose absolute residual value is greater than 4*MAD.  
 \item Identify the range of the remaining X values - these are the predicted shoulder locations for that crosscut.   
 \end{enumerate}
 
@@ -374,7 +332,7 @@ as with the robust linear model cutoff value to distinguish between
 ``large'' residual values and reasonable ones; however, because this
 model is more flexible and fits more closely to the specific data at
 hand, our cutoff will be lower. A cutoff that performs well on the Hamby
-set 44 is twice the median absolute residual (2*MAR).
+set 44 is twice the median absolute deviation (2*MAD).
 
 \begin{figure}
 \centering
@@ -391,8 +349,8 @@ following manner:
 \begin{enumerate}
 \item Fit a robust LOESS model with a span of 1 to the averaged crosscut. This is fit using the `locfit.robust` function in the `locfit` package in R.
 \item Calculate a residual value for each data point on the crosscut.  
-\item Calculate the median absolute residual (MAR) for the crosscut.  
-\item Remove all data points on the crosscut whose absolute residual value is greater than 2*MAR.  
+\item Calculate the median absolute deviation (MAD) for the crosscut.  
+\item Remove all data points on the crosscut whose absolute residual value is greater than 2*MAD.  
 \item Identify the range of the remaining Y values - these are the predicted shoulder locations for that crosscut.   
 \end{enumerate}
 
@@ -404,39 +362,42 @@ performance of predictions, we first manually identified ``ground
 truth'' shoulder locations.
 
 The numerical comparison of predicted and manually identified locations
-presents a troubling issue; raw distance metrics can misrepresent the
-true character of a prediction's accuracy. For example, take a predicted
+can be tricky; distance metrics alone do not suffice to represent the
+true character of a prediction's accuracy. For example, a predicted
 shoulder location that falls 10 data points away from the manually
-identified shoulder location. This 10-point difference could be caused
-by noise in the data, missing data points, or simply the miniscule scale
-of the data. After all, a span of 10 data points represents only 6.45
-microns in physical space. Alternatively, a distance of 10 points could
-actually be 10 points that are part of the groove engraved area, and
-thus are being incorrectly identified and could later cause problems.
+identified shoulder location could be caused by noise in the data,
+missing data points, or simply the scale of the data. Note that a span
+of 10 data points represents only 6.45 microns in physical space.
+Alternatively, a distance of 10 points could indeed be part of the
+groove engraved area, and thus being incorrectly identified could
+potentially cause problems in subsequent analyses.
 
-Thus, a more relevant measure is to investigate the residual values that
-fall between the predicted and manually identified shoulder location.
-This penalizes shoulder location predictions that are too far out to the
-side and leave GEA data in the main structure. Because the robust LOESS
-most reliably approximates the curved shape of the bullet land due to
-its flexibility, we want to use residual values resulting from that
-model to assess final performance of all methods. Residual values from
-the GEA will not necessarily be uniformly large, but are expected to be
-positive as their structure and the modeling technique dictates that
-they would fall above the fitted line from robust LOESS.
+Thus, a more suitable measure is to investigate the residual values
+resulting from the robust LOESS model that fall in the range spanned by
+the predicted and manually identified shoulder location. This method
+penalizes shoulder location predictions that are too far out to the side
+and leave GEA data in the main structure.
 
-Given this assumption, even a 10-point difference can quickly add to a
-large residual sum if we are dealing with all positive values, as
-opposed to a 10-point difference within the land engraved area that will
-be balanced out by the presence of both positive and negative residual
-values and remain closer to zero.
+Because the robust LOESS most reliably approximates the curved shape of
+the bullet land due to its flexibility, we want to use residual values
+resulting from that model to assess final performance of all methods.
+Residual values from the GEA will not necessarily be uniformly large,
+but are expected to be positive as their structure and the modeling
+technique dictate that they would fall above the fitted line from robust
+LOESS.
+
+Given the assumption of positive residuals in the GEA, even a 10-point
+difference can quickly add to a large residual sum. However, a 10-point
+difference within the land engraved area will be balanced out by the
+presence of both positive and negative residual values and remain closer
+to zero.
 
 For this reason, gathering the sum of residuals between the predicted
 location and the manually identified location is appropriate. This
 residual sum is referred to as an ``inaccuracy score'' for which higher
 values indicate a higher level of inaccuracy. An inaccuracy score was
-calculated separately for the left and right predictions for each
-crosscut in the data set.
+calculated separately for the left hand side and right hand side
+predictions for each crosscut in the data set.
 
 Of interest are the distributions of these inaccuracy scores across all
 208 lands used in the study. A distribution that has a smaller spread
@@ -456,10 +417,6 @@ on the right side of the scan, with sometimes no apparent shoulder
 location visible. For this reason it is preferable to separate the left
 and right for visual inspection of results; a method could excel on one
 side but fall short on another.
-
-\textbf{Once results are re-run on fresh manual identifications, there
-may be discussion here of differences between left and right seen in our
-data.}
 
 \begin{figure}
 \centering
@@ -488,7 +445,7 @@ excels.
 While the cutoff values presented work well on Hamby set 44, additional
 cross-validation will need to be implemented on a variety of bullet
 types. Depth of striae, physical size of bullet due to caliber, and
-non-traditional rifling techniques may require some alterations to this
+non-traditional rifling techniques may require alterations to this
 cutoff value. In addition, a study of the effect of implementing a
 robust LOESS data pre-processing strategy on overall automated
 image-analysis methods will need to be addressed. Due to increased
@@ -499,7 +456,7 @@ human intervention in the automated process.
 
 \section{References}
 
-\bibliographystyle{jfs-authoryear}
+\bibliographystyle{agsm}
 \bibliography{bibliography.bib}
 
 \end{document}
