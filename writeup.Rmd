@@ -142,7 +142,7 @@ grid.arrange(p1_rlm, p2_rlm, p3_rlm, p4_rlm, ncol =2 )
 ```
 
 
-Once a model has been fit for each crosscut, residual values are calculated. The model, having fit the structure of the LEA, results in small residuals scattered around zero in the LEA zone, and larger, mostly positive residuals in the GEA zones. Thus, the magnitudes of the residuals themselves can serve as one indicator of whether a data point is part of the LEA structure or the GEA structure. A cutoff value for the magnitude to separate the residuals from the two zones can be employed. Investigating the median absolute residual (MAR) value, a cutoff that works well to distinguish between GEA and LEA data residuals on the Hamby set 44 is 4*MAR. Any residual value larger than 4 times the median absolute residual value can be seen as a "large" residual.  
+Once a model has been fit for each crosscut, residual values are calculated. The model, having fit the structure of the LEA, results in small residuals scattered around zero in the LEA zone, and larger, mostly positive residuals in the GEA zones. Thus, the magnitudes of the residuals themselves can serve as one indicator of whether a data point is part of the LEA structure or the GEA structure. A cutoff value for the magnitude to separate the residuals from the two zones can be employed. Investigating the median absolute deviation (MAD) value, a cutoff that works well to distinguish between GEA and LEA data residuals on the Hamby set 44 is 4*MAD. Any residual value larger than 4 times the median absolute residual value can be seen as a "large" residual.  
 
 
 
@@ -150,8 +150,8 @@ Shoulder location predictions are calculated for each crosscut in the following 
 \begin{enumerate}
 \item Fit a robust linear model of order 2 (i.e., quadratic) to the averaged crosscut.   
 \item Calculate a residual value for each data point on the crosscut.  
-\item Calculate the median absolute residual (MAR) for the crosscut.  
-\item Remove all data points on the crosscut whose absolute residual value is greater than 4*MAR.  
+\item Calculate the median absolute residual (MAD) for the crosscut.  
+\item Remove all data points on the crosscut whose absolute residual value is greater than 4*MAD.  
 \item Identify the range of the remaining X values - these are the predicted shoulder locations for that crosscut.   
 \end{enumerate}
 
@@ -164,7 +164,7 @@ LOESS fits many models to small subsets of the data and combines them into one n
 
 Just as the nature of LOESS models differs from traditional linear models, the robust approach must differ too. Robust LOESS utilizes an iterative process focused on re-weighting [see @Cleveland1]. First, an initial LOESS fit is created. This is followed by a step which gives smaller weights to data points with high residual values, and a subsequent LOESS fit with new weights applied. The down-weighting of values with high residual values slowly reduces the influence of a secondary structure within the data; here, the GEA data. This iterative process results in a non-parametric fit to the LEA structure that treats GEA data as less important, which is desirable in this context.  
 
-While robust LOESS methods are more flexible than robust linear models, a model that is accurately fit to the LEA structure will result in the same expected residual structure as with robust linear models: positive and negative residuals scattered around zero in the LEA zone, and positive, possibly large residuals in the GEA zones. A similar approach as with the robust linear model cutoff value to distinguish between "large" residual values and reasonable ones; however, because this model is more flexible and fits more closely to the specific data at hand, our cutoff will be lower. A cutoff that performs well on the Hamby set 44 is twice the median absolute residual (2*MAR). 
+While robust LOESS methods are more flexible than robust linear models, a model that is accurately fit to the LEA structure will result in the same expected residual structure as with robust linear models: positive and negative residuals scattered around zero in the LEA zone, and positive, possibly large residuals in the GEA zones. A similar approach as with the robust linear model cutoff value to distinguish between "large" residual values and reasonable ones; however, because this model is more flexible and fits more closely to the specific data at hand, our cutoff will be lower. A cutoff that performs well on the Hamby set 44 is twice the median absolute deviation (2*MAD). 
 
 
 ```{r, echo = F, warning = F, message = F, fig.height = 4, fig.cap = "Example of a LOESS model fit and residuals (top) compared to a robust LOESS model fit and residuals (bottom) for a single crosscut. The robust model is again able to more effectively capture the curved structure of the LEA without being influenced by the GEA."}
@@ -233,8 +233,8 @@ Shoulder location predictions are calculated for each crosscut in the following 
 \begin{enumerate}
 \item Fit a robust LOESS model with a span of 1 to the averaged crosscut. This is fit using the `locfit.robust` function in the `locfit` package in R.
 \item Calculate a residual value for each data point on the crosscut.  
-\item Calculate the median absolute residual (MAR) for the crosscut.  
-\item Remove all data points on the crosscut whose absolute residual value is greater than 2*MAR.  
+\item Calculate the median absolute deviation (MAD) for the crosscut.  
+\item Remove all data points on the crosscut whose absolute residual value is greater than 2*MAD.  
 \item Identify the range of the remaining Y values - these are the predicted shoulder locations for that crosscut.   
 \end{enumerate}
 
