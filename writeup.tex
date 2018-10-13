@@ -1,114 +1,91 @@
-% !TeX program = pdfLaTeX
-\documentclass[12pt]{article}
-\usepackage{amsmath}
-\usepackage{amsthm}
-\usepackage{graphicx,psfrag,epsf}
-\usepackage{enumerate}
-%\usepackage[numbers]{natbib}
-\usepackage[nomarkers]{endfloat}
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={A Robust Approach to Automatic Groove Identification in 3D Bullet Land Scans},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
 \usepackage{natbib}
-\setcitestyle{numbers} 
-\makeatletter % Reference list option change
-\renewcommand\@biblabel[1]{#1. } % from [1] to 1
-\makeatother %
-
-\usepackage{booktabs}
-\usepackage{longtable}
-\usepackage{array}
-\usepackage{adjustbox}
-\usepackage{multirow}
-\usepackage{subfig}
-\usepackage[table,xcdraw]{xcolor}
-\usepackage{wrapfig}
-\usepackage{float}
-%\usepackage{colortbl}
-\usepackage[colorlinks]{hyperref}
-\hypersetup{
-  colorlinks=true,
-  citecolor=black,
-  linkcolor=black,
-  urlcolor=blue}
-  
-\usepackage{pdflscape}
-\usepackage{tabu}
-\usepackage{threeparttable}
-\usepackage{url} % not crucial - just used below for the URL
-
-\usepackage{etoolbox}% http://ctan.org/pkg/etoolbox
+\bibliographystyle{plainnat}
+\usepackage{graphicx,grffile}
 \makeatletter
-\patchcmd{\subsection}{\bfseries}{\relax}{}{}% Non-bold \subsection
-\patchcmd{\subsubsection}{\bfseries}{\relax}{}{}% Non-bold \subsection
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
 \makeatother
-
-
-%\pdfminorversion=4
-% NOTE: To produce blinded version, replace "0" with "1" below.
-\newcommand{\blind}{}
-
-% DON'T change margins - should be 1 inch all around.
-\addtolength{\oddsidemargin}{-.5in}%
-\addtolength{\evensidemargin}{-.5in}%
-\addtolength{\textwidth}{1in}%
-\addtolength{\textheight}{1.3in}%
-\addtolength{\topmargin}{-.8in}%
-
-\newenvironment{definition}[1]% environment name 
-{% begin code 
-  \par\vspace{.75\baselineskip}\noindent 
-  \textbf{Definition (#1)}\begin{itshape}% 
-  \par\vspace{.5\baselineskip}\noindent\ignorespaces 
-}% 
-{% end code 
-  \end{itshape}\ignorespacesafterend 
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
 }
-
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{A Robust Approach to Automatic Groove Identification in 3D Bullet Land
+Scans}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{}
+  \preauthor{}\postauthor{}
+  \date{}
+  \predate{}\postdate{}
+
 
 \begin{document}
-
-\def\spacingset#1{\renewcommand{\baselinestretch}%
-{#1}\small\normalsize} \spacingset{1}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\if0\blind
-{
-  \title{\bf A Robust Approach to Automatic Groove Identification in 3D Bullet Land
-Scans}
-
-  \author{
-         \\
-    \\
-      }
-  \maketitle
-} \fi
-
-\if1\blind
-{
-  \bigskip
-  \bigskip
-  \bigskip
-  \begin{center}
-    {\LARGE\bf A Robust Approach to Automatic Groove Identification in 3D Bullet Land
-Scans}
-  \end{center}
-  \medskip
-} \fi
-
-\bigskip
-\begin{abstract}
-
-\end{abstract}
-
-\noindent%
-{\it Keywords:} 
-\vfill
-
-\newpage
-\spacingset{1.45} % DON'T change the spacing!
+\maketitle
 
 \section{Background}
 
@@ -232,9 +209,11 @@ crosscut.}
 The final data consists of 2D crosscuts gathered from 3D imaging. The
 height values in the crosscuts were averaged over several crosscuts
 spaced out along the 3D image. This ensures predicted locations will be
-relatively applicable across the depth of the bullet. Two scans were
-removed from consideration due to data quality concerns, leaving 208
-individual crosscuts which function as the dataset.
+relatively applicable across the depth of the bullet.
+
+Two scans -- Barrel 9, Bullet 2, Land 3 and Unknowns, Bullet L, Land 5
+-- were removed from consideration due to data quality concerns, leaving
+208 individual crosscuts which function as the dataset.
 
 \section{Methodology}
 
@@ -299,10 +278,17 @@ mostly positive residuals in the GEA zones. Thus, the magnitudes of the
 residuals themselves can serve as one indicator of whether a data point
 is part of the LEA structure or the GEA structure. A cutoff value for
 the magnitude to separate the residuals from the two zones can be
-employed. Investigating the median absolute deviation (MAD) value, a
-cutoff that works well to distinguish between GEA and LEA data residuals
-on the Hamby set 44 is 4*MAD. Any residual value larger than 4 times the
-median absolute residual value can be seen as a ``large'' residual.
+employed.
+
+The median absolute deviation (MAD), is a robust metric for the spread
+of points, similar to the standard deviation. Since we are dealing with
+unbalanced residual values, the MAD is preferable to the standard
+deviation to quantify the spread. Removing unusually high residual
+values is effective at removing the GEA data once the global structure
+has been fit. Residual values that are considered unusually high, or
+outlying, are values that are larger than 4*MAD. Any residual value
+larger than 4 times the median absolute deviation value can be seen as a
+``large'' residual.
 
 Shoulder location predictions are calculated for each crosscut in the
 following manner:\\
@@ -441,11 +427,23 @@ side but fall short on another.
 
 \begin{figure}
 \centering
-\includegraphics{./images/afte_results.png}
+\includegraphics{writeup_files/figure-latex/unnamed-chunk-5-1.pdf}
 \caption{Distribution of inaccuracy scores for data smoothing method,
 robust linear model method, and robust LOESS method, separated by left
 and right shoulder locations. A tight distribution with few high values
 indicates good performance across the LEAs in the data set.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{writeup_files/figure-latex/unnamed-chunk-6-1.pdf}
+\caption{Distribution of inaccuracy scores for data smoothing method,
+robust linear model method, and robust LOESS method, separated by left
+and righth shoulder locations. Inaccuracy scores are placed into three
+categories: less than 100 microns (ideal), between 100 and 1000 microns,
+and greater than 1000 microns. A larger proportion of inaccuracy scores
+under 100 microns indicates good performance across LEAs in the data
+set.}
 \end{figure}
 
 \section{Conclusions}
@@ -477,7 +475,7 @@ human intervention in the automated process.
 
 \section{References}
 
-\bibliographystyle{jfs-authoryear}
 \bibliography{bibliography.bib}
+
 
 \end{document}

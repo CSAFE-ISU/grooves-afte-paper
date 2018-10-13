@@ -6,12 +6,9 @@ output:
   pdf_document: 
     citation_package: natbib
     keep_tex: yes
-    latex_engine: pdflatex
-    template: template1.tex
     number_sections: true
     fig_caption: yes
 bibliography: bibliography.bib
-biblio-style: jfs
 nocite: | 
   @locfit, @MASS
 ---
@@ -63,7 +60,9 @@ bullet %>% ggplot() +
 ```
 
 
-The final data consists of 2D crosscuts gathered from 3D imaging. The height values in the crosscuts were averaged over several crosscuts spaced out along the 3D image. This ensures predicted locations will be relatively applicable across the depth of the bullet. Two scans were removed from consideration due to data quality concerns, leaving 208 individual crosscuts which function as the dataset.  
+The final data consists of 2D crosscuts gathered from 3D imaging. The height values in the crosscuts were averaged over several crosscuts spaced out along the 3D image. This ensures predicted locations will be relatively applicable across the depth of the bullet. 
+
+Two scans -- Barrel 9, Bullet 2, Land 3 and Unknowns, Bullet L, Land 5 -- were removed from consideration due to data quality concerns, leaving 208 individual crosscuts which function as the dataset.  
 
 
 \section{Methodology}  
@@ -144,7 +143,9 @@ grid.arrange(p1_rlm, p2_rlm, p3_rlm, p4_rlm, ncol =2 )
 ```
 
 
-Once a model has been fit for each crosscut, residual values are calculated. The model, having fit the structure of the LEA, results in small residuals scattered around zero in the LEA zone, and larger, mostly positive residuals in the GEA zones. Thus, the magnitudes of the residuals themselves can serve as one indicator of whether a data point is part of the LEA structure or the GEA structure. A cutoff value for the magnitude to separate the residuals from the two zones can be employed. Investigating the median absolute deviation (MAD) value, a cutoff that works well to distinguish between GEA and LEA data residuals on the Hamby set 44 is 4*MAD. Any residual value larger than 4 times the median absolute residual value can be seen as a "large" residual.  
+Once a model has been fit for each crosscut, residual values are calculated. The model, having fit the structure of the LEA, results in small residuals scattered around zero in the LEA zone, and larger, mostly positive residuals in the GEA zones. Thus, the magnitudes of the residuals themselves can serve as one indicator of whether a data point is part of the LEA structure or the GEA structure. A cutoff value for the magnitude to separate the residuals from the two zones can be employed. 
+
+The median absolute deviation (MAD), is a robust metric for the spread of points, similar to the standard deviation. Since we are dealing with unbalanced residual values, the MAD is preferable to the standard deviation to quantify the spread. Removing unusually high residual values is effective at removing the GEA data once the global structure has been fit. Residual values that are considered unusually high, or outlying, are values that are larger than 4*MAD. Any residual value larger than 4 times the median absolute deviation value can be seen as a "large" residual.  
 
 
 
@@ -262,7 +263,90 @@ Of interest are the distributions of these inaccuracy scores across all 208 land
 It is important to note that different results are expected for the left and right shoulder locations. Within Hamby set 44, almost all scans have a well-defined left groove. Left here is defined as visually left on the scan; this is the side the scan begins on, so a well-defined distinction between GEA and LEA is expected. Often, a less clear distinction is seen on the right side of the scan, with sometimes no apparent shoulder location visible. For this reason it is preferable to separate the left and right for visual inspection of results; a method could excel on one side but fall short on another.   
 
 
-![Distribution of inaccuracy scores for data smoothing method, robust linear model method, and robust LOESS method, separated by left and right shoulder locations. A tight distribution with few high values indicates good performance across the LEAs in the data set.](./images/afte_results.png)  
+```{r, echo = F, warning = F, message = F, fig.height = 8, fig.width = 8, fig.cap = "Distribution of inaccuracy scores for data smoothing method, robust linear model method, and robust LOESS method, separated by left and right shoulder locations. A tight distribution with few high values indicates good performance across the LEAs in the data set."}
+hamby44_eval_paper <- readRDS("data/hamby44/hamby44_eval_paper.rda")
+
+  dataset <- hamby44_eval_paper
+  methods <- c("rollapply", "mad2", "mad4rlm")
+  colnames <- c()
+  for (i in 1:length(methods)){
+    colnames <- c(colnames, paste0("score_left_", methods[i]))
+    colnames <- c(colnames, paste0("score_right_", methods[i]))
+  }
+  plot_df <- dataset %>% ungroup() %>% 
+    select(colnames) %>%  
+    gather(method, score) %>% 
+    mutate(GrooveMethod = unlist(purrr::map(method, .f = function(x){
+      strsplit(x, "_")[[1]][3]
+        })), GrooveSide = unlist(purrr::map(method, .f = function(x){
+      strsplit(x, "_")[[1]][2]
+        }))
+    )
+  plot_df$GrooveLabels <- ifelse(plot_df$GrooveSide=="left", "left shoulder location", "right shoulder location")
+  plot_1 <- plot_df %>% 
+    ggplot() + geom_boxplot(aes(x = GrooveMethod, y = abs(score), fill = GrooveMethod)) + 
+      theme_bw() + labs(x = "Groove Side", y = "Inaccuracy Score", title = "Full Distribution") + 
+    facet_wrap(~GrooveLabels ) + 
+    scale_fill_manual(name="Method", values=c("#E69F00", "#56B4E9","#009E73"),
+                         breaks=c("rollapply", "mad4rlm", "mad2"),
+                         labels=c("Rollapply", "Robust Linear Model", "Robust LOESS")) + 
+    scale_x_discrete(name = "", breaks = c("rollapply", "mad4rlm", "mad2"), 
+                     labels = c("Rollapply", "Robust Linear Model", "Robust LOESS"), 
+                     limits=c("rollapply","mad4rlm","mad2")) + 
+    theme(axis.text.x = element_text(angle =10))
+  plot_zoom <- plot_df %>% filter(score < 5000) %>% 
+    ggplot() + geom_boxplot(aes(x = GrooveMethod, y = abs(score), fill = GrooveMethod)) + 
+      theme_bw() + labs(x = "Groove Side", y = "Inaccuracy Score", title = "Truncated at 5000") + 
+    facet_wrap(~GrooveLabels ) + 
+    scale_fill_manual(name="Method", values=c("#E69F00", "#56B4E9","#009E73"),
+                         breaks=c("rollapply", "mad4rlm", "mad2"),
+                         labels=c("Rollapply", "Robust Linear Model", "Robust LOESS")) + 
+        scale_x_discrete(name = "", breaks = c("rollapply", "mad4rlm", "mad2"), 
+                         labels = c("Rollapply", "Robust Linear Model", "Robust LOESS"),
+                         limits=c("rollapply","mad4rlm","mad2")) + 
+    theme(axis.text.x = element_text(angle =10))
+  library(gridExtra)
+  grid.arrange(plot_1, plot_zoom)
+
+```
+
+
+
+```{r, echo = F, warning = F, message = F, fig.height = 4, fig.cap = "Distribution of inaccuracy scores for data smoothing method, robust linear model method, and robust LOESS method, separated by left and righth shoulder locations. Inaccuracy scores are placed into three categories: less than 100 microns (ideal), between 100 and 1000 microns, and greater than 1000 microns. A larger proportion of inaccuracy scores under 100 microns indicates good performance across LEAs in the data set."}
+
+
+  dataset <- hamby44_eval_paper
+  methods <- c("rollapply", "mad2", "mad4rlm")
+  colnames <- c()
+  for (i in 1:length(methods)){
+    colnames <- c(colnames, paste0("score_left_", methods[i]))
+    colnames <- c(colnames, paste0("score_right_", methods[i]))
+  }
+  plot_df <- dataset %>% ungroup() %>% 
+    select(colnames) %>%  
+    gather(method, score) %>% 
+    mutate(GrooveMethod = unlist(purrr::map(method, .f = function(x){
+      strsplit(x, "_")[[1]][3]
+        })), GrooveSide = unlist(purrr::map(method, .f = function(x){
+      strsplit(x, "_")[[1]][2]
+        }))
+    ) %>% mutate(AccuracyCategory = ifelse(abs(score) < 100, "<100", "100, 1000")) %>% 
+    mutate(AccuracyCategory = ifelse(abs(score) >= 1000, ">1000", AccuracyCategory))
+  
+  plot_df$GrooveLabels <- ifelse(plot_df$GrooveSide=="left", "left shoulder location", "right shoulder location")
+  plot_df %>% 
+    ggplot() + geom_bar(aes(x = GrooveMethod, fill=factor(AccuracyCategory, levels=c(">1000","100, 1000", "<100"))), position = "stack") + 
+      theme_bw() + labs(x = "Groove Method", y = "Number of Lands") + 
+    facet_wrap(~GrooveLabels ) + 
+    scale_fill_manual(name="Inaccuracy Score", values=c("#E69F00", "#56B4E9", "#009E73"),
+                         breaks=c(">1000", "100, 1000", "<100"),
+                         labels=c("Greater than 1000", "Between 100 and 1000", "Less than 100")) + 
+    scale_x_discrete(name = "Method", breaks = c("rollapply", "mad4rlm", "mad2"), 
+                     labels = c("Rollapply", "Robust Linear Model", "Robust LOESS"), 
+                     limits=c("rollapply","mad4rlm","mad2")) + 
+    theme(axis.text.x = element_text(angle =10, size = 8))
+  
+```
 
 
 

@@ -272,16 +272,18 @@ plot_categories <- function(dataset, methods = NULL){
         }))
     ) %>% mutate(AccuracyCategory = ifelse(abs(score) < 100, "<100", "100, 1000")) %>% 
     mutate(AccuracyCategory = ifelse(abs(score) >= 1000, ">1000", AccuracyCategory))
+  
+  plot_df$GrooveLabels <- ifelse(plot_df$GrooveSide=="left", "left shoulder location", "right shoulder location")
   plot_df %>% 
     ggplot() + geom_bar(aes(x = GrooveMethod, fill=factor(AccuracyCategory, levels=c(">1000","100, 1000", "<100"))), position = "stack") + 
-      theme_bw() + labs(x = "Groove Method", y = "Accuracy Breakdown") + 
-    facet_wrap(~GrooveSide) + 
+      theme_bw() + labs(x = "Groove Method", y = "Number of Lands") + 
+    facet_wrap(~GrooveLabels ) + 
     scale_fill_manual(name="Inaccuracy Score", values=c("#999999", "#E69F00", "#56B4E9"),
                          breaks=c(">1000", "100, 1000", "<100"),
                          labels=c("Greater than 1000", "Between 100 and 1000", "Less than 100"))
 }
 
+plot_categories(hamby44_eval, methods = c("rollapply", "mad4", "mad4rlm"))
 
-
-
+saveRDS(hamby44_eval, file = "../data/hamby44/hamby44_eval_paper.rda")
 ```
