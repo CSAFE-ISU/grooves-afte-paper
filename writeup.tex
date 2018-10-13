@@ -228,7 +228,7 @@ from that curve. That is, fitting a statistical model to the curve of
 the bullet and examining the residual values.
 
 This 2-step process can e achieved with a statistical method which
-treats the secondary sstructure of the GEA as outlying data and fits the
+treats the secondary structure of the GEA as outlying data and fits the
 curve of the LEA alone. We examine and compare two methods for fitting
 the LEA structure. While the two approaches differ in methodology, they
 are both rooted in the ability to mitigate undue influence caused by
@@ -281,14 +281,15 @@ the magnitude to separate the residuals from the two zones can be
 employed.
 
 The median absolute deviation (MAD), is a robust metric for the spread
-of points, similar to the standard deviation. Since we are dealing with
-unbalanced residual values, the MAD is preferable to the standard
-deviation to quantify the spread. Removing unusually high residual
-values is effective at removing the GEA data once the global structure
-has been fit. Residual values that are considered unusually high, or
-outlying, are values that are larger than 4*MAD. Any residual value
-larger than 4 times the median absolute deviation value can be seen as a
-``large'' residual.
+of points, similar to the standard deviation:
+\[median(|x_i- median(\mathbf{x})|) \quad \forall\ x_i \in \mathbf{x}.\]
+Since we are dealing with unbalanced residual values, the MAD is
+preferable to the standard deviation to quantify the spread. Removing
+unusually high residual values is effective at removing the GEA data
+once the global structure has been fit. Residual values that are
+considered unusually high, or outlying, are values that are larger than
+4*MAD. Any residual value larger than 4 times the median absolute
+deviation value can be seen as a ``large'' residual.
 
 Shoulder location predictions are calculated for each crosscut in the
 following manner:\\
@@ -407,13 +408,29 @@ calculated separately for the left hand side and right hand side
 predictions for each crosscut in the data set.
 
 Of interest are the distributions of these inaccuracy scores across all
-208 lands used in the study. A distribution that has a smaller spread
-and is close to zero is ideal; this suggests many of the predicted
-shoulder locations are very close to the manually identified locations,
-and predictions are removing many of the outlying GEA points. A
-distribution with a wider spread or many high, outlying inaccuracy
+208 lands used in the study (see Figure 5). A distribution that has a
+smaller spread and is close to zero is ideal; this suggests many of the
+predicted shoulder locations are very close to the manually identified
+locations, and predictions are removing many of the outlying GEA points.
+A distribution with a wider spread or many high, outlying inaccuracy
 scores suggests a greater degree of uncertainty and inaccuracy for a
 particular method.
+
+\begin{figure}
+\centering
+\includegraphics{writeup_files/figure-latex/unnamed-chunk-5-1.pdf}
+\caption{Distribution of inaccuracy scores for data smoothing method,
+robust linear model method, and robust LOESS method, separated by left
+and right shoulder locations. A tight distribution with few high values
+indicates good performance across the LEAs in the data set.}
+\end{figure}
+
+The raw distributions can be difficult to visually compare, so another
+way to inspect the results is to place inaccuracy scores into
+cateogries: satisfactory, borderline, unsatisfactory. Scores under 100
+are satisfactory, scores between 100 and 1000 are borderline, and scores
+above 1000 are unsatisfactory (see Figure 6). Unsatisfactory cases are
+the most likely to cause mistakes in subsequent analyses.
 
 It is important to note that different results are expected for the left
 and right shoulder locations. Within Hamby set 44, almost all scans have
@@ -427,23 +444,14 @@ side but fall short on another.
 
 \begin{figure}
 \centering
-\includegraphics{writeup_files/figure-latex/unnamed-chunk-5-1.pdf}
-\caption{Distribution of inaccuracy scores for data smoothing method,
-robust linear model method, and robust LOESS method, separated by left
-and right shoulder locations. A tight distribution with few high values
-indicates good performance across the LEAs in the data set.}
-\end{figure}
-
-\begin{figure}
-\centering
 \includegraphics{writeup_files/figure-latex/unnamed-chunk-6-1.pdf}
 \caption{Distribution of inaccuracy scores for data smoothing method,
 robust linear model method, and robust LOESS method, separated by left
 and righth shoulder locations. Inaccuracy scores are placed into three
-categories: less than 100 microns (ideal), between 100 and 1000 microns,
-and greater than 1000 microns. A larger proportion of inaccuracy scores
-under 100 microns indicates good performance across LEAs in the data
-set.}
+categories: less than 100 microns (satisfactory), between 100 and 1000
+microns, and greater than 1000 microns. A larger proportion of
+inaccuracy scores under 100 microns indicates good performance across
+LEAs in the data set.}
 \end{figure}
 
 \section{Conclusions}
@@ -456,10 +464,9 @@ of robust approaches in general as well as the flexibility of LOESS
 applied to this data type. Robust LOESS also readily handles variation
 introduced in the process of translating the physical bullet into a 3D
 object. If there is too much variability in how the bullet is placed
-relative to the plane of reference \textbf{(??)} on the microscope,
-crosscuts can have tilted shapes relative to the x-axis which a
-quadratic linear model would fail to address. In these situations, LOESS
-excels.
+relative to the plane of reference on the microscope, crosscuts can have
+tilted shapes relative to the x-axis which a quadratic linear model
+would fail to address. In these situations, LOESS excels.
 
 While the cutoff values presented work well on Hamby set 44, additional
 cross-validation will need to be implemented on a variety of bullet
