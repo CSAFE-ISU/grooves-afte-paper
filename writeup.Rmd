@@ -1,7 +1,7 @@
 ---
 title: "A Robust Approach to Automatic Groove Identification in 3D Bullet Land Scans"  
 affiliation: Department of Statistics, Iowa State University and CSAFE (Center for Statistics and Applications in Forensic Evidence)
-authors: Kiegan Rice, M.Sc., Heike Hofmann, Ph.D., Ulrike Genschel, Ph.D. 
+author: Kiegan Rice, M.Sc., Heike Hofmann, Ph.D., Ulrike Genschel, Ph.D. 
 output: 
   pdf_document: 
     citation_package: natbib
@@ -11,6 +11,7 @@ output:
 bibliography: bibliography.bib
 nocite: | 
   @locfit, @MASS
+abstract: abstract goes here, needs to be a single paragraph  
 ---
 
 
@@ -21,15 +22,21 @@ library(tidyverse)
 ```
 \section{Background}  
 
+*HH: the paper needs a bit more intro. Start with the more general problem of comparisons to determine same source/different source. Define land engraved area and describe how we get to striae.*
+
 For years, forensic firearms examiners have analyzed bullet striations through a process of visual feature comparison to determine whether two patterns are in sufficient agreement [@AFTE]. Examiners compare striation marks on land engraved areas of a bullet fired from a known barrel to a questioned bullet when investigating whether both bullets were propelled through the same gun barrel.  
+
+*HH: the comparison is not necessarily between a known and an unknown bullet, it could also be between two unknown bullets *
 
 These visual analyses are one of several feature comparison methods whose scientific foundations were questioned in the 2009 report by the National Research Council on Identifying the Needs of the Forensic Sciences Community [@NRC2009].  
 
-Following that 2009 report, researchers began more intensely studying the validity of feature comparison methods as well as investigating the feasibility of developing image-analysis algorithms to complete automated, quantitative analyses. The main technological development that has created a pathway for image-analysis techniques is the introduction of high resolution 3D scanning technology to the field of forensic science. 
+Following the 2009 report, researchers *HH 'researchers' is too vague, add citations; it also implies that research has only started in 2009. that's not true.* began more intensely studying the validity of feature comparison methods as well as investigating the feasibility of developing image-analysis algorithms to complete automated, quantitative analyses. The main technological development that has created a pathway for image-analysis techniques is the introduction of high resolution 3D scanning technology to the field of forensic science. *HH: add citations*
 
 3D scanning technology not only allows for preservation of current and historical evidence in digital format, it also provides extremely detailed representations of forensically relevant portions of fired bullets. In recent years, this technology has been applied to the collection of topological images of both bullet lands and breech faces [e.g. @DeKinder1; @DeKinder2; @Bachrach1]. These 3D data have since been used in the development of several methods of varying complexity for automated comparison of land engraved areas [e.g. @Ma1; @Chu1; @Chu2; @Hare1]. 
 
-Criticisms of firearms examination in recent years have focused on foundational validity and reliability [e.g. @PCAST2016]. These criticisms enforce the need for automated algorithms to undergo careful study and validation before they can be reasonably implemented to assist forensic firearms examiners. This process of algorithm development includes data pre-processing methods that ensure the correct data are being used in automated methods.  
+*HH: the following paragraph breaks the flow. move up.* Criticisms of firearms examination in recent years have focused on foundational validity and reliability [e.g. @PCAST2016]. These criticisms enforce the need for automated algorithms to undergo careful study and validation before they can be reasonably implemented to assist forensic firearms examiners. This process of algorithm development includes data pre-processing methods __that ensure the correct data are being used__ *HH: that's not what pre-processing does* in automated methods.  
+
+*describe the algorithm in @aoas*
 
 Data pre-processing is not usually considered a significant barrier for most research endeavors. However, the nature of the 3D scanning process for land engraved areas (LEAs) introduces a challenging data pre-processing problem. To guarantee capture of an entire land engraved area, scanning across the object must begin and end in the neighboring groove engraved areas (GEAs). This ensures that the maximal amount of land surface area can be utilized in image-analysis methods, providing the most reliable feature generation and more robust results. This extraneous data collection, while necessary, dictates the most significant step in data pre-processing: correctly identifying between data from LEAs and GEAs. 
 

@@ -25,6 +25,7 @@
 \usepackage{hyperref}
 \hypersetup{unicode=true,
             pdftitle={A Robust Approach to Automatic Groove Identification in 3D Bullet Land Scans},
+            pdfauthor={Kiegan Rice, M.Sc., Heike Hofmann, Ph.D., Ulrike Genschel, Ph.D.},
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
@@ -74,20 +75,29 @@
 }
 
 \setlength{\droptitle}{-2em}
+
   \title{A Robust Approach to Automatic Groove Identification in 3D Bullet Land
 Scans}
-  \pretitle{\vspace{\droptitle}\centering\huge}
+    \pretitle{\vspace{\droptitle}\centering\huge}
   \posttitle{\par}
-  \author{}
-  \preauthor{}\postauthor{}
-  \date{}
-  \predate{}\postdate{}
-
+    \author{Kiegan Rice, M.Sc., Heike Hofmann, Ph.D., Ulrike Genschel, Ph.D.}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+    \date{}
+    \predate{}\postdate{}
+  
 
 \begin{document}
 \maketitle
+\begin{abstract}
+abstract goes here, needs to be a single paragraph
+\end{abstract}
 
 \section{Background}
+
+\emph{HH: the paper needs a bit more intro. Start with the more general
+problem of comparisons to determine same source/different source. Define
+land engraved area and describe how we get to striae.}
 
 For years, forensic firearms examiners have analyzed bullet striations
 through a process of visual feature comparison to determine whether two
@@ -96,18 +106,23 @@ striation marks on land engraved areas of a bullet fired from a known
 barrel to a questioned bullet when investigating whether both bullets
 were propelled through the same gun barrel.
 
+\emph{HH: the comparison is not necessarily between a known and an
+unknown bullet, it could also be between two unknown bullets }
+
 These visual analyses are one of several feature comparison methods
 whose scientific foundations were questioned in the 2009 report by the
 National Research Council on Identifying the Needs of the Forensic
 Sciences Community \citep{NRC2009}.
 
-Following that 2009 report, researchers began more intensely studying
-the validity of feature comparison methods as well as investigating the
-feasibility of developing image-analysis algorithms to complete
-automated, quantitative analyses. The main technological development
-that has created a pathway for image-analysis techniques is the
-introduction of high resolution 3D scanning technology to the field of
-forensic science.
+Following the 2009 report, researchers \emph{HH `researchers' is too
+vague, add citations; it also implies that research has only started in
+2009. that's not true.} began more intensely studying the validity of
+feature comparison methods as well as investigating the feasibility of
+developing image-analysis algorithms to complete automated, quantitative
+analyses. The main technological development that has created a pathway
+for image-analysis techniques is the introduction of high resolution 3D
+scanning technology to the field of forensic science. \emph{HH: add
+citations}
 
 3D scanning technology not only allows for preservation of current and
 historical evidence in digital format, it also provides extremely
@@ -119,13 +134,15 @@ since been used in the development of several methods of varying
 complexity for automated comparison of land engraved areas
 \citep[e.g.][]{Ma1, Chu1, Chu2, Hare1}.
 
-Criticisms of firearms examination in recent years have focused on
-foundational validity and reliability \citep[e.g.][]{PCAST2016}. These
-criticisms enforce the need for automated algorithms to undergo careful
-study and validation before they can be reasonably implemented to assist
-forensic firearms examiners. This process of algorithm development
-includes data pre-processing methods that ensure the correct data are
-being used in automated methods.
+\emph{HH: the following paragraph breaks the flow. move up.} Criticisms
+of firearms examination in recent years have focused on foundational
+validity and reliability \citep[e.g.][]{PCAST2016}. These criticisms
+enforce the need for automated algorithms to undergo careful study and
+validation before they can be reasonably implemented to assist forensic
+firearms examiners. This process of algorithm development includes data
+pre-processing methods \textbf{that ensure the correct data are being
+used} \emph{HH: that's not what pre-processing does} in automated
+methods.
 
 Data pre-processing is not usually considered a significant barrier for
 most research endeavors. However, the nature of the 3D scanning process
@@ -176,7 +193,7 @@ lands per bullet result in 210 individual lands.
 
 \begin{figure}
 \centering
-\includegraphics[width=6.25000in]{./images/3d_plot_top.png}
+\includegraphics[width=6.25in,height=\textheight]{./images/3d_plot_top.png}
 \caption{Visualization of 3D data collected through high resolution
 scanning of a land engraved area. Striations on the surface of the
 object can be seen by viewing this data from ``above'', as presented
