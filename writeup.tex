@@ -40,6 +40,9 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\usepackage[normalem]{ulem}
+% avoid problems with \sout in headers with hyperref:
+\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
 \IfFileExists{parskip.sty}{%
 \usepackage{parskip}
 }{% else
@@ -93,6 +96,16 @@ Scans}
 abstract goes here, needs to be a single paragraph
 \end{abstract}
 
+TODO:
+
+\begin{itemize}
+\tightlist
+\item
+  the text in the charts should have about the same size as the
+  surrounding text, i.e.~titles should not be much larger, and axis
+  labels should not be much smaller.
+\end{itemize}
+
 \section{Background}
 
 \emph{HH: the paper needs a bit more intro. Start with the more general
@@ -144,25 +157,36 @@ pre-processing methods \textbf{that ensure the correct data are being
 used} \emph{HH: that's not what pre-processing does} in automated
 methods.
 
-Data pre-processing is not usually considered a significant barrier for
-most research endeavors. However, the nature of the 3D scanning process
-for land engraved areas (LEAs) introduces a challenging data
-pre-processing problem. To guarantee capture of an entire land engraved
-area, scanning across the object must begin and end in the neighboring
-groove engraved areas (GEAs). This ensures that the maximal amount of
-land surface area can be utilized in image-analysis methods, providing
-the most reliable feature generation and more robust results. This
-extraneous data collection, while necessary, dictates the most
-significant step in data pre-processing: correctly identifying between
-data from LEAs and GEAs.
+\emph{HH: All of the discussion of the next two paragraphs depends on
+the matching algorithm in \citet{Hare1}. You should go into more detail
+on the algorithm first. }
+
+\sout{Data pre-processing is not usually considered a significant
+barrier for most research endeavors. However,} the nature of the 3D
+scanning process for land engraved areas (LEAs) introduces a challenging
+data pre-processing problem. \emph{HH: what you describe is part of the
+currently established best practice (there's no standard operating
+procedure yet, but NIST is working on one)} To guarantee capture of an
+entire land engraved area, scanning across the object must begin and end
+in the neighboring groove engraved areas (GEAs). \emph{HH: you could
+refer to figure 1 here} \emph{HH: what does the `this' refer to?}This
+ensures that the maximal amount of land surface area can be utilized in
+image-analysis methods, providing the most reliable feature generation
+and more robust results. \emph{HH: `most reliable' - we don't know that,
+how about we `aim for reliability and robustness in the subsequent
+feature generation'} This extraneous data collection, \sout{while
+necessary}, dictates the most significant step in data pre-processing:
+correctly identifying between data from LEAs and GEAs.
 
 Dealing with these two areas separately is crucial to ensure accuracy
-and precision in subsequent processing steps. Removal of data from
-groove engraved areas significantly reduces the possibility of
-misidentification of the characteristics used in automated comparisons.
-In order to distinguish between these areas, we aim to identify
-``shoulder locations'', the locations at which the LEA ends and the GEAs
-begin.
+and precision in subsequent processing steps. \emph{HH: `ensure' is too
+much - we don't know} Removal of data from groove engraved areas
+significantly reduces the possibility of misidentification of the
+characteristics used in automated comparisons. \emph{HH: `significantly
+reduces' - if you state that we need to show it. I am not sure what you
+mean by `possibility of misidentification'} In order to distinguish
+between these areas, we aim to identify ``shoulder locations'', the
+locations at which the LEA ends and the GEAs begin.
 
 Distinguishing between land and groove engraved areas is a problem at
 which human vision excels, but it is quite challenging for automatic
@@ -178,18 +202,28 @@ robust statistical methods.
 
 \section{Data Source}
 
-The data used in this paper are high resolution 3D scans of 208 bullet
-land engraved areas. The scanned bullets come from Hamby Set 44
-\citep{Hamby}. They consist of 35 total bullets from a set of 10
-consecutively rifled Ruger P85 barrels. These LEAs were scanned at Iowa
+\emph{HH: the section needs to be structured a bit more linearly. }
+
+The data used in this paper consist of high resolution 3D scans of
+bullet land engraved areas captured with a Sensofar Confocal light
+microscope at 20x magnification resulting in a resolution of 0.645
+microns per pixel. \textbf{The scanned bullets come from Hamby Set 44
+\citep{Hamby}, i.e.~a total of 35 bullets from a set of 10 consecutively
+rifled Ruger P85 barrels. \emph{HH: more detail: 2 knowns from each of
+the ten barrels, 15 questioned bullets}} \emph{HH: sentence breaks the
+flow, move forward or to the back.} These LEAs were scanned at Iowa
 State University's High Resolution Microscopy Facility, and the scans
 are stored in 3D format as x3p files, conforming to the ISO5436-2
-standard \textbf{cite ISO standard from sourceforge here??}. The data,
-seen in Figure 1, are gathered at a resolution of .645 microns per
-pixel. Physically, each land is approximately 2 millimeters in width.
+standard \textbf{cite ISO standard from sourceforge here?? HH: yes}. The
+data, \emph{HH: the image does not show all the data, just one scan}
+seen in Figure 1, \sout{are gathered at a resolution of .645 microns per
+pixel}. Physically, each land is approximately 2 millimeters in width.
 With a .645 micron per pixel resolution, data structures can contain
 more than 3 million individual data points. The 35 total bullets with 6
 lands per bullet result in 210 individual lands.
+
+\emph{HH: two lands are excluded because of tank rash, make sure to
+explain tank rash.}
 
 \begin{figure}
 \centering
@@ -197,7 +231,9 @@ lands per bullet result in 210 individual lands.
 \caption{Visualization of 3D data collected through high resolution
 scanning of a land engraved area. Striations on the surface of the
 object can be seen by viewing this data from ``above'', as presented
-here.}
+here. \emph{HH: include a sketch of a bullet with a marker of which area
+is included. Why did you decide on going to a grey scale for the
+figure?}}
 \end{figure}
 
 Image-analysis algorithms, while flexible enough to focus on a variety
@@ -208,11 +244,11 @@ approach. First, it ensures physical interpretability of characteristics
 that are calculated from the gathered data. Further, researchers are
 able to directly compare the visual process examiners use to an
 automated method which is rooted in the same principles; for example,
-when a data-based Consecutively Matching Striae (CMS) measure is
-calculated as part of the algorithm. This striation-focused approach
-suggests mainly utilizing horizontal slices of the 3D scan, called
-crosscuts, that capture the striation pattern horizontally across the
-surface, as seen in Figure 3.
+when a data-based Consecutively Matching Striae (CMS) \emph{HH: cite
+biasotti} measure is calculated as part of the algorithm. This
+striation-focused approach suggests mainly utilizing horizontal slices
+of the 3D scan, called crosscuts, that capture the striation pattern
+horizontally across the surface, as seen in Figure 3.
 
 \begin{figure}
 \centering
