@@ -54,7 +54,7 @@ __The scanned bullets come from Hamby Set 44 [@Hamby], i.e. a total of 35 bullet
 
 *HH: two lands are excluded because of tank rash, make sure to explain tank rash.*
 
-![Visualization of 3D data collected through high resolution scanning of a land engraved area. Striations on the surface of the object can be seen by viewing this data from "above", as presented here. *HH: include a sketch of a bullet with a marker of which area is included. Why did you decide on going to a grey scale for the figure?*](./images/3d_plot_top.png){width=600px}  
+![Visualization of 3D data collected through high resolution scanning of a land engraved area. Striations on the surface of the object can be seen by viewing this data from "above", as presented here.](./images/3d_plot_top_context.png){width=600px}  
 
 
 
