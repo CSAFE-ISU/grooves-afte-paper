@@ -115,9 +115,8 @@ land engraved area and describe how we get to striae.}
 For years, forensic firearms examiners have analyzed bullet striations
 through a process of visual feature comparison to determine whether two
 patterns are in sufficient agreement \citep{AFTE}. Examiners compare
-striation marks on land engraved areas of a bullet fired from a known
-barrel to a questioned bullet when investigating whether both bullets
-were propelled through the same gun barrel.
+striation marks on land engraved areas of two bullets when investigating
+whether both bullets were propelled through the same gun barrel.
 
 \emph{HH: the comparison is not necessarily between a known and an
 unknown bullet, it could also be between two unknown bullets }
@@ -134,14 +133,7 @@ feature comparison methods as well as investigating the feasibility of
 developing image-analysis algorithms to complete automated, quantitative
 analyses. The main technological development that has created a pathway
 for image-analysis techniques is the introduction of high resolution 3D
-scanning technology to the field of forensic science. \emph{HH: add
-citations}
-
-3D scanning technology not only allows for preservation of current and
-historical evidence in digital format, it also provides extremely
-detailed representations of forensically relevant portions of fired
-bullets. In recent years, this technology has been applied to the
-collection of topological images of both bullet lands and breech faces
+scanning technology to the field of forensic science
 \citep[e.g.][]{DeKinder1, DeKinder2, Bachrach1}. These 3D data have
 since been used in the development of several methods of varying
 complexity for automated comparison of land engraved areas
@@ -161,22 +153,20 @@ methods.
 the matching algorithm in \citet{Hare1}. You should go into more detail
 on the algorithm first. }
 
-\sout{Data pre-processing is not usually considered a significant
-barrier for most research endeavors. However,} the nature of the 3D
-scanning process for land engraved areas (LEAs) introduces a challenging
-data pre-processing problem. \emph{HH: what you describe is part of the
-currently established best practice (there's no standard operating
-procedure yet, but NIST is working on one)} To guarantee capture of an
-entire land engraved area, scanning across the object must begin and end
-in the neighboring groove engraved areas (GEAs). \emph{HH: you could
-refer to figure 1 here} \emph{HH: what does the `this' refer to?}This
-ensures that the maximal amount of land surface area can be utilized in
-image-analysis methods, providing the most reliable feature generation
-and more robust results. \emph{HH: `most reliable' - we don't know that,
-how about we `aim for reliability and robustness in the subsequent
-feature generation'} This extraneous data collection, \sout{while
-necessary}, dictates the most significant step in data pre-processing:
-correctly identifying between data from LEAs and GEAs.
+The nature of the 3D scanning process for land engraved areas (LEAs)
+introduces a challenging data pre-processing problem. \emph{HH: what you
+describe is part of the currently established best practice (there's no
+standard operating procedure yet, but NIST is working on one)} To
+guarantee capture of an entire land engraved area, scanning across the
+object must begin and end in the neighboring groove engraved areas
+(GEAs). \emph{HH: you could refer to figure 1 here} \emph{HH: what does
+the `this' refer to?}This ensures that the maximal amount of land
+surface area can be utilized in image-analysis methods, providing the
+most reliable feature generation and more robust results. \emph{HH:
+`most reliable' - we don't know that, how about we `aim for reliability
+and robustness in the subsequent feature generation'} This extraneous
+data collection dictates the most significant step in data
+pre-processing: correctly identifying between data from LEAs and GEAs.
 
 Dealing with these two areas separately is crucial to ensure accuracy
 and precision in subsequent processing steps. \emph{HH: `ensure' is too
@@ -227,7 +217,7 @@ explain tank rash.}
 
 \begin{figure}
 \centering
-\includegraphics[width=6.25in,height=\textheight]{./images/3d_plot_top.png}
+\includegraphics[width=6.25000in]{./images/3d_plot_top.png}
 \caption{Visualization of 3D data collected through high resolution
 scanning of a land engraved area. Striations on the surface of the
 object can be seen by viewing this data from ``above'', as presented
@@ -244,11 +234,11 @@ approach. First, it ensures physical interpretability of characteristics
 that are calculated from the gathered data. Further, researchers are
 able to directly compare the visual process examiners use to an
 automated method which is rooted in the same principles; for example,
-when a data-based Consecutively Matching Striae (CMS) \emph{HH: cite
-biasotti} measure is calculated as part of the algorithm. This
-striation-focused approach suggests mainly utilizing horizontal slices
-of the 3D scan, called crosscuts, that capture the striation pattern
-horizontally across the surface, as seen in Figure 3.
+when a data-based Consecutively Matching Striae (CMS) \citep{Biasotti}
+measure is calculated as part of the algorithm. This striation-focused
+approach suggests mainly utilizing horizontal slices of the 3D scan,
+called crosscuts, that capture the striation pattern horizontally across
+the surface, as seen in Figure 3.
 
 \begin{figure}
 \centering

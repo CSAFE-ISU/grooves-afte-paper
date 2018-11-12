@@ -1,4 +1,4 @@
-\begin{thebibliography}{12}
+\begin{thebibliography}{13}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -16,6 +16,13 @@ Benjamin Bachrach.
   system.
 \newblock \emph{Journal of Forensic Sciences}, 47\penalty0 (6):\penalty0
   1253--1264, 2002.
+
+\bibitem[Biasotti(1959)]{Biasotti}
+Alfred~A. Biasotti.
+\newblock A statistical study of the individual characteristics of fired
+  bullets.
+\newblock \emph{Journal of Forensic Sciences}, 4\penalty0 (1):\penalty0 34--50,
+  1959.
 
 \bibitem[Chu et~al.(2010)Chu, Song, Vorburger, Yen, Ballou, and
   Bacharach]{Chu1}
