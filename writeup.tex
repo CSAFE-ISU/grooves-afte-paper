@@ -128,47 +128,36 @@ barrels.
 
 Evidence is examined using a comparison microscope: two bullets in
 question are placed under the microscope and firearms examiners make a
-decision according to the AFTE Theory of Identification \citep{AFTE}.\\
-\emph{HH: the paper needs a bit more intro. Start with the more general
-problem of comparisons to determine same source/different source. Define
-land engraved area and describe how we get to striae.}
+decision according to the AFTE Theory of Identification \citep{AFTE}.
 
-These visual analyses are one of several feature comparison methods
-whose scientific foundations were questioned in the 2009 report by the
-National Research Council on Identifying the Needs of the Forensic
-Sciences Community \citep{NRC2009}.
-
-Following the 2009 report, researchers \emph{HH `researchers' is too
-vague, add citations; it also implies that research has only started in
-2009. that's not true.} began more intensely studying the validity of
-feature comparison methods as well as investigating the feasibility of
-developing image-analysis algorithms to complete automated, quantitative
-analyses. The main technological development that has created a pathway
-for image-analysis techniques is the introduction of high resolution 3D
-scanning technology to the field of forensic science
+In the last several decades, advances in technology have led to an
+increase in research focused on developing image-analysis algorithms to
+complete automated, quantitative analyses of bullet evidence. The main
+technological development that has created a pathway for image-analysis
+techniques is the introduction of high resolution 3D scanning technology
+to the field of forensic science
 \citep[e.g.][]{DeKinder1, DeKinder2, Bachrach1}. These 3D data have
 since been used in the development of several methods of varying
 complexity for automated comparison of land engraved areas
 \citep[e.g.][]{Ma1, Chu1, Chu2, Hare1}.
 
 \citet{Hare1} proposes a matching algorithm based on 3D imaging data of
-LEAs. The algorithm utilizes random forest methods applied to features
-extracted from 2D crosscuts of the 3D images; these 2D crosscuts are
-called profiles.
+LEAs. The basis for the algorithm is 2D ``signature" data extracted from
+the 3D images. Horizontal slices of the 3D images, called profiles,
+provide a detailed representation of striae impressed on the surface at
+a horizontal cross-section of each LEA.
 
-\emph{HH: the following paragraph breaks the flow. move up.} Criticisms
-of firearms examination in recent years have focused on foundational
-validity and reliability \citep[e.g.][]{PCAST2016}. These criticisms
-enforce the need for automated algorithms to undergo careful study and
-validation before they can be reasonably implemented to assist forensic
-firearms examiners. This process of algorithm development includes data
-pre-processing methods \textbf{that ensure the correct data are being
-used} \emph{HH: that's not what pre-processing does} in automated
-methods.
+Removal of the overall curve of the bullet -- the global structure
+captured in the 3D scanning process -- leads to what \citet{Hare1} refer
+to as a ``signature" (seen in Figure \emph{KR: need to make this
+figure}). Features such as cross-correlation function, consecutive
+matching striae, and consecutive non-matching striae are calculated for
+each LEA based on the resulting signature data. These calculated
+features are the information fed into the random forest algorithm.
 
-\emph{HH: All of the discussion of the next two paragraphs depends on
-the matching algorithm in \citet{Hare1}. You should go into more detail
-on the algorithm first. }
+Extraction of the aforementioned features depends on the step which
+translates a profile to a signature: the removal of the global
+strucutre. This step is complicated by the 3D data collection process.
 
 While there is not yet an established standard operating procedure, the
 currently established best practice for collection of 3D images of
@@ -179,9 +168,8 @@ extraneous GEA data dictates the most significant step in data
 pre-processing: correctly identifying between data from LEAs and GEAs.
 
 Dealing with these two areas separately is crucial to aim for high
-accuracy and precision in subsequent processing steps. \emph{HH:
-`ensure' is too much - we don't know} Removal of data from groove
-engraved areas significantly reduces the possibility of
+accuracy and precision in subsequent processing steps. Removal of data
+from groove engraved areas significantly reduces the possibility of
 misidentification of the characteristics used in automated comparisons.
 \emph{HH: `significantly reduces' - if you state that we need to show
 it. I am not sure what you mean by `possibility of misidentification'}

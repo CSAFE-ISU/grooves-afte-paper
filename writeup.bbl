@@ -1,4 +1,4 @@
-\begin{thebibliography}{13}
+\begin{thebibliography}{11}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -74,19 +74,5 @@ L.~Ma, J.~Song, E.~Whitenton, A.~Zheng, T.~Vorburger, and J.~Zhou.
   8240 standard bullets.
 \newblock \emph{Journal of Forensic Sciences}, 49\penalty0 (4):\penalty0
   649--59, 2004.
-
-\bibitem[{National Research Council}(2009)]{NRC2009}
-{National Research Council}.
-\newblock \emph{Strengthening Forensic Science in the United States: A Path
-  Forward}.
-\newblock The National Academies Press, Washington, D.C., 2009.
-
-\bibitem[{President's Council of Advisors on Science and
-  Technology}(2016)]{PCAST2016}
-{President's Council of Advisors on Science and Technology}.
-\newblock Forensic science in criminal courts: Ensuring scientific validity of
-  feature-comparison methods, 2016.
-\newblock URL
-  \url{https://www.whitehouse.gov/sites/default/files/microsites/ostp/PCAST/pcast_forensic_science_report_final.pdf}.
 
 \end{thebibliography}
