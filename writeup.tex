@@ -40,9 +40,6 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-\usepackage[normalem]{ulem}
-% avoid problems with \sout in headers with hyperref:
-\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
 \IfFileExists{parskip.sty}{%
 \usepackage{parskip}
 }{% else
@@ -142,18 +139,18 @@ complexity for automated comparison of land engraved areas
 \citep[e.g.][]{Ma1, Chu1, Chu2, Hare1}.
 
 \citet{Hare1} proposes a matching algorithm based on 3D imaging data of
-LEAs. The basis for the algorithm is 2D ``signature" data extracted from
-the 3D images. Horizontal slices of the 3D images, called profiles,
+LEAs. The basis for the algorithm is 2D ``signature'' data extracted
+from the 3D images. Horizontal slices of the 3D images, called profiles,
 provide a detailed representation of striae impressed on the surface at
 a horizontal cross-section of each LEA.
 
 Removal of the overall curve of the bullet -- the global structure
 captured in the 3D scanning process -- leads to what \citet{Hare1} refer
-to as a ``signature" (seen in Figure \emph{KR: need to make this
-figure}). Features such as cross-correlation function, consecutive
-matching striae, and consecutive non-matching striae are calculated for
-each LEA based on the resulting signature data. These calculated
-features are the information fed into the random forest algorithm.
+to as a signature. Features such as cross-correlation function,
+consecutive matching striae \citep[see][]{Biasotti}, and consecutive
+non-matching striae are calculated for each LEA based on the resulting
+signature data. These calculated features are the information fed into
+the random forest algorithm.
 
 Extraction of the aforementioned features depends on the step which
 translates a profile to a signature: the removal of the global
@@ -169,13 +166,10 @@ pre-processing: correctly identifying between data from LEAs and GEAs.
 
 Dealing with these two areas separately is crucial to aim for high
 accuracy and precision in subsequent processing steps. Removal of data
-from groove engraved areas significantly reduces the possibility of
-misidentification of the characteristics used in automated comparisons.
-\emph{HH: `significantly reduces' - if you state that we need to show
-it. I am not sure what you mean by `possibility of misidentification'}
-In order to distinguish between these areas, we aim to identify
-``shoulder locations'', the locations at which the LEA ends and the GEAs
-begin.
+from groove engraved areas is necessary to properly calculate features
+used in automated comparisons. In order to distinguish between these
+areas, we aim to identify ``shoulder locations'', the locations at which
+the LEA ends and the GEAs begin.
 
 Distinguishing between land and groove engraved areas is a problem at
 which human vision excels, but it is quite challenging for automatic
@@ -191,28 +185,29 @@ robust statistical methods.
 
 \section{Data Source}
 
-\emph{HH: the section needs to be structured a bit more linearly. }
-
 The data used in this paper consist of high resolution 3D scans of
-bullet land engraved areas captured with a Sensofar Confocal light
-microscope at 20x magnification resulting in a resolution of 0.645
-microns per pixel. \textbf{The scanned bullets come from Hamby Set 44
-\citep{Hamby}, i.e.~a total of 35 bullets from a set of 10 consecutively
-rifled Ruger P85 barrels. \emph{HH: more detail: 2 knowns from each of
-the ten barrels, 15 questioned bullets}} \emph{HH: sentence breaks the
-flow, move forward or to the back.} These LEAs were scanned at Iowa
-State University's High Resolution Microscopy Facility, and the scans
-are stored in 3D format as x3p files, conforming to the ISO5436-2
-standard \textbf{cite ISO standard from sourceforge here?? HH: yes}. The
-data, \emph{HH: the image does not show all the data, just one scan}
-seen in Figure 1, \sout{are gathered at a resolution of .645 microns per
-pixel}. Physically, each land is approximately 2 millimeters in width.
-With a .645 micron per pixel resolution, data structures can contain
-more than 3 million individual data points. The 35 total bullets with 6
-lands per bullet result in 210 individual lands.
+bullet land engraved areas (LEAs). The scanned bullets come from Hamby
+Set 44 \citep{Hamby}. Each Hamby set consists of 35 bullets fired from
+10 consecutively rifled Ruger P85 barrels. There are two known bullets
+for each of the ten barrels, as well as 15 additional questioned bullets
+in each set. Each fired bullet in Hamby Set 44 has 6 LEAs; every LEA was
+scanned for each of the 35 bullets, producing data for 210 individual
+lands.
 
-\emph{HH: two lands are excluded because of tank rash, make sure to
-explain tank rash.}
+The 3D scans of Hamby Set 44 were captured with a Sensofar Confocal
+light microscope at 20x magnification resulting in a resolution of 0.645
+microns per pixel. These LEAs were scanned at Iowa State University's
+High Resolution Microscopy Facility, and the scans are stored in 3D
+format as x3p files, conforming to the ISO5436-2 standard
+\citep{ISO5436}. A visualization of the data gathered for a single LEA
+is seen in Figure 1. Physically, each land is approximately 2
+millimeters in width; as such, data structures for a single LEA can
+contain more than 3 million individual data points.
+
+Two scans -- Barrel 9, Bullet 2, Land 3 and Unknowns, Bullet L, Land 5
+-- were removed from consideration due to suspected tank rash. Tank rash
+results from a bullet striking the bottom of a water recovery tank, and
+can affect the visibility of striae impressed on LEAs by the barrel.
 
 \begin{figure}
 \centering
@@ -223,37 +218,23 @@ object can be seen by viewing this data from ``above'', as presented
 here.}
 \end{figure}
 
-Image-analysis algorithms, while flexible enough to focus on a variety
-of patterns in the data, should mainly focus on comparison of striation
-marks and related characteristics that can be calculated. This focus
-addresses two concerns associated with introducing an automated
-approach. First, it ensures physical interpretability of characteristics
-that are calculated from the gathered data. Further, researchers are
-able to directly compare the visual process examiners use to an
-automated method which is rooted in the same principles; for example,
-when a data-based Consecutively Matching Striae (CMS) \citep{Biasotti}
-measure is calculated as part of the algorithm. This striation-focused
-approach suggests mainly utilizing horizontal slices of the 3D scan,
-called crosscuts, that capture the striation pattern horizontally across
-the surface, as seen in Figure 3.
+The motivation for removal of GEA data lies in the algorithm proposed by
+\citet{Hare1}; as such, the focus will be on horizontal slices
+(profiles) of the 3D scans. These slices capture the striation pattern
+horizontally across the surface, as seen in Figure 3.
 
 \begin{figure}
 \centering
 \includegraphics{writeup_files/figure-latex/unnamed-chunk-2-1.pdf}
-\caption{Single crosscut of 3D bullet land data. The main data
-structure, located in the center, is comprised of the land engraved
-area. The groove engraved areas occur to the left and right sides of the
-crosscut.}
+\caption{Single profile of 3D bullet land data. The main data structure,
+located in the center, is comprised of the land engraved area. The
+groove engraved areas occur to the left and right sides of the profile.}
 \end{figure}
 
-The final data consists of 2D crosscuts gathered from 3D imaging. The
-height values in the crosscuts were averaged over several crosscuts
+The final data consists of 2D profiles gathered from 3D imaging. The
+height values in the profiles were averaged over several crosscuts
 spaced out along the 3D image. This ensures predicted locations will be
-relatively applicable across the depth of the bullet.
-
-Two scans -- Barrel 9, Bullet 2, Land 3 and Unknowns, Bullet L, Land 5
--- were removed from consideration due to data quality concerns, leaving
-208 individual crosscuts which function as the dataset.
+relatively applicable across the depth of the LEA scan.
 
 \section{Methodology}
 
