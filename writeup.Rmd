@@ -18,6 +18,11 @@ TODO:
 
   - the text in the charts should have about the same size as the surrounding text, i.e. titles should not be much larger, and axis labels should not be much smaller.
 
+```{python}
+1+1
+```
+
+
 ```{r, echo = F, warning = F, message = F}
 #install.packages("tidyverse")
 library(tidyverse)
