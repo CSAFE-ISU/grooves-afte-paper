@@ -11,12 +11,11 @@ output:
 bibliography: bibliography.bib
 nocite: | 
   @locfit, @MASS
-abstract: abstract goes here, needs to be a single paragraph  
+abstract: Forensic firearms examiners analyze bullets through a process of visual feature comparison. Striation marks, which are engraved on the surface of a bullet through contact with the rifling of a gun barrel, provide evidence to address the same source-different source problem. In the last several decades, advances in technology have led to an increase in research focused on developing image-analysis algorithms to complete automated, quantitative analyses of bullet evidence. @Hare1 proposes a matching algorithm based on 3D imaging data of land engraved areas (LEAs). Removal of the overall curve of the bullet - the global structure captured in the 3D scanning process - leads to what @Hare1 refer to as a signature. Features such as cross-correlation function, consecutive matching striae and consecutive non-matching striae are calculated based on pairwise comparisons of these signatures. The currently established best practice for collection of 3D images of bullet LEAs requires capturing portions of the neighboring groove engraved areas (GEAs). Dealing with LEA and GEA data separately is crucial to aim for high accuracy and precision in subsequent feature calculations. However, the atypical structure of 3D bullet data overwhelms standard statistical modeling techniques which cannot distinguish between LEA and GEA data. The following work describes a better solution to this pre-processing problem based on robust statistical methods.  
 ---
 
 TODO: 
 
-  - the text in the charts should have about the same size as the surrounding text, i.e. titles should not be much larger, and axis labels should not be much smaller.
 
 
 ```{r, echo = F, warning = F, message = F}
@@ -110,11 +109,11 @@ p1_rlm <- bullet %>% ggplot() +
   labs(x = expression(paste("Relative Location (", mu, "m)")), 
        y = expression(paste("Relative Height (", mu, "m)")), title = "Linear Model Fit") + 
   geom_line(aes(x = x, y = lm_pred), color = "red") +
-  theme(axis.title.x = element_text(size = rel(0.7)), 
-        axis.title.y = element_text(size = rel(0.7)), 
-        axis.text.x = element_text(size = rel(0.7)),
-        axis.text.y = element_text(size = rel(0.7)), 
-        title = element_text(size = rel(0.8)))
+  theme(axis.title.x = element_text(size = rel(1)), 
+        axis.title.y = element_text(size = rel(1)), 
+        axis.text.x = element_text(size = rel(1)),
+        axis.text.y = element_text(size = rel(1)), 
+        title = element_text(size = rel(0.7)))
 
 p2_rlm <- bullet %>% ggplot() + 
   geom_point(aes(x = x, y = lm_resid)) + 
@@ -122,11 +121,11 @@ p2_rlm <- bullet %>% ggplot() +
   labs(x = expression(paste("Relative Location (", mu, "m)")), 
        y = expression(paste("Residual Height (", mu, "m)")), title = "Linear Model Residuals") + 
   geom_hline(yintercept = 0, color = "red") +
-  theme(axis.title.x = element_text(size = rel(0.7)), 
-        axis.title.y = element_text(size = rel(0.7)), 
-        axis.text.x = element_text(size = rel(0.7)),
-        axis.text.y = element_text(size = rel(0.7)), 
-        title = element_text(size = rel(0.8)))
+  theme(axis.title.x = element_text(size = rel(1)), 
+        axis.title.y = element_text(size = rel(1)), 
+        axis.text.x = element_text(size = rel(1)),
+        axis.text.y = element_text(size = rel(1)), 
+        title = element_text(size = rel(0.7)))
 
 p3_rlm <- bullet %>% ggplot() + 
   geom_point(aes(x = x, y = value_std)) + 
@@ -134,11 +133,11 @@ p3_rlm <- bullet %>% ggplot() +
   labs(x = expression(paste("Relative Location (", mu, "m)")), 
        y = expression(paste("Relative Height (", mu, "m)")), title = "Robust Linear Model Fit") + 
   geom_line(aes(x = x, y = rlm_pred), color = "red") +
-  theme(axis.title.x = element_text(size = rel(0.7)), 
-        axis.title.y = element_text(size = rel(0.7)), 
-        axis.text.x = element_text(size = rel(0.7)),
-        axis.text.y = element_text(size = rel(0.7)), 
-        title = element_text(size = rel(0.8)))
+  theme(axis.title.x = element_text(size = rel(1)), 
+        axis.title.y = element_text(size = rel(1)), 
+        axis.text.x = element_text(size = rel(1)),
+        axis.text.y = element_text(size = rel(1)), 
+        title = element_text(size = rel(0.7)))
 
 p4_rlm <- bullet %>% ggplot() + 
     geom_point(aes(x = x, y = rlm_resid)) + 
@@ -146,11 +145,11 @@ p4_rlm <- bullet %>% ggplot() +
   labs(x = expression(paste("Relative Location (", mu, "m)")), 
        y = expression(paste("Residual Height (", mu, "m)")), title = "Robust Linear Model Residuals") + 
   geom_hline(yintercept = 0, color = "red") +
-  theme(axis.title.x = element_text(size = rel(0.7)), 
-        axis.title.y = element_text(size = rel(0.7)), 
-        axis.text.x = element_text(size = rel(0.7)),
-        axis.text.y = element_text(size = rel(0.7)), 
-        title = element_text(size = rel(0.8)))
+  theme(axis.title.x = element_text(size = rel(1)), 
+        axis.title.y = element_text(size = rel(1)), 
+        axis.text.x = element_text(size = rel(1)),
+        axis.text.y = element_text(size = rel(1)), 
+        title = element_text(size = rel(0.7)))
 
 library(gridExtra)
 grid.arrange(p1_rlm, p2_rlm, p3_rlm, p4_rlm, ncol =2 )
@@ -160,8 +159,8 @@ grid.arrange(p1_rlm, p2_rlm, p3_rlm, p4_rlm, ncol =2 )
 
 Once a model has been fit for each crosscut, residual values are calculated. The model, having fit the structure of the LEA, results in small residuals scattered around zero in the LEA zone, and larger, mostly positive residuals in the GEA zones. Thus, the magnitudes of the residuals themselves can serve as one indicator of whether a data point is part of the LEA structure or the GEA structure. A cutoff value for the magnitude to separate the residuals from the two zones can be employed. 
 
-The median absolute deviation (MAD), is a robust metric for the spread of points, similar to the standard deviation: **Define one symbol for the median and use that in the formula rather than writing the text out**
-$$median(|x_i- median(\mathbf{x})|) \quad \forall\ x_i \in \mathbf{x}.$$ Since we are dealing with unbalanced residual values, the MAD is preferable to the standard deviation to quantify the spread. Removing unusually high residual values is effective at removing the GEA data once the global structure has been fit. Residual values that are considered unusually high, or outlying, are values that are larger than 4*MAD. Any residual value larger than 4 times the median absolute deviation value can be seen as a "large" residual.  
+The median absolute deviation (MAD), is a robust metric for the spread of points, similar to the standard deviation. Let $m$ be the median:  
+$$ MAD(\mathbf{x}) = m(|x_i- m(\mathbf{x})|) \quad \forall\ x_i \in \mathbf{x}.$$ Since we are dealing with unbalanced residual values, the MAD is preferable to the standard deviation to quantify the spread. Removing unusually high residual values is effective at removing the GEA data once the global structure has been fit. Residual values that are considered unusually high, or outlying, are values that are larger than 4*MAD. Any residual value larger than 4 times the median absolute deviation value can be seen as a "large" residual.  
 
 
 
@@ -198,11 +197,11 @@ p1_rlo <- bullet %>% ggplot() +
   labs(x = expression(paste("Relative Location (", mu, "m)")), 
        y = expression(paste("Relative Height (", mu, "m)")), title = "LOESS Fit") + 
   geom_line(aes(x = x, y = lo_pred), color = "red") +
-  theme(axis.title.x = element_text(size = rel(0.7)), 
-        axis.title.y = element_text(size = rel(0.7)), 
-        axis.text.x = element_text(size = rel(0.7)),
-        axis.text.y = element_text(size = rel(0.7)), 
-        title = element_text(size = rel(0.8)))
+  theme(axis.title.x = element_text(size = rel(1)), 
+        axis.title.y = element_text(size = rel(1)), 
+        axis.text.x = element_text(size = rel(1)),
+        axis.text.y = element_text(size = rel(1)), 
+        title = element_text(size = rel(0.7)))
 
 p2_rlo <- bullet %>% ggplot() + 
   geom_point(aes(x = x, y = lo_resid)) + 
@@ -210,11 +209,11 @@ p2_rlo <- bullet %>% ggplot() +
   labs(x = expression(paste("Relative Location (", mu, "m)")), 
        y = expression(paste("Residual Height (", mu, "m)")), title = "LOESS Residuals") + 
   geom_hline(yintercept = 0, color = "red") +
-  theme(axis.title.x = element_text(size = rel(0.7)), 
-        axis.title.y = element_text(size = rel(0.7)), 
-        axis.text.x = element_text(size = rel(0.7)),
-        axis.text.y = element_text(size = rel(0.7)), 
-        title = element_text(size = rel(0.8)))
+  theme(axis.title.x = element_text(size = rel(1)), 
+        axis.title.y = element_text(size = rel(1)), 
+        axis.text.x = element_text(size = rel(1)),
+        axis.text.y = element_text(size = rel(1)), 
+        title = element_text(size = rel(0.7)))
 
 
 p3_rlo <- bullet %>% ggplot() + 
@@ -223,11 +222,11 @@ p3_rlo <- bullet %>% ggplot() +
   labs(x = expression(paste("Relative Location (", mu, "m)")), 
        y = expression(paste("Relative Height (", mu, "m)")), title = "Robust LOESS Fit") + 
   geom_line(aes(x = x, y = rlo_pred), color = "red") +
-  theme(axis.title.x = element_text(size = rel(0.7)), 
-        axis.title.y = element_text(size = rel(0.7)), 
-        axis.text.x = element_text(size = rel(0.7)),
-        axis.text.y = element_text(size = rel(0.7)), 
-        title = element_text(size = rel(0.8)))
+  theme(axis.title.x = element_text(size = rel(1)), 
+        axis.title.y = element_text(size = rel(1)), 
+        axis.text.x = element_text(size = rel(1)),
+        axis.text.y = element_text(size = rel(1)), 
+        title = element_text(size = rel(0.7)))
 
 
 p4_rlo <- bullet %>% ggplot() + 
@@ -236,11 +235,11 @@ p4_rlo <- bullet %>% ggplot() +
   labs(x = expression(paste("Relative Location (", mu, "m)")), 
        y = expression(paste("Residual Height (", mu, "m)")), title = "Robust LOESS Residuals") + 
   geom_hline(yintercept = 0, color = "red") +
-  theme(axis.title.x = element_text(size = rel(0.7)), 
-        axis.title.y = element_text(size = rel(0.7)), 
-        axis.text.x = element_text(size = rel(0.7)),
-        axis.text.y = element_text(size = rel(0.7)), 
-        title = element_text(size = rel(0.8)))
+  theme(axis.title.x = element_text(size = rel(1)), 
+        axis.title.y = element_text(size = rel(1)), 
+        axis.text.x = element_text(size = rel(1)),
+        axis.text.y = element_text(size = rel(1)), 
+        title = element_text(size = rel(0.7)))
 
 
 #library(gridExtra)

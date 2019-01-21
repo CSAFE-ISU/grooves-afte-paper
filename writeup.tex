@@ -90,18 +90,31 @@ Scans}
 \begin{document}
 \maketitle
 \begin{abstract}
-abstract goes here, needs to be a single paragraph
+Forensic firearms examiners analyze bullets through a process of visual
+feature comparison. Striation marks, which are engraved on the surface
+of a bullet through contact with the rifling of a gun barrel, provide
+evidence to address the same source-different source problem. In the
+last several decades, advances in technology have led to an increase in
+research focused on developing image-analysis algorithms to complete
+automated, quantitative analyses of bullet evidence. \citet{Hare1}
+proposes a matching algorithm based on 3D imaging data of land engraved
+areas (LEAs). Removal of the overall curve of the bullet - the global
+structure captured in the 3D scanning process - leads to what
+\citet{Hare1} refer to as a signature. Features such as
+cross-correlation function, consecutive matching striae and consecutive
+non-matching striae are calculated based on pairwise comparisons of
+these signatures. The currently established best practice for collection
+of 3D images of bullet LEAs requires capturing portions of the
+neighboring groove engraved areas (GEAs). Dealing with LEA and GEA data
+separately is crucial to aim for high accuracy and precision in
+subsequent feature calculations. However, the atypical structure of 3D
+bullet data overwhelms standard statistical modeling techniques which
+cannot distinguish between LEA and GEA data. The following work
+describes a better solution to this pre-processing problem based on
+robust statistical methods.
 \end{abstract}
 
 TODO:
-
-\begin{itemize}
-\tightlist
-\item
-  the text in the charts should have about the same size as the
-  surrounding text, i.e.~titles should not be much larger, and axis
-  labels should not be much smaller.
-\end{itemize}
 
 \section{Background}
 
@@ -298,10 +311,8 @@ the magnitude to separate the residuals from the two zones can be
 employed.
 
 The median absolute deviation (MAD), is a robust metric for the spread
-of points, similar to the standard deviation: \textbf{Define one symbol
-for the median and use that in the formula rather than writing the text
-out}
-\[median(|x_i- median(\mathbf{x})|) \quad \forall\ x_i \in \mathbf{x}.\]
+of points, similar to the standard deviation. Let \(m\) be the median:\\
+\[ MAD(\mathbf{x}) = m(|x_i- m(\mathbf{x})|) \quad \forall\ x_i \in \mathbf{x}.\]
 Since we are dealing with unbalanced residual values, the MAD is
 preferable to the standard deviation to quantify the spread. Removing
 unusually high residual values is effective at removing the GEA data
