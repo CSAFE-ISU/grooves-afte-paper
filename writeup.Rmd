@@ -37,7 +37,7 @@ In the last several decades, advances in technology have led to an increase in r
 
 Removal of the overall curve of the bullet -- the global structure captured in the 3D scanning process -- leads to what @Hare1 refer to as a signature. Features such as cross-correlation function, consecutive matching striae [see @Biasotti], and consecutive non-matching striae are calculated for each LEA based on the resulting signature data. These calculated features are the information fed into the random forest algorithm.  
 
-Extraction of the aforementioned features depends on the step which translates a profile to a signature: the removal of the global strucutre. This step is complicated by the 3D data collection process.  
+Extraction of the aforementioned features depends on the step which translates a profile to a signature: the removal of the global structure. This step is complicated by the 3D data collection process.  
 
 While there is not yet an established standard operating procedure, the currently established best practice for collection of 3D images of bullet LEAs requires that scanning across the object must begin and end in the neighboring groove engraved areas (GEAs) (see Figure 1). However, this practice introduces a challenging data structure. The presence of extraneous GEA data dictates the most significant step in data pre-processing: correctly identifying between data from LEAs and GEAs. 
 
@@ -55,7 +55,7 @@ The 3D scans of Hamby Set 44 were captured with a Sensofar Confocal light micros
 
 Two scans -- Barrel 9, Bullet 2, Land 3 and Unknowns, Bullet L, Land 5 -- were removed from consideration due to suspected tank rash. Tank rash results from a bullet striking the bottom of a water recovery tank, and can affect the visibility of striae impressed on LEAs by the barrel.  
 
-![Visualization of 3D data collected through high resolution scanning of a land engraved area. Striations on the surface of the object can be seen by viewing this data from "above", as presented here.](./images/3d_plot_top_context.png){width=600px}  
+![Visualization of 3D data collected through high resolution scanning of a land engraved area. Striations on the surface of the object can be seen by viewing this data from "above", as presented here.](./images/3d_plot_top_context_breakoff.png){width=600px}  
 
 
 
