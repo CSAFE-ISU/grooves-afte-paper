@@ -91,27 +91,26 @@ Scans}
 \maketitle
 \begin{abstract}
 Forensic firearms examiners analyze bullets through a process of visual
-feature comparison. Striation marks, which are engraved on the surface
-of a bullet through contact with the rifling of a gun barrel, provide
-evidence to address the same source-different source problem. In the
-last several decades, advances in technology have led to an increase in
-research focused on developing image-analysis algorithms to complete
-automated, quantitative analyses of bullet evidence. \citet{Hare1}
-proposes a matching algorithm based on 3D imaging data of land engraved
-areas (LEAs). Removal of the overall curve of the bullet - the global
-structure captured in the 3D scanning process - leads to what
-\citet{Hare1} refer to as a signature. Features such as
-cross-correlation function, consecutive matching striae and consecutive
-non-matching striae are calculated based on pairwise comparisons of
+feature comparison to determine whether two bullets originate from the
+same source or different sources. Striation marks found on land engraved
+areas (LEAs) provide evidence to address this same source-different
+source problem. Advances in technology have led to an increase in
+research focused on applying image-analysis algorithms to the automated,
+quantitative analysis of bullet evidence. One prominent example is an
+algorithm developed by \citep{Hare1} based on 3D imaging data of LEAs.
+This algorithm relies on removal of the overall curve of the bullet to
+obtain what \citep{Hare1} refer to as a ``signature''. Cross-correlation
+functions, consecutive matching straie, consecutive non-matching striae
+and other features are then calculated based on pairwise comparisons of
 these signatures. The currently established best practice for collection
 of 3D images of bullet LEAs requires capturing portions of the
 neighboring groove engraved areas (GEAs). Dealing with LEA and GEA data
 separately is crucial to aim for high accuracy and precision in
-subsequent feature calculations. However, the atypical structure of 3D
-bullet data overwhelms standard statistical modeling techniques which
-cannot distinguish between LEA and GEA data. The following work
-describes a better solution to this pre-processing problem based on
-robust statistical methods.
+subsequent feature calculations. However, standard statistical modeling
+techniques fall short when applied to the atypical structure of 3D
+bullet data, often failing to adequately separate LEA and GEA data. The
+following work describes a better solution to this pre-processing
+problem based on robust statistical models.
 \end{abstract}
 
 TODO:
@@ -135,7 +134,8 @@ bullet that make the closest contact with the barrel are called land
 engraved areas (LEAs). A guiding principle in forensic firearms analysis
 is that two bullets fired through the same barrel will bear more similar
 striation marks on their LEAs than two bullets fired from different
-barrels.\\
+barrels.
+
 Evidence is examined using a comparison microscope: two bullets in
 question are placed under the microscope and firearms examiners make a
 decision according to the AFTE Theory of Identification \citep{AFTE}.
@@ -152,19 +152,18 @@ complexity for automated comparison of land engraved areas
 \citep[e.g.][]{Ma1, Chu1, Chu2, Hare1}.
 
 \citet{Hare1} proposes a matching algorithm based on 3D imaging data of
-LEAs. The basis for the algorithm is a 2D ``signature'' data extracted
-from the 3D images. Horizontal slices of the 3D images, called profiles,
-provide a detailed representation of striae impressed on the surface at
-a horizontal cross-section of each LEA.
+LEAs. Horizontal slices of the 3D images, called profiles, provide a
+detailed representation of striae impressed on the surface at a
+horizontal cross-section of each LEA.
 
 Removal of the overall curve of the bullet -- the global structure
-captured in the 3D scanning process -- leads to what \citet{Hare1} refer
-to as a signature. Features such as cross-correlation function,
-consecutive matching striae \citep[see][]{Biasotti}, and consecutive
-non-matching striae are calculated based on pairwise comparisons of
-these signatures. These calculated features are the information used in
-a random forest model to assess the similarity of the corresponding pair
-of signatures.
+captured in the 3D scanning process -- transforms these profiles into to
+what \citet{Hare1} refer to as signatures. Features such as
+cross-correlation function, consecutive matching striae
+\citep[see][]{Biasotti}, and consecutive non-matching striae are
+calculated based on pairwise comparisons of these signatures. These
+calculated features are the information used in a random forest model to
+assess the similarity of the corresponding pair of signatures.
 
 Extraction of the aforementioned features depends on the step which
 translates a profile to a signature: the removal of the global
@@ -224,17 +223,17 @@ millimeters in width; as such, data structures for a single LEA can
 contain more than 3 million individual data points.
 
 \begin{figure}
-\includegraphics[width=\textwidth]{./images/3d_plot_top_context_breakoff} \caption{Visualization of 3D data collected through high resolution scanning of a land engraved area. Striations on the surface of the object can be seen by viewing this data from "above", as presented here. HH: we need to fix this image. Bullet in the sketch shows left rifling, but the land below is right rifled. the small red box has to be aligned with the stria. }\label{fig:LEA}
+\includegraphics[width=\textwidth]{./images/3d_plot_top_context_breakoff} \caption{Visualization of 3D data collected through high resolution scanning of a land engraved area. Striations on the surface of the object can be seen by viewing this data from "above", as presented here.}\label{fig:LEA}
 \end{figure}
 
 The motivation for removal of GEA data lies in the algorithm proposed by
 \citet{Hare1}; as such, the focus will be on horizontal slices
 (profiles) of the 3D scans. These slices capture the striation pattern
-horizontally across the surface, as seen in Figure 3.
+horizontally across the surface, as seen in \autoref{fig:profile}.
 
 \begin{figure}
 \centering
-\includegraphics{writeup_files/figure-latex/unnamed-chunk-2-1.pdf}
+\includegraphics{writeup_files/figure-latex/profile-1.pdf}
 \caption{Single profile of 3D bullet land data. The main data structure,
 located in the center, is comprised of the land engraved area. The
 groove engraved areas occur to the left and right sides of the profile.}
@@ -257,7 +256,7 @@ line to the curve of the bullet and analyzing the pattern of deviations
 from that curve. That is, fitting a statistical model to the curve of
 the bullet and examining the residual values.
 
-This 2-step process can e achieved with a statistical method which
+This 2-step process can be achieved with a statistical method which
 treats the secondary structure of the GEA as outlying data and fits the
 curve of the LEA alone. We examine and compare two methods for fitting
 the LEA structure. While the two approaches differ in methodology, they
@@ -277,7 +276,7 @@ that if there are data points in unusual places, a linear model will fit
 a line that is pulled towards outlying data in order to minimize the
 overall sum of squared distances. In this particular data environment,
 the fitted curve can be easily influenced by GEA data, as is seen in
-Figure 4.
+\autoref{fig:lms}.
 
 The robust approach under the linear model framework focuses on
 minimizing the least absolute deviations. This method of minimization is
@@ -289,11 +288,11 @@ This is preferable to the traditional linear model, which corrects for
 the presence of GEA data by compromising between the two competing
 structures, and does not fit either structure appropriately. A striking
 example of the difference in results from these two model frameworks is
-seen in Figure 4.
+seen in \autoref{fig:lms}.
 
 \begin{figure}
 \centering
-\includegraphics{writeup_files/figure-latex/unnamed-chunk-3-1.pdf}
+\includegraphics{writeup_files/figure-latex/lms-1.pdf}
 \caption{Example of a quadratic linear model fit and resulting residuals
 (top) compared to a robust quadratic linear model fit and residuals
 (bottom) for a single crosscut. The robust model is able to more
@@ -348,7 +347,7 @@ in a much more unpredictable manner. A model fitted on a subset of data
 that mainly falls in the GEA structure will look vastly different than
 another model fit with data from the LEA. This results in a combined
 prediction that misrepresents much of the data near one or both shoulder
-locations (see Figure 6).
+locations (see \autoref{fig:loess}).
 
 Just as the nature of LOESS models differs from traditional linear
 models, the robust approach must differ too. Robust LOESS utilizes an
@@ -374,7 +373,7 @@ set 44 is twice the median absolute deviation (2*MAD).
 
 \begin{figure}
 \centering
-\includegraphics{writeup_files/figure-latex/unnamed-chunk-4-1.pdf}
+\includegraphics{writeup_files/figure-latex/loess-1.pdf}
 \caption{Example of a LOESS model fit and residuals (top) compared to a
 robust LOESS model fit and residuals (bottom) for a single crosscut. The
 robust model is again able to more effectively capture the curved
@@ -448,7 +447,7 @@ particular method.
 
 \begin{figure}
 \centering
-\includegraphics{writeup_files/figure-latex/unnamed-chunk-5-1.pdf}
+\includegraphics{writeup_files/figure-latex/unnamed-chunk-2-1.pdf}
 \caption{Distribution of inaccuracy scores for data smoothing method,
 robust linear model method, and robust LOESS method, separated by left
 and right shoulder locations. A tight distribution with few high values
@@ -457,7 +456,7 @@ indicates good performance across the LEAs in the data set.}
 
 The raw distributions can be difficult to visually compare, so another
 way to inspect the results is to place inaccuracy scores into
-cateogries: satisfactory, borderline, unsatisfactory. Scores under 100
+categories: satisfactory, borderline, unsatisfactory. Scores under 100
 are satisfactory, scores between 100 and 1000 are borderline, and scores
 above 1000 are unsatisfactory (see Figure 6). Unsatisfactory cases are
 the most likely to cause mistakes in subsequent analyses.
@@ -474,7 +473,7 @@ side but fall short on another.
 
 \begin{figure}
 \centering
-\includegraphics{writeup_files/figure-latex/unnamed-chunk-6-1.pdf}
+\includegraphics{writeup_files/figure-latex/unnamed-chunk-3-1.pdf}
 \caption{Distribution of inaccuracy scores for data smoothing method,
 robust linear model method, and robust LOESS method, separated by left
 and righth shoulder locations. Inaccuracy scores are placed into three
