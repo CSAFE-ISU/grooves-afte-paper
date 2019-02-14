@@ -7,7 +7,6 @@ header-includes:
 output: 
   pdf_document: 
     citation_package: natbib
-    keep_tex: yes
     number_sections: true
     fig_caption: yes
 bibliography: bibliography.bib
