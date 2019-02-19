@@ -16,9 +16,10 @@ abstract: Forensic firearms examiners analyze bullets through a process of visua
 ---
 
 \newcommand{\hh}[1]{{\color{orange}{#1}}}
-
+\newcommand{\kr}[1]{{\color{teal}{#1}}}
 
 TODO: 
+-\hh{Kiegan, could you use a color label, so I can see the changes you made in the file rather than as commit message? - I've made a kr command for you - you can pick the color :)}
 
 - \hh{Could you remove the derivative files (tex, blg, writeup\_files, ...) from the repo? They cause a ton of merge conflicts.}
 
