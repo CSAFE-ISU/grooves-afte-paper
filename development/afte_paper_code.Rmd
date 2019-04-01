@@ -19,7 +19,7 @@ library(ggplot2)
 #hamby44 <- readRDS("//opt/hamby44/hamby44.rda") ## this gives the whole thing, we just want to focus on the`ccdata`.
 #hamby44[1:6,]
 
-hamby44 <- readRDS("data/hamby44/hamby44_eval.rda")
+hamby44 <- readRDS("../data/hamby44/hamby44_eval.rda")
 hamby44[1:6,]
 ```
 
