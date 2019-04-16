@@ -4,9 +4,6 @@ affiliation: Department of Statistics, Iowa State University and CSAFE (Center f
 author: Kiegan Rice, M.Sc., Heike Hofmann, Ph.D., Ulrike Genschel, Ph.D. 
 header-includes:
    - \usepackage{xcolor, ulem}
-   
-
-
 output: 
   pdf_document: 
     citation_package: natbib
@@ -15,7 +12,7 @@ output:
 bibliography: bibliography.bib
 nocite: | 
   @locfit, @MASS
-abstract: Forensic firearms examiners analyze bullets through a process of visual feature comparison\textcolor{purple}{s} to determine whether two bullets originate from the same source \textcolor{purple}{\sout{or different sources}}. Striation marks found on land engraved areas (LEAs) provide evidence to address this same source-different source problem. Advances in technology have led to an increase in research focused on applying image-analysis algorithms to the automated, quantitative analysis of bullet evidence. One prominent example is an algorithm developed by [@Hare1] based on 3D imaging data of LEAs. This algorithm relies on removal of the overall curve of the bullet to obtain what [@Hare1] refer to as a "signature". Cross-correlation functions, consecutive matching striae, consecutive non-matching striae and other features are then calculated based on pairwise comparisons of these signatures. The currently established best practice for collection of 3D images of bullet LEAs requires capturing portions of the neighboring groove engraved areas (GEAs). \textcolor{purple}{Analyzing} LEA and GEA data separately is  \textcolor{purple}{imperative} to \textcolor{purple}{achieve} high accuracy and precision in subsequent feature calculations. However, \textcolor{purple}{existing} standard statistical modeling techniques fall short when applied to the atypical structure of 3D bullet data, often failing to adequately separate LEA and GEA data.  \textcolor{purple}{We propose a method based on robust locally weighted regregression and show that this method outperforms performs current methods at separating LEA and GEA data.} 
+abstract: Forensic firearms examiners analyze bullets through a process of visual feature comparison to determine whether two bullets originate from the same source. Striation marks found on land engraved areas (LEAs) provide evidence to address this same source-different source problem. Advances in technology have led to an increase in research focused on applying image-analysis algorithms to the automated, quantitative analysis of bullet evidence. One prominent example is an algorithm developed by [@Hare1] based on 3D imaging data of LEAs. This algorithm relies on removal of the overall curve of the bullet to obtain what [@Hare1] refer to as a "signature". Cross-correlation functions, consecutive matching striae, consecutive non-matching striae and other features are then calculated based on pairwise comparisons of these signatures. The currently established best practice for collection of 3D images of bullet LEAs requires capturing portions of the neighboring groove engraved areas (GEAs). Analyzing LEA and GEA data separately is imperative to achieve high accuracy and precision in subsequent feature calculations. However, existing standard statistical modeling techniques fall short when applied to the atypical structure of 3D bullet data, often failing to adequately separate LEA and GEA data.  We propose a method based on robust locally weighted regregression and show that this method outperforms performs current methods at separating LEA and GEA data. 
 ---
 
 \newcommand{\hh}[1]{{\color{orange}{#1}}}
@@ -23,17 +20,18 @@ abstract: Forensic firearms examiners analyze bullets through a process of visua
 \newcommand{\ug}[1]{{\color{purple}{#1}}}
 
 TODO: 
--\hh{Kiegan, could you use a color label, so I can see the changes you made in the file rather than as commit message? - I've made a kr command for you - you can pick the color :)}
+-\hh{Kiegan, could you use a color label, so I can see the changes you made in the file rather than as commit message? - I've made a kr command for you - you can pick the color :)} \kr{- done!}
 
-- \hh{Could you remove the derivative files (tex, blg, writeup\_files, ...) from the repo? They cause a ton of merge conflicts.}
+- \hh{Could you remove the derivative files (tex, blg, writeup\_files, ...) from the repo? They cause a ton of merge conflicts.} \kr{ - done!}
 
-- \hh{I can't find the code for figure groove\_vs\_nogroove.png - I would like to split the figure into two subfigures (top) and (bottom) with extra lines of labelling options} 
+- \hh{I can't find the code for figure groove\_vs\_nogroove.png - I would like to split the figure into two subfigures (top) and (bottom) with extra lines of labelling options} \kr{- I've updated it to be a generated plot! I didn't make any labelling changes yet.}
 
-- \hh{replace the * multiplication by cdot or times}
+- \hh{replace the * multiplication by cdot or times} \kr{- done!}
 
 ```{r, echo = F, warning = F, message = F}
 #install.packages("tidyverse")
 library(tidyverse)
+library(gridExtra)
 ```
 
 \section{Background}  
@@ -49,9 +47,9 @@ In the last \ug{two?} decades, advances in technology have led to an increase in
 
 @Hare1 proposes a \ug{bullet} matching algorithm based on 3D imaging data of LEAs. Horizontal slices of the 3D images, called profiles, provide a detailed representation of striae impressed on the surface at a horizontal cross-section of each LEA.  
 
-Removal of the overall curve of the bullet -- the global structure captured in the 3D scanning process\ug{can we define this when we introduce the 3D data} -- transforms these profiles into to what @Hare1 refer to as *signatures*. For a land-to-land comparison \ug{comparison of two lands from two distinct 3D images?}, features such as cross-correlation function, \ug{number of?} consecutive matching striae [see @Biasotti], and consecutive non-matching striae are calculated based on the two aligned signatures. These calculated features are \ug{then} used in a random forest model to assess the \ug{degree of} similarity of the corresponding pair of signatures.   
+Removal of the overall curve of the bullet -- the global structure captured in the 3D scanning process\ug{can we define this when we introduce the 3D data} -- transforms these profiles into to what @Hare1 refer to as *signatures*. For a land-to-land comparison \ug{comparison of two lands from two distinct 3D images?}, features such as cross-correlation function, number of consecutively matching striae [see @Biasotti], and maximum number of consecutively non-matching striae are calculated based on the two aligned signatures. These calculated features are then used in a random forest model to assess the degree of similarity of the corresponding pair of signatures.   
 
-\ug{Succesful e}xtraction of the aforementioned features depends on \ug{how well we can translate the} profile to a signature: the removal of the global structure. This step is complicated by the 3D data collection process. \ug{I would either explain why or leave the last sentence out.}  
+Succesful extraction of the aforementioned features depends on how well we can translate the profile to a signature: the removal of the global structure. This step is complicated by the 3D data collection process. \ug{I would either explain why or leave the last sentence out.}  
 
 While there is not yet an established standard, the currently \ug{accepted} best practice for collecting 3D images of bullet LEAs requires that scanning across the object must begin and end in the neighboring groove engraved areas (GEAs) as shown in \autoref{fig:LEA}. However, this practice introduces a challenging data structure. The presence of extraneous GEA data dictates the most significant step in data pre-processing: correctly identifying between data from LEAs and GEAs. 
 
@@ -61,10 +59,10 @@ While there is not yet an established standard, the currently \ug{accepted} best
 \section{Data Source}  
 
 
-\ug{We analyze} high resolution 3D scans of bullet land engraved areas (LEAs). \ug{I would like to add an explanation of how the data exactly look like, namely in matrix format consisting of $x$, $y$ and $z$ unles you think it really is not necessary.} The scanned bullets come from Hamby Set 44 [@Hamby]. Each Hamby set consists of \ug{35 bullets fired from 10 consecutively?} rifled Ruger P85 barrels. \ug{Of the 35 bullets 20 bullets are known, two bullets for each of the ten barrels, the remaining 15 bullets in each set originated from a different source.} 
+We analyze high resolution 3D scans of bullet land engraved areas (LEAs). \ug{I would like to add an explanation of how the data exactly look like, namely in matrix format consisting of $x$, $y$ and $z$ unles you think it really is not necessary.} The scanned bullets come from Hamby Set 44 [@Hamby]. Each Hamby set consists of \ug{35 bullets fired from 10 consecutively?} rifled Ruger P85 barrels. \ug{Of the 35 bullets 20 bullets are known, two bullets for each of the ten barrels, the remaining 15 bullets in each set originated from a different source.} 
 
 
-Each fired bullet in Hamby Set 44 has 6 LEAs; every LEA was scanned for each of the 35 bullets, producing data for 210 individual lands.  Two lands -- Barrel 9, Bullet 2, Land 3 and \ug{Unknowns??}, Bullet L, Land 5 -- were removed from consideration due to "tank rash". Tank rash results from a bullet striking the bottom of a water recovery tank after exiting the barrel, thereby creating marks on the land that are not due to the contact with the barrel.
+Each fired bullet in Hamby Set 44 has 6 LEAs; every LEA was scanned for each of the 35 bullets, producing data for 210 individual lands.  Two lands -- Barrel 9, Bullet 2, Land 3 and Questioned Bullet L, Land 5 -- were removed from consideration due to "tank rash". Tank rash results from a bullet striking the bottom of a water recovery tank after exiting the barrel, thereby creating marks on the land that are not due to the contact with the barrel.
 
 The 3D scans of Hamby Set 44 were captured with a Sensofar Confocal light microscope at 20x magnification resulting in a resolution of 0.645 microns per pixel. These LEAs were scanned at Iowa State University's High Resolution Microscopy Facility, and the scans are stored in 3D format as x3p files, conforming to the ISO5436-2 standard [@ISO5436]. A visualization of the data gathered for a single LEA is seen in \autoref{fig:LEA}. Physically, each land is approximately 2 millimeters in width; as such, data structures for a single LEA can contain more than 3 million individual data points.  
 
@@ -110,12 +108,50 @@ The final data consists of 2D profiles gathered from 3D imaging. The height valu
 
 The structure in the scans \ug{2D profiles} is dominated by the curvature of the physical object (the bullet). \ug{To assess} the  similarity of \ug{features from } two land engraved areas, this \ug{curvature} has to be removed.  
 
-Non-parametric methods suggested in the literature, such as a LOESS fit [@Hare1] or a Gaussian filter [@Chu1] are very effective for removing the curvature, however, they are prone to \ug{so-called} boundary effects \ug{(can you give a brief definition of what the boundary effect entails in this setting?)}. In the case of bullet scans, boundary effects are exacerbated by the presence of the secondary structure: groove engraved areas at either end of the LEA (see \autoref{fig:grooveremove}).  
+Non-parametric methods suggested in the literature, such as a LOESS fit [@Hare1] or a Gaussian filter [@Chu1] are very effective for removing the curvature, however, they are prone to \ug{so-called} boundary effects \ug{(can you give a brief definition of what the boundary effect entails in this setting?)}. In the case of bullet scans, boundary effects are exacerbated by the presence of the secondary structure: groove engraved areas at either end of the LEA (see \autoref{groove-no-groove}).  
 
 \hh{ describe the figure in words, in particular the boundary effect }
 
-```{r grooveremove, echo = F, warning = F, message = F, out.width = '100%', fig.cap = "Example of non-parametric structure removal with groove engraved area data removed (top), compared to non-parametric structure removal with extraneous groove engraved area data (bottom)."}
-knitr::include_graphics("images/groove_vs_nogroove.png")
+```{r groove-no-groove, echo = F, warning = F, message = F, fig.cap = "\\label{groove-no-groove}An example of the impact failure to remove GEA data can have on an extracted 2D signature. Important data features are obfuscated in the signature by remaining GEA structure.", fig.height=4, fig.width = 6}
+h44 <- readRDS("data/hamby44/hamby44_eval.rda")
+bullet <- h44[1,]
+
+groove <- list(groove = c(bullet$left_groove, bullet$right_groove))
+bullet_sig <- bulletxtrctr::cc_get_signature(bullet$ccdata_w_resid[[1]], groove)
+nogroove <- list(groove = range(bullet$ccdata_w_resid[[1]]$x))
+bullet_sig_noremove <- bulletxtrctr::cc_get_signature(bullet$ccdata_w_resid[[1]], nogroove)
+
+prof_1 <- bullet_sig %>% 
+  filter(between(x, groove$groove[1], groove$groove[2])) %>%
+  ggplot() + 
+  geom_line(aes(x = x, y = value)) + 
+  theme_bw() + 
+  labs(x = "Relative Location", y = "Relative Height", 
+       title = "Crosscut, groove data removed") + 
+  theme(plot.title = element_text(size = 10), axis.title = element_text(size = 9))
+
+sig_1 <- bullet_sig %>% ggplot() + 
+  geom_line(aes(x = x, y = sig)) + 
+  theme_bw() + 
+  labs(x = "Relative Location", y = "Signature Height",
+       title = "Signature, groove data removed") + 
+  theme(plot.title = element_text(size = 10), axis.title = element_text(size = 9))
+
+prof_2 <- bullet_sig_noremove %>% ggplot() + 
+  geom_line(aes(x = x, y = value)) + 
+  theme_bw() + 
+  labs(x = "Relative Location", y = "Relative Height",
+       title = "Crosscut, groove data remains") + 
+  theme(plot.title = element_text(size = 10), axis.title = element_text(size = 9))
+
+sig_2 <- bullet_sig_noremove %>% ggplot() + 
+  geom_line(aes(x = x, y = sig)) + 
+  theme_bw() + 
+  labs(x = "Relative Location", y = "Signature Height", 
+       title = "Signature, groove data remains") + 
+  theme(plot.title = element_text(size = 10), axis.title = element_text(size = 9))
+
+grid.arrange(prof_1, sig_1, prof_2, sig_2, ncol = 2)
 ```
 
 \ug{the mentioning of outlying data comes out of the blue. We probably should briefly report why we go this route. This might involve a brief description of why existing methods don’t always do well which should play right into the issue of outliers.}
@@ -138,7 +174,8 @@ An alternative approach is a robust linear model which minimizes absolute deviat
 
 
 ```{r lms, echo = F, warning = F, message = F, fig.height = 4, fig.cap = "\\label{lms}Example of a quadratic linear model fit and resulting residuals (top) compared to a robust quadratic linear model fit and residuals (bottom) for a single profile. The robust model is able to more effectively capture the curved structure of the LEA without being influenced by the GEA."}
-
+hamby44_eval <- readRDS("data/hamby44/hamby44_eval.rda")
+bullet <- hamby44_eval$ccdata_w_resid[[48]]
 lm <- lm(value_std~poly(x,2), data = bullet)
 bullet$lm_pred <- predict(lm, newdata = bullet)
 bullet$lm_resid <- with(bullet, value_std-lm_pred)
@@ -231,7 +268,7 @@ LOESS fits many models to small subsets of the data and combines them into one n
 
 Robust LOESS utilizes an iterative process focused on re-weighting [see @Cleveland1]. First, an initial LOESS fit is created. This is followed by a step which gives smaller weights to data points with high residual values, and a subsequent LOESS fit with new weights applied. The down-weighting of values with high residual values slowly reduces the influence of the GEA data. This iterative process results in a non-parametric fit to the LEA structure that treats GEA data as less important, which is desirable.  
 
-While robust LOESS methods are more flexible than robust linear models, a model that is accurately fit to the LEA structure results in the same expected residual structure as with robust linear models: positive and negative residuals scattered around zero in the LEA zone, and positive, possibly large residuals in the GEA zones. A similar approach using a cutoff value can be employed to distinguish between "large" residual values and reasonable ones. Since non-parametric fits offer a closer fit over a large amount of data, the cutoff for separation will be lower. A cutoff that performs well on the Hamby set 44 is twice the median absolute deviation (2*MAD). 
+While robust LOESS methods are more flexible than robust linear models, a model that is accurately fit to the LEA structure results in the same expected residual structure as with robust linear models: positive and negative residuals scattered around zero in the LEA zone, and positive, possibly large residuals in the GEA zones. A similar approach using a cutoff value can be employed to distinguish between "large" residual values and reasonable ones. Since non-parametric fits offer a closer fit over a large amount of data, the cutoff for separation will be lower. A cutoff that performs well on the Hamby set 44 is twice the median absolute deviation ($2\times MAD$). 
 
 
 ```{r loess, echo = F, warning = F, message = F, fig.height = 4, fig.cap = "\\label{loess}Example of a LOESS model fit and residuals (top) compared to a robust LOESS model fit and residuals (bottom) for a single profile. The robust model is again able to more effectively capture the curved structure of the LEA without being influenced by the GEA."}
