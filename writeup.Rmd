@@ -36,9 +36,9 @@ library(gridExtra)
 
 \section{Background}  
 
-Forensic firearms examiners analyze bullets through a process of visual feature comparison\ug{s to determine whether two bullets originate from the same source}. This problem is known in forensic science as the *same source-different source problem*. In forensic firearms analysis, the same source-different source problem \ug{focuses} on \ug{establishing evidence} whether two bullets were fired through the same gun barrel.  
+Forensic firearms examiners analyze bullets through a process of visual feature comparison to determine whether two bullets originate from the same source. This problem is known in forensic science as the *same source-different source problem*. In forensic firearms analysis, the same source-different source problem focuses on establishing evidence whether two bullets were fired through the same gun barrel.  
 
-Striation marks, which \ug{get} engraved on the surface of a bullet through contact with the rifling of a gun barrel, provide evidence to address the same source-different source problem. Alternating sections of the bullet that make the closest contact with the barrel are called land engraved areas (LEAs). A guiding principle in forensic firearms analysis is that two bullets fired through the same barrel will bear more similar striation marks on their LEAs than two bullets fired from different barrels.   
+Striation marks, which become engraved on the surface of a bullet through contact with the rifling of a gun barrel, provide evidence to address the same source-different source problem. Alternating sections of the bullet that make the closest contact with the barrel are called land engraved areas (LEAs). A guiding principle in forensic firearms analysis is that two bullets fired through the same barrel will bear more similar striation marks on their LEAs than two bullets fired from different barrels.   
 \ug{Can you clarify or more precisely define how striation marks relate to LEAs? and then perhaps stick with one ... see my comment below.}
 
 \ug{Striation marks are} examined using a comparison microscope: two bullets in question are placed under the microscope and firearms examiners \ug{evaluate similarities and differences between the bullets' striation marks} according to the AFTE Theory of Identification [@AFTE] \ug{guidelines resulting in a decision about whether both bullets were fired through the same gun barrel}. 
@@ -49,11 +49,11 @@ In the last \ug{two?} decades, advances in technology have led to an increase in
 
 Removal of the overall curve of the bullet -- the global structure captured in the 3D scanning process\ug{can we define this when we introduce the 3D data} -- transforms these profiles into to what @Hare1 refer to as *signatures*. For a land-to-land comparison \ug{comparison of two lands from two distinct 3D images?}, features such as cross-correlation function, number of consecutively matching striae [see @Biasotti], and maximum number of consecutively non-matching striae are calculated based on the two aligned signatures. These calculated features are then used in a random forest model to assess the degree of similarity of the corresponding pair of signatures.   
 
-Succesful extraction of the aforementioned features depends on how well we can translate the profile to a signature: the removal of the global structure. This step is complicated by the 3D data collection process. \ug{I would either explain why or leave the last sentence out.}  
+Succesful extraction of the aforementioned features depends on how well we can translate the profile to a signature: the removal of the global structure.  
 
-While there is not yet an established standard, the currently \ug{accepted} best practice for collecting 3D images of bullet LEAs requires that scanning across the object must begin and end in the neighboring groove engraved areas (GEAs) as shown in \autoref{fig:LEA}. However, this practice introduces a challenging data structure. The presence of extraneous GEA data dictates the most significant step in data pre-processing: correctly identifying between data from LEAs and GEAs. 
+While there is not yet an established standard, the currently accepted best practice for collecting 3D images of bullet LEAs requires that scanning across the object must begin and end in the neighboring groove engraved areas (GEAs) as shown in \autoref{fig:LEA}. However, this practice introduces a challenging data structure. The presence of extraneous GEA data dictates the most significant step in data pre-processing: correctly identifying between data from LEAs and GEAs. 
 
-\ug{Analyzing} these two areas separately is vital to achieve high accuracy and precision in subsequent processing steps \ug{processing what?}. Removal of data from groove engraved areas is necessary to properly calculate features used in automated comparisons. In order to distinguish between these areas, we aim to identify *shoulder locations*, the locations at which the land engraved areas end and the groove engraved areas begin.  
+Analyzing these two areas separately is vital to achieve high accuracy and precision in subsequent signature extraction. In order to distinguish between these areas, we aim to identify *shoulder locations*, the locations at which the land engraved areas end and the groove engraved areas begin.  
 
 
 \section{Data Source}  
@@ -99,16 +99,15 @@ bullet %>% ggplot() +
 ```
 
 
-The final data consists of 2D profiles gathered from 3D imaging. The height values in the profiles were averaged over several \ug{specify} crosscuts spaced out along the 3D image. This ensures predicted locations will be relatively applicable across the depth of the LEA scan. \ug{Again, I would like to provide again an example of the actual data. This may not be necessary for AFTE but it is important for the dissertation that you submit.}   
-
+The final data consists of 2D profiles gathered from 3D imaging. The height values in the profiles were averaged over ten crosscuts spaced out along the 3D image. This ensures predicted locations will be relatively applicable across the depth of the LEA scan. \ug{Again, I would like to provide again an example of the actual data. This may not be necessary for AFTE but it is important for the dissertation that you submit.} \kr{I will include this in my dissertation, but for AFTE I don't think it is necessary.}  
 
 
 \section{Methodology}  
 
 
-The structure in the scans \ug{2D profiles} is dominated by the curvature of the physical object (the bullet). \ug{To assess} the  similarity of \ug{features from } two land engraved areas, this \ug{curvature} has to be removed.  
+The structure in the 2D profiles is dominated by the curvature of the physical object (the bullet). To assess the  similarity of features from two land engraved areas, this curvature has to be removed.  
 
-Non-parametric methods suggested in the literature, such as a LOESS fit [@Hare1] or a Gaussian filter [@Chu1] are very effective for removing the curvature, however, they are prone to \ug{so-called} boundary effects \ug{(can you give a brief definition of what the boundary effect entails in this setting?)}. In the case of bullet scans, boundary effects are exacerbated by the presence of the secondary structure: groove engraved areas at either end of the LEA (see \autoref{groove-no-groove}).  
+Non-parametric methods suggested in the literature, such as a LOESS fit [@Hare1] or a Gaussian filter [@Chu1] are very effective for removing the curvature, however, they are prone to so-called boundary effects \ug{(can you give a brief definition of what the boundary effect entails in this setting?)}. In the case of bullet scans, boundary effects are exacerbated by the presence of the secondary structure: groove engraved areas at either end of the LEA (see \autoref{groove-no-groove}).  
 
 \hh{ describe the figure in words, in particular the boundary effect }
 
@@ -347,9 +346,29 @@ Shoulder location predictions are calculated for each profile in the following m
 
 \section{Results}  
 
-In order to assess the accuracy of the two alternative models based on a quantitative measure for their overall performance of predictions, we first manually identified "ground truth" shoulder locations. \hh{on which data? tie it back to the data section}  
+In order to assess the accuracy of the two alternative models based on a quantitative measure for their overall performance of predictions, we first manually identified "ground truth" shoulder locations \kr{for each of the 208 profiles in Hamby set 44}. \hh{on which data? tie it back to the data section}.  
 
 \hh{the next couple of paragraphs up to XXX need more work. You are going chronologically through the explanation - that puts too much emphasis on things we decided not to do. Come in from the back, i.e. define the measure used first, then go into some explanation.  }
+
+\kr{Using ground truth shoulder locations, we calculate an "area of misidentification", the area in microns of a profile which is considered incorrectly identified by the method. This metric is calculated separately for the left shoulder location as:  
+
+$$ \hat{A}_{jL} = \left|\sum_{y_ij \in \tilde{Y}_{jL}} (y_{ij} - \hat{y}_{ij}) \times0.645\mu m\right|,$$
+where $\tilde{Y}_{jL}$ is the set of points in profile $j$ that fall between the predicted left shoulder location and ground truth left shoulder location, and $\hat{y}_{ij}$ is the predicted height value at location $i$ from the robust LOESS fit to profile $j$.  
+
+The analogous area is calculated for the right shoulder location as: 
+
+$$\hat{A}_{jR} = \left|\sum_{y_{ij} \in \tilde{Y}_{jR}} (y_{ij} - \hat{y}_{ij}) \times0.645\mu m \right|,$$
+where $\tilde{Y}_{jR}$ is the set of points in profile $j$ that fall between the predicted right shoulder location and ground truth right shoulder location, and $\hat{y}_{ij}$ is again the predicted height value at location $i$ from the robust LOESS fit to profile $j$.
+
+Both the left and right areas of misindentification are thus in terms of microns and represent the area of loss we incur from incorrectly identifying a shoulder location.  
+
+The quantification of results as an area is preferable to a distance metric as it captures not only the width of profile area that is misidentified, but also the relative heights of the data. Larger areas of misidentification indicate larger portions of the GEA remain included in a profile, and thus signal an area which is more likely to have influence on an extracted signature. Smaller areas of misidentification indicate minimal loss is incurred, and these areas will have minimal effect on an extracted signature.  
+
+The residual heights used in the calculation of $\hat{A}_{jL}$ and $\hat{A_{jR}}$, denoted as $(y_{ij} - \hat{y}_{ij})$, are residuals resulting from a robust LOESS fit. These residuals are used for quantification of results regardless of which method is being assessed due to the fact that robust LOESS most reliably approximates the curved shape of the bullet land. The pattern of residual values is most reliable using robust LOESS and thus leads to the most interpretable areas of misindentification.  
+
+An area of misidentification was calculated separately for the left hand side and right hand side predictions for each profile in the data set. This was calculated for the Robust Linear Model and Robust LOESS methods, as well as the Rollapply method suggested in} @Hare1.  
+
+\kr{How is the section above now? Would replace everything below until XXX.}  
 
 The numerical comparison of predicted and manually identified locations can be tricky; distance metrics alone do not suffice to represent the true character of a prediction's accuracy. For example, a predicted shoulder location that falls 10 data points away from the manually identified shoulder location could be caused by noise in the data, missing data points, or simply the scale of the data. Note that a span of 10 data points represents only 6.45 microns in physical space. Alternatively, a distance of 10 points could indeed be part of the groove engraved area, and thus being incorrectly identified could potentially cause problems in subsequent analyses.  
    
@@ -363,9 +382,9 @@ For this reason, gathering the sum of residuals between the predicted location a
 
 \hh{XXX}
 
-Of interest are the distributions of these inaccuracy scores across all 208 lands used in the study (see \autoref{results1}). A distribution that has a smaller spread and is close to zero is ideal; this suggests many of the predicted shoulder locations are very close to the manually identified locations, and predictions are removing many of the outlying GEA points. A distribution with a wider spread or many high, outlying inaccuracy scores suggests a greater degree of uncertainty and inaccuracy for a particular method.  
+Of interest are the distributions of these \kr{areas of misidentification} across all 208 lands used in the study (see \autoref{results1}). A distribution that has a smaller spread and is close to zero is ideal; this suggests many of the predicted shoulder locations are very close to the manually identified locations, and predictions are removing many of the outlying GEA points. A distribution with a wider spread or many high, outlying \kr{areas of misidentification} suggests a greater degree of uncertainty and inaccuracy for a particular method.  
 
-```{r results1, echo = F, warning = F, message = F, fig.height = 8, fig.width = 8, fig.cap = "\\label{results1}Distribution of inaccuracy scores for data smoothing method, robust linear model method, and robust LOESS method, separated by left and right shoulder locations. A tight distribution with few high values indicates good performance across the LEAs in the data set."}
+```{r results1, echo = F, warning = F, message = F, fig.height = 8, fig.width = 8, fig.cap = "\\label{results1}Distribution of areas of misidentification for data smoothing method, robust linear model method, and robust LOESS method, separated by left and right shoulder locations. A tight distribution with few high values indicates good performance across the LEAs in the data set."}
 hamby44_eval_paper <- readRDS("data/hamby44/hamby44_eval_paper.rda")
 
   dataset <- hamby44_eval_paper
@@ -383,10 +402,10 @@ hamby44_eval_paper <- readRDS("data/hamby44/hamby44_eval_paper.rda")
         })), GrooveSide = unlist(purrr::map(method, .f = function(x){
       strsplit(x, "_")[[1]][2]
         }))
-    )
+    ) 
   plot_df$GrooveLabels <- ifelse(plot_df$GrooveSide=="left", "left shoulder location", "right shoulder location")
   plot_1 <- plot_df %>% 
-    ggplot() + geom_boxplot(aes(x = GrooveMethod, y = abs(score), fill = GrooveMethod)) + 
+    ggplot() + geom_boxplot(aes(x = GrooveMethod, y = abs(score)*0.645, fill = GrooveMethod)) + 
       theme_bw() + labs(x = "Groove Side", y = "Inaccuracy Score", title = "Full Distribution") + 
     facet_wrap(~GrooveLabels ) + 
     scale_fill_manual(name="Method", values=c("#E69F00", "#56B4E9","#009E73"),
@@ -397,7 +416,7 @@ hamby44_eval_paper <- readRDS("data/hamby44/hamby44_eval_paper.rda")
                      limits=c("rollapply","mad4rlm","mad2")) + 
     theme(axis.text.x = element_text(angle =10))
   plot_zoom <- plot_df %>% filter(score < 5000) %>% 
-    ggplot() + geom_boxplot(aes(x = GrooveMethod, y = abs(score), fill = GrooveMethod)) + 
+    ggplot() + geom_boxplot(aes(x = GrooveMethod, y = abs(score)*0.645, fill = GrooveMethod)) + 
       theme_bw() + labs(x = "Groove Side", y = "Inaccuracy Score", title = "Truncated at 5000") + 
     facet_wrap(~GrooveLabels ) + 
     scale_fill_manual(name="Method", values=c("#E69F00", "#56B4E9","#009E73"),
@@ -412,14 +431,14 @@ hamby44_eval_paper <- readRDS("data/hamby44/hamby44_eval_paper.rda")
 
 ```
 
-The raw distributions can be difficult to visually compare, so another way to inspect the results is to place inaccuracy scores into categories: satisfactory, borderline, unsatisfactory. Scores under 100 are satisfactory, scores between 100 and 1000 are borderline, and scores above 1000 are unsatisfactory (see \autoref{results2}). Unsatisfactory cases are the most likely to cause mistakes in subsequent analyses. 
+The raw distributions can be difficult to visually compare, so another way to inspect the results is to place areas of misidentification into categories: satisfactory, borderline, unsatisfactory. Scores under 100 are satisfactory, scores between 100 and 1000 are borderline, and scores above 1000 are unsatisfactory (see \autoref{results2}). Unsatisfactory cases are the most likely to cause mistakes in subsequent analyses. 
 
 It is important to note that different results are expected for the left and right shoulder locations. Within Hamby set 44, almost all scans have a well-defined left groove. Left here is defined as visually left on the scan; this is the side the scan begins on, so a well-defined distinction between GEA and LEA is expected. Often, a less clear distinction is seen on the right side of the scan, with sometimes no apparent shoulder location visible. For this reason it is preferable to separate the left and right for visual inspection of results; a method may excel on one side but fall short on another.   
 
 
 
 
-```{r results2, echo = F, warning = F, message = F, fig.height = 4, fig.cap = "\\label{results2}Distribution of inaccuracy scores for data smoothing method, robust linear model method, and robust LOESS method, separated by left and righth shoulder locations. Inaccuracy scores are placed into three categories: less than 100 microns (satisfactory), between 100 and 1000 microns, and greater than 1000 microns. A larger proportion of inaccuracy scores under 100 microns indicates good performance across LEAs in the data set."}
+```{r results2, echo = F, warning = F, message = F, fig.height = 4, fig.cap = "\\label{results2}Distribution of areas of misidentification for data smoothing method, robust linear model method, and robust LOESS method, separated by left and righth shoulder locations. Areas of misidentification are placed into three categories: less than 100 microns (satisfactory), between 100 and 1000 microns, and greater than 1000 microns. A larger proportion of areas of misidentification under 100 microns indicates good performance across LEAs in the data set."}
 
 
   dataset <- hamby44_eval_paper
@@ -437,13 +456,15 @@ It is important to note that different results are expected for the left and rig
         })), GrooveSide = unlist(purrr::map(method, .f = function(x){
       strsplit(x, "_")[[1]][2]
         }))
-    ) %>% mutate(AccuracyCategory = ifelse(abs(score) < 100, "<100", "100, 1000")) %>% 
+    ) %>% 
+    mutate(score = score*0.645) %>%
+    mutate(AccuracyCategory = ifelse(abs(score) < 100, "<100", "100, 1000")) %>% 
     mutate(AccuracyCategory = ifelse(abs(score) >= 1000, ">1000", AccuracyCategory))
   
   plot_df$GrooveLabels <- ifelse(plot_df$GrooveSide=="left", "left shoulder location", "right shoulder location")
   plot_df %>% 
     ggplot() + geom_bar(aes(x = GrooveMethod, fill=factor(AccuracyCategory, levels=c(">1000","100, 1000", "<100"))), position = "stack") + 
-      theme_bw() + labs(x = "Groove Method", y = "Number of Lands") + 
+      theme_bw() + labs(x = "Groove Method", y = "Number of LEAs") + 
     facet_wrap(~GrooveLabels ) + 
     scale_fill_manual(name="Inaccuracy Score", values=c("#E69F00", "#56B4E9", "#009E73"),
                          breaks=c(">1000", "100, 1000", "<100"),
