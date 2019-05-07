@@ -12,7 +12,7 @@ output:
 bibliography: bibliography.bib
 nocite: | 
   @locfit, @MASS
-abstract: Forensic firearms examiners analyze bullets through a process of visual feature comparison to determine whether two bullets originate from the same source. Striation marks found on land engraved areas (LEAs) provide evidence to address this same source-different source problem. Advances in technology have led to an increase in research focused on applying image-analysis algorithms to the automated, quantitative analysis of bullet evidence. One prominent example is an algorithm developed by [@Hare1] based on 3D imaging data of LEAs. This algorithm relies on removal of the overall curve of the bullet to obtain what [@Hare1] refer to as a "signature". Cross-correlation functions, consecutive matching striae, consecutive non-matching striae and other features are then calculated based on pairwise comparisons of these signatures. The currently established best practice for collection of 3D images of bullet LEAs requires capturing portions of the neighboring groove engraved areas (GEAs). Analyzing LEA and GEA data separately is imperative to achieve high accuracy and precision in subsequent feature calculations. However, existing standard statistical modeling techniques fall short when applied to the atypical structure of 3D bullet data, often failing to adequately separate LEA and GEA data.  We propose a method based on robust locally weighted regregression and show that this method outperforms performs current methods at separating LEA and GEA data. 
+abstract: Forensic firearms examiners analyze bullets through a process of visual feature comparison to determine whether two bullets originate from the same source. Striation marks found on land engraved areas (LEAs) provide evidence to address this same source-different source problem. Advances in technology have led to an increase in research focused on applying image-analysis algorithms to the automated, quantitative analysis of bullet evidence. One prominent example is an algorithm developed by [@Hare1] based on 3D imaging data of LEAs. This algorithm relies on removal of the overall curve of the bullet to obtain what [@Hare1] refer to as a "signature". Cross-correlation functions, consecutive matching striae, consecutive non-matching striae and other features are then calculated based on pairwise comparisons of these signatures. The currently established best practice for collection of 3D images of bullet LEAs requires capturing portions of the neighboring groove engraved areas (GEAs). Analyzing LEA and GEA data separately is imperative to achieve high accuracy and precision in subsequent feature calculations. However, existing standard statistical modeling techniques fall short when applied to the atypical structure of 3D bullet data, often failing to adequately separate LEA and GEA data.  We propose a method based on robust locally weighted regression and show that this method outperforms current methods at separating LEA and GEA data. 
 ---
 
 \newcommand{\hh}[1]{{\color{orange}{#1}}}
@@ -39,17 +39,17 @@ library(gridExtra)
 Forensic firearms examiners analyze bullets through a process of visual feature comparison to determine whether two bullets originate from the same source. This problem is known in forensic science as the *same source-different source problem*. In forensic firearms analysis, the same source-different source problem focuses on establishing evidence whether two bullets were fired through the same gun barrel.  
 
 Striation marks, which become engraved on the surface of a bullet through contact with the rifling of a gun barrel, provide evidence to address the same source-different source problem. Alternating sections of the bullet that make the closest contact with the barrel are called land engraved areas (LEAs). A guiding principle in forensic firearms analysis is that two bullets fired through the same barrel will bear more similar striation marks on their LEAs than two bullets fired from different barrels.   
-\ug{Can you clarify or more precisely define how striation marks relate to LEAs? and then perhaps stick with one ... see my comment below.}
+\ug{Can you clarify or more precisely define how striation marks relate to LEAs? and then perhaps stick with one ... see my comment below.} \kr{I think it's in there above.}  
 
-\ug{Striation marks are} examined using a comparison microscope: two bullets in question are placed under the microscope and firearms examiners \ug{evaluate similarities and differences between the bullets' striation marks} according to the AFTE Theory of Identification [@AFTE] \ug{guidelines resulting in a decision about whether both bullets were fired through the same gun barrel}. 
+Land engraved areas are examined using a comparison microscope: two bullets in question are placed under the microscope and firearms examiners \ug{evaluate similarities and differences between the bullets' striation marks} according to the AFTE Theory of Identification [@AFTE] \ug{guidelines resulting in a decision about whether both bullets were fired through the same gun barrel}. 
 
-In the last \ug{two?} decades, advances in technology have led to an increase in research focused on developing image-analysis algorithms to \ug{allow for} automated, quantitative analyses of bullet evidence. The main technological \ug{advancement} that created a pathway for image-analysis techniques \ug{was?} the introduction of high resolution 3D scanning technology to the field of forensic science [e.g.\ @DeKinder1; @DeKinder2; @Bachrach1]. \ug{Add a sentence that explains what goes into the microspcope and what type of data comes out.}  The \ug{resulting}  3D data have since been used in the development of several methods of varying complexity for automated comparison of land engraved areas [e.g. @Ma1; @Chu1; @Chu2; @Hare1] \ug{Now you switched from using Striation marks as evidence to comparing land engraved areas}.  
+Recent advances in technology, particularly wider access to high resolution 3D microscopy tools, have led to an increase in research focused on image-analysis algorithms for automated, quantitative analyses of bullet evidence. The introduction of this scanning technology to the field of forensic science allows for capture of high resolution 3D images of bullet LEAs [see\ @DeKinder1; @DeKinder2; @Bachrach1]. \ug{Add a sentence that explains what goes into the microspcope and what type of data comes out.}  The \ug{resulting} 3D data have since been used in the development of several methods for automated comparison of land engraved areas [e.g. @Ma1; @Chu1; @Chu2; @Hare1] \ug{Now you switched from using Striation marks as evidence to comparing land engraved areas}. \kr{I switched most things to LEA now instead.}  
 
 @Hare1 proposes a \ug{bullet} matching algorithm based on 3D imaging data of LEAs. Horizontal slices of the 3D images, called profiles, provide a detailed representation of striae impressed on the surface at a horizontal cross-section of each LEA.  
 
-Removal of the overall curve of the bullet -- the global structure captured in the 3D scanning process\ug{can we define this when we introduce the 3D data} -- transforms these profiles into to what @Hare1 refer to as *signatures*. For a land-to-land comparison \ug{comparison of two lands from two distinct 3D images?}, features such as cross-correlation function, number of consecutively matching striae [see @Biasotti], and maximum number of consecutively non-matching striae are calculated based on the two aligned signatures. These calculated features are then used in a random forest model to assess the degree of similarity of the corresponding pair of signatures.   
+\kr{These next few paragraphs still need some work: Removal of the overall curve of the bullet -- the global structure captured in the 3D scanning process\ug{can we define this when we introduce the 3D data} -- transforms these profiles into to what @Hare1 refer to as *signatures*. For a land-to-land comparison \ug{comparison of two lands from two distinct 3D images?}, features such as cross-correlation function, number of consecutively matching striae [see @Biasotti], and maximum number of consecutively non-matching striae are calculated based on the two aligned signatures. These calculated features are then used in a random forest model to assess the degree of similarity of the corresponding pair of signatures.   
 
-Succesful extraction of the aforementioned features depends on how well we can translate the profile to a signature: the removal of the global structure.  
+Successful extraction of the aforementioned features depends on how well we can translate the profile to a signature: the removal of the global structure.}  
 
 While there is not yet an established standard, the currently accepted best practice for collecting 3D images of bullet LEAs requires that scanning across the object must begin and end in the neighboring groove engraved areas (GEAs) as shown in \autoref{fig:LEA}. However, this practice introduces a challenging data structure. The presence of extraneous GEA data dictates the most significant step in data pre-processing: correctly identifying between data from LEAs and GEAs. 
 
@@ -59,12 +59,12 @@ Analyzing these two areas separately is vital to achieve high accuracy and preci
 \section{Data Source}  
 
 
-We analyze high resolution 3D scans of bullet land engraved areas (LEAs). \ug{I would like to add an explanation of how the data exactly look like, namely in matrix format consisting of $x$, $y$ and $z$ unles you think it really is not necessary.} The scanned bullets come from Hamby Set 44 [@Hamby]. Each Hamby set consists of \ug{35 bullets fired from 10 consecutively?} rifled Ruger P85 barrels. \ug{Of the 35 bullets 20 bullets are known, two bullets for each of the ten barrels, the remaining 15 bullets in each set originated from a different source.} 
+We analyze high resolution 3D scans of bullet land engraved areas (LEAs). \ug{I would like to add an explanation of how the data exactly look like, namely in matrix format consisting of $x$, $y$ and $z$ unles you think it really is not necessary.} \kr{See below in the section that discusses ISO standard.} The scanned bullets come from Hamby Set 44 [@Hamby]. Each Hamby set consists of \ug{35 bullets fired from 10 consecutively?} rifled Ruger P85 barrels. Of the 35 bullets 20 bullets are known. There are two bullets for each of the ten barrels, and the remaining 15 bullets in each set are questioned bullets.  
 
 
-Each fired bullet in Hamby Set 44 has 6 LEAs; every LEA was scanned for each of the 35 bullets, producing data for 210 individual lands.  Two lands -- Barrel 9, Bullet 2, Land 3 and Questioned Bullet L, Land 5 -- were removed from consideration due to "tank rash". Tank rash results from a bullet striking the bottom of a water recovery tank after exiting the barrel, thereby creating marks on the land that are not due to the contact with the barrel.
+Each fired bullet in Hamby Set 44 has 6 LEAs; every LEA was scanned for each of the 35 bullets, producing data for 210 individual lands.  Two lands -- Barrel 9, Bullet 2, Land 3 and Questioned Bullet L, Land 5 -- were removed from consideration due to "tank rash". \kr{Do we need to define this for AFTE?:} Tank rash results from a bullet striking the bottom of a water recovery tank after exiting the barrel, thereby creating marks on the land that are not due to the contact with the barrel.}  
 
-The 3D scans of Hamby Set 44 were captured with a Sensofar Confocal light microscope at 20x magnification resulting in a resolution of 0.645 microns per pixel. These LEAs were scanned at Iowa State University's High Resolution Microscopy Facility, and the scans are stored in 3D format as x3p files, conforming to the ISO5436-2 standard [@ISO5436]. A visualization of the data gathered for a single LEA is seen in \autoref{fig:LEA}. Physically, each land is approximately 2 millimeters in width; as such, data structures for a single LEA can contain more than 3 million individual data points.  
+The 3D scans of Hamby Set 44 were captured with a Sensofar Confocal light microscope at 20x magnification resulting in a resolution of 0.645 microns per pixel. These LEAs were scanned at Iowa State University's High Resolution Microscopy Facility, and the scans are stored in 3D format as x3p files, conforming to the ISO5436-2 standard [@ISO5436]. \kr{Scan data for each LEA are captured in a matrix of $(x,y)$ locations, with a measured relative height value $z$ recorded for each $(x,y)$ location on the physical object.} A visualization of the data gathered for a single LEA is seen in \autoref{fig:LEA}. Physically, each land is approximately 2 millimeters in width; as such, data structures for a single LEA can contain more than 3 million individual data points.  
 
 
 
@@ -76,6 +76,10 @@ knitr::include_graphics("./images/3d_plot_top_context_breakoff.png")
 
 
 \ug{The motivation for removal of GEA data lies in the algorithm proposed by @Hare1; as such, the focus will be on horizontal slices (profiles) of the 3D scans. These slices capture the striation pattern horizontally across the surface, as seen in \autoref{prof}. The sentences seem to come somewhat out of the blue and probably should also explai what happens in the algorithm by @Hare1 that requires the GEA removal.}  
+
+\kr{Is this better??:}  
+
+\kr{Our focus will be on horizontal slices (profiles) of the 3D scans. These profiles, which are the data used by @Hare1 to extract 2D signatures, capture the striation pattern horizontally across the surface of the object, as seen in \autoref{prof}.}
 
 ```{r prof, echo = F, warning = F, message = F, fig.height = 3, fig.cap = "\\label{prof}Single profile of 3D bullet land data. The main data structure, located in the center, is comprised of the land engraved area. The groove engraved areas are found on the left and right sides of the profile."}
 hamby44_eval <- readRDS("data/hamby44/hamby44_eval.rda")
@@ -99,7 +103,7 @@ bullet %>% ggplot() +
 ```
 
 
-The final data consists of 2D profiles gathered from 3D imaging. The height values in the profiles were averaged over ten crosscuts spaced out along the 3D image. This ensures predicted locations will be relatively applicable across the depth of the LEA scan. \ug{Again, I would like to provide again an example of the actual data. This may not be necessary for AFTE but it is important for the dissertation that you submit.} \kr{I will include this in my dissertation, but for AFTE I don't think it is necessary.}  
+The final data consists of 2D profiles gathered from 3D imaging. The height values in the profiles were averaged over ten crosscuts spaced out along the 3D image. This ensures predicted locations will be relatively applicable across the depth of the LEA scan. \ug{Again, I would like to provide again an example of the actual data. This may not be necessary for AFTE but it is important for the dissertation that you submit.} \kr{I added a small description above.}  
 
 
 \section{Methodology}  
@@ -126,7 +130,7 @@ prof_1 <- bullet_sig %>%
   geom_line(aes(x = x, y = value)) + 
   theme_bw() + 
   labs(x = "Relative Location", y = "Relative Height", 
-       title = "Crosscut, groove data removed") + 
+       title = "Profile, groove data removed") + 
   theme(plot.title = element_text(size = 10), axis.title = element_text(size = 9))
 
 sig_1 <- bullet_sig %>% ggplot() + 
@@ -140,7 +144,7 @@ prof_2 <- bullet_sig_noremove %>% ggplot() +
   geom_line(aes(x = x, y = value)) + 
   theme_bw() + 
   labs(x = "Relative Location", y = "Relative Height",
-       title = "Crosscut, groove data remains") + 
+       title = "Profile, groove data remains") + 
   theme(plot.title = element_text(size = 10), axis.title = element_text(size = 9))
 
 sig_2 <- bullet_sig_noremove %>% ggplot() + 
@@ -159,17 +163,24 @@ We implement and compare two methods for fitting the LEA structure. While the tw
 
 \ug{The next sentence is too big of a jump. }
 
-Once an appropriate fit is obtained, the fitted curve is used to obtain residual values and to determine a cutoff which separates the two competing structures.  
+\kr{I think we can just remove this next sentence:} Once an appropriate fit is obtained, the fitted curve is used to obtain residual values and to determine a cutoff which separates the two competing structures.  
 
 \subsection{Robust Linear Models}  
 
-A natural candidate for a curved structure is a quadratic linear model.
+A natural candidate for a curved structure is a quadratic linear model.  
 
-\hh{write the model out in math notation - that will give you a way to talk about the difference in fitting in a less abstract way.}
+\hh{write the model out in math notation - that will give you a way to talk about the difference in fitting in a less abstract way.}  
 
-Linear models minimize the vertical squared distance between each data point and a fitted line. \hh{the following line needs to go into the description of the previous figure. This figure already looks at the difference by using a robust method} The presence of unusual data near the boundaries results in a line that is pulled upwards towards GEA data during the minimization process, as seen in \autoref{lms}. 
+Quadratic linear models fit by finding the values of $\beta_0, \beta_1, \beta_2$ which minimize: 
 
-An alternative approach is a robust linear model which minimizes absolute deviations in place of squared deviations. This method of minimization is less influenced by large outlying values present in the GEA data. The vast majority of data points are in the LEA structure; minimization of absolute deviations favors fitting the majority structure closely and allows the minority structures on the edges to have high residual values. Prioritization of the majority structure is here preferable to the compromise that occurs in traditional linear models. A striking example of the difference in results from these two model frameworks is seen in \autoref{lms}, where  the fit of a linear model compromises between the LEA and GEA structures, and fails to fit either structure appropriately.  
+$$\arg\min_{\mathbf{\beta}} \left(z_i - (\beta_0 + \beta_1x_i + \beta_2x_i^2)\right)^2,$$
+the vertical squared distance between each measured height value and a fitted quadratic line. The quadratic line is fit to predict measured height values, $z_i$, by location, $x_i$. \hh{the following line needs to go into the description of the previous figure. This figure already looks at the difference by using a robust method} The presence of unusual data near the boundaries results in a line that is pulled upwards towards GEA data during the minimization process, as seen in \autoref{lms}. 
+
+An alternative approach is a robust linear model which minimizes absolute deviations in place of squared deviations: 
+
+$$\arg\min_{\mathbf{\beta}} \left|z_i - (\beta_0 + \beta_1x_i + \beta_2x_i^2) \right|.$$
+
+This method of minimization is less influenced by large outlying values present in the GEA data. The vast majority of data points are in the LEA structure; minimization of absolute deviations favors fitting the majority structure closely and allows the minority structures on the edges to have high residual values. Prioritization of the majority structure is here preferable to the compromise that occurs in traditional linear models due to minimizing the squared distance. A striking example of the difference in results from these two model frameworks is seen in \autoref{lms}, where the fit of a linear model compromises between the LEA and GEA structures, and fails to fit either structure appropriately.  
 
 
 ```{r lms, echo = F, warning = F, message = F, fig.height = 4, fig.cap = "\\label{lms}Example of a quadratic linear model fit and resulting residuals (top) compared to a robust quadratic linear model fit and residuals (bottom) for a single profile. The robust model is able to more effectively capture the curved structure of the LEA without being influenced by the GEA."}
@@ -239,11 +250,11 @@ grid.arrange(p1_rlm, p2_rlm, p3_rlm, p4_rlm, ncol =2 )
 
 The focus on closely fitting majority structure results in residual values scattered near zero in the LEA and larger, mostly positive residuals in the GEA zones. Thus, the magnitudes of residuals can serve as an indicator of membership as LEA data or GEA data. More precisely we define the median absolute deviation (MAD). 
 
-The MAD is a robust metric for the spread of points, similar to the standard deviation. 
+The MAD is a robust metric for the spread of points, similar to the standard deviation. It is preferable to the standard deviation to quantify the spread since we are dealing with an unbalanced spread of residual values.  
 Let $m$ be the median:  
-$$ MAD(\mathbf{x}) = m(|x_i- m(\mathbf{x})|) \quad \forall\ x_i \in \mathbf{x}.$$
-\hh{Reduce the next paragraph to 2 sentences}
-Since we are dealing with unbalanced residual values, the MAD is preferable to the standard deviation to quantify the spread. Removing unusually high residual values is effective at removing the GEA data once the global structure has been fit. Residual values that are considered unusually high, or outlying, are values that are larger than $4 \times$MAD. Any residual value larger than 4 times the median absolute deviation value is defined to be  a "large" residual.  
+$$ MAD(\mathbf{z}) = m(|z_i- m(\mathbf{z})|) \quad \forall\ z_i \in \mathbf{z}.$$
+\hh{Reduce the next paragraph to 2 sentences} \kr{done - I think!}  
+Residual values that are considered unusually high, or outlying, are values that are larger than $4 \times$MAD. Any residual value larger than 4 times the median absolute deviation value is defined to be  a "large" residual \kr{and is likely a member of the GEA structure}.  
 
 \hh{what does it mean to be a large residual? Nail your point!}
 
@@ -352,19 +363,19 @@ In order to assess the accuracy of the two alternative models based on a quantit
 
 \kr{Using ground truth shoulder locations, we calculate an "area of misidentification", the area in microns of a profile which is considered incorrectly identified by the method. This metric is calculated separately for the left shoulder location as:  
 
-$$ \hat{A}_{jL} = \left|\sum_{y_ij \in \tilde{Y}_{jL}} (y_{ij} - \hat{y}_{ij}) \times0.645\mu m\right|,$$
-where $\tilde{Y}_{jL}$ is the set of points in profile $j$ that fall between the predicted left shoulder location and ground truth left shoulder location, and $\hat{y}_{ij}$ is the predicted height value at location $i$ from the robust LOESS fit to profile $j$.  
+$$ \hat{A}_{jL} = \left|\sum_{z_{ij} \in \tilde{Z}_{jL}} (z_{ij} - \hat{z}_{ij}) \times0.645\mu m\right|,$$
+where $\tilde{Z}_{jL}$ is the set of points in profile $j$ that fall between the predicted left shoulder location and ground truth left shoulder location, and $\hat{z}_{ij}$ is the predicted height value at location $i$ from the robust LOESS fit to profile $j$.  
 
 The analogous area is calculated for the right shoulder location as: 
 
-$$\hat{A}_{jR} = \left|\sum_{y_{ij} \in \tilde{Y}_{jR}} (y_{ij} - \hat{y}_{ij}) \times0.645\mu m \right|,$$
-where $\tilde{Y}_{jR}$ is the set of points in profile $j$ that fall between the predicted right shoulder location and ground truth right shoulder location, and $\hat{y}_{ij}$ is again the predicted height value at location $i$ from the robust LOESS fit to profile $j$.
+$$\hat{A}_{jR} = \left|\sum_{z_{ij} \in \tilde{Z}_{jR}} (z_{ij} - \hat{z}_{ij}) \times0.645\mu m \right|,$$
+where $\tilde{Z}_{jR}$ is the set of points in profile $j$ that fall between the predicted right shoulder location and ground truth right shoulder location, and $\hat{z}_{ij}$ is again the predicted height value at location $i$ from the robust LOESS fit to profile $j$.
 
 Both the left and right areas of misindentification are thus in terms of microns and represent the area of loss we incur from incorrectly identifying a shoulder location.  
 
 The quantification of results as an area is preferable to a distance metric as it captures not only the width of profile area that is misidentified, but also the relative heights of the data. Larger areas of misidentification indicate larger portions of the GEA remain included in a profile, and thus signal an area which is more likely to have influence on an extracted signature. Smaller areas of misidentification indicate minimal loss is incurred, and these areas will have minimal effect on an extracted signature.  
 
-The residual heights used in the calculation of $\hat{A}_{jL}$ and $\hat{A_{jR}}$, denoted as $(y_{ij} - \hat{y}_{ij})$, are residuals resulting from a robust LOESS fit. These residuals are used for quantification of results regardless of which method is being assessed due to the fact that robust LOESS most reliably approximates the curved shape of the bullet land. The pattern of residual values is most reliable using robust LOESS and thus leads to the most interpretable areas of misindentification.  
+The residual heights used in the calculation of $\hat{A}_{jL}$ and $\hat{A_{jR}}$, denoted as $(z_{ij} - \hat{z}_{ij})$, are residuals resulting from a robust LOESS fit. These residuals are used for quantification of results regardless of which method is being assessed due to the fact that robust LOESS most reliably approximates the curved shape of the bullet land. The pattern of residual values is most reliable using robust LOESS and thus leads to the most interpretable areas of misindentification.  
 
 An area of misidentification was calculated separately for the left hand side and right hand side predictions for each profile in the data set. This was calculated for the Robust Linear Model and Robust LOESS methods, as well as the Rollapply method suggested in} @Hare1.  
 
