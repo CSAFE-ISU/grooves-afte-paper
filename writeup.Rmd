@@ -274,7 +274,25 @@ Shoulder location predictions are calculated for each profile in the following m
 
 Locally weighted regression, known as LOESS, is a non-parametric approach that is not restricted by the need for perfect quadratic curvature. This is advantageous when working with bullets, as it is unrealistic to expect a flawless circular shape to remain after the bullet has been subjected to the forces of a gun barrel and striae have been impressed upon it.  
 
+\kr{LOESS models estimated a predicted value for each $z_i$ height by finding the values of $\beta_0, \beta_1$ which minimize: 
+
+$$\arg\min_{\mathbf{\beta}} \sum_{k=1}^n w_k(x_{i})\left(z_{k} - (\beta_0 + \beta_1x_k)\right)^2,$$
+
+which assigns a weight $w_k(x_i)$ to each data point with index $k$ based on its proximity to the $x_i$ of interest. Weights $w_k$ decrease as the proximity to $x_i$ decreases, so that the data points closest to $x_i$ of interest influence the prediction of $z_i$ most. This can also be described as a non-parametric weighted average of many parametric models fit to subsets of the data.  
+
+This approach allows for greater flexibility. However, it also means that LOESS models are affected by GEA structures in a more unpredictable manner. Data points near and in the GEA structure will be most influenced by other GEA data rather than the overall global structure seen in LEA data. This results in a set of predictions which misrepresents much of the data near one or both boundaries (see \autoref{loess}).}
+
+\kr{This next paragraph would be gone:}
+
 LOESS fits many models to small subsets of the data and combines them into one non-parametric fit of the data, rather than focusing on the overall structure of the data. This allows for greater flexibility. However, it also means that LOESS models are affected by GEA structures in a more unpredictable manner. A model fitted on a subset of data that mainly falls in the GEA structure can look very different than a model fit with data from the LEA. This results in a combined prediction that misrepresents much of the data near one or both boundaries (see \autoref{loess}). 
+
+\kr{XXX}.
+
+\kr{The robust approach to LOESS uses an iterative re-weighting process to reduce the influence of outlying data points [see @Cleveland1]. First, an initial LOESS is fit. This is followed by a redistribution of $w_k(x_i)$ values based on residual values, $e_i = (z_i - \hat{z}_i)$. New weights are calculated as 
+$$\left(1-\left(\frac{e_k}{6\times MAD}\right)^2\right)^2 \times w_k(x_i) \quad \quad \mbox{if}\ \left|\frac{e_k}{6\times MAD}\right| < 1.$$
+Otherwise, weights are set to 0. These new weights are applied and updated predictions are calculated. This reduces the influence of data points which have large values of $e_k$ in the first LOESS iteration. In the LEA profile context, it reduces the influence of GEA data.}  
+
+\kr{The above would replace the next paragraph.}  
 
 Robust LOESS utilizes an iterative process focused on re-weighting [see @Cleveland1]. First, an initial LOESS fit is created. This is followed by a step which gives smaller weights to data points with high residual values, and a subsequent LOESS fit with new weights applied. The down-weighting of values with high residual values slowly reduces the influence of the GEA data. This iterative process results in a non-parametric fit to the LEA structure that treats GEA data as less important, which is desirable.  
 
