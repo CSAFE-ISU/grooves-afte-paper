@@ -67,7 +67,7 @@ knitr::include_graphics("./images/3d_plot_top_context_breakoff.png")
 
 Scans are exported from the microscope as x3p files, conforming to the ISO5436-2 standard [@ISO5436]. Each scan is captured as a matrix of $(x,y)$ locations with a measured relative height value $z$ recorded for each $(x,y)$ location on the LEA. 
 
-The algorithm proposed by @Hare1 uses so-called crosscuts, height measurements along $x$ for a fixed $y$. \autoref{fig:process} shows the process of extracting a LEA signature based on a crosscut.  
+The algorithm proposed by @Hare1 uses so-called crosscuts, height measurements along $x$ for a fixed $y$. Removal of the overall curve of the bullet -- the global structure captured in the 3D scanning process -- transforms these profiles into to what @Hare1 refer to as *signatures* (see \autoref{fig:process}). Similarity between two LEAs is then based on a set of extracted features such as cross-correlation function, number of consecutively matching striae [see @Biasotti] and maximum number of consecutively non-matching striae. Successful extraction of this set of features depends on how well we can remove the global bullet structure to translate from a crosscut to the corresponding signature.
 
 
 \begin{figure}
@@ -102,8 +102,6 @@ The algorithm proposed by @Hare1 uses so-called crosscuts, height measurements a
 \caption{The process of extracting a 2D signature from a 3D LEA scan described by \cite{Hare1}. GEA removal between Step 2 and Step 3 is critical to ensure precise signature extraction.}  
 \label{fig:process}
 \end{figure}
-
-\kr{These next few paragraphs still need some work: Removal of the overall curve of the bullet -- the global structure captured in the 3D scanning process -- transforms these profiles into to what @Hare1 refer to as *signatures* (see \autoref{fig:process}). Similarity between two LEAs is then based on a set of extracted features such as cross-correlation function, number of consecutively matching striae [see @Biasotti] and maximum number of consecutively non-matching striae. Successful extraction of this set of features depends on how well we can remove the global bullet structure to translate from a crosscut to the corresponding signature.}  
 
 
 
