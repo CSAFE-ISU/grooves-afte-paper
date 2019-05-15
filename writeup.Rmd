@@ -67,7 +67,7 @@ knitr::include_graphics("./images/3d_plot_top_context_breakoff.png")
 
 Scans are exported from the microscope as x3p files, conforming to the ISO5436-2 standard [@ISO5436]. Each scan is captured as a matrix of $(x,y)$ locations with a measured relative height value $z$ recorded for each $(x,y)$ location on the LEA. 
 
-The algorithm proposed by @Hare1 uses so-called crosscuts, height measurements along $x$ for a fixed $y$. Removal of the overall curve of the bullet -- the global structure captured in the 3D scanning process -- transforms these profiles into to what @Hare1 refer to as *signatures* (see \autoref{fig:process}). Similarity between two LEAs is then based on a set of extracted features such as cross-correlation function, number of consecutively matching striae [see @Biasotti] and maximum number of consecutively non-matching striae. Successful extraction of this set of features depends on how well we can remove the global bullet structure to translate from a crosscut to the corresponding signature.
+The algorithm proposed by @Hare1 uses so-called crosscuts, height measurements along $x$ for a fixed $y$. Removal of the overall curve of the bullet -- the global structure captured in the 3D scanning process -- transforms these profiles into to what @Hare1 refer to as *signatures* (see \autoref{fig:process}). The assessment of similarity between two LEAs is then based on a set of extracted features such as cross-correlation function, number of consecutively matching striae [see @Biasotti] and maximum number of consecutively non-matching striae. Successful extraction of this set of features depends on how well we can remove the global bullet structure to translate from a crosscut to the corresponding signature.
 
 
 \begin{figure}
@@ -99,47 +99,21 @@ The algorithm proposed by @Hare1 uses so-called crosscuts, height measurements a
     \centering
     Step 4: Extracted LEA signature
 \end{minipage}
-\caption{The process of extracting a 2D signature from a 3D LEA scan described by \cite{Hare1}. GEA removal between Step 2 and Step 3 is critical to ensure precise signature extraction.}  
+\caption{The process of extracting a 2D signature from a 3D LEA scan described by \cite{Hare1}. GEA removal between Step 2 and Step 3 is critical to ensure precise signature extraction. UPDATE TO BE PROMINENT GEAs. ADD ZERO LINE TO SIGNATURE.}  
 \label{fig:process}
 \end{figure}
 
 
+In this paper, we are introducing and comparing two methods for identifying shoulder locations. In order to assess the performance of these methods, we are applying the methods on 3D scans of LEAs from Hamby set 44 [@Hamby]. Each Hamby set consists of 35 bullets fired from 10 consecutively rifled Ruger P85 barrels. 
 
-<!-- For a land-to-land comparison \ug{comparison of two lands from two distinct 3D images?}, features such as  are calculated based on the two aligned signatures. These calculated features are then used in a random forest model to assess the degree of similarity of the corresponding pair of signatures.    -->
-
-
-
-\kr{However, this practice introduces a challenging data structure; namely, correctly identifying between data from LEAs and GEAs.}  
+Each fired bullet in Hamby Set 44 has 6 LEAs; every LEA was scanned for each of the 35 bullets, producing data for 210 individual lands.  Two lands -- Barrel 9, Bullet 2, Land 3 and Questioned Bullet L, Land 5 -- were removed from consideration due to "tank rash". Tank rash results from a bullet striking the bottom of a water recovery tank after exiting the barrel, thereby creating marks on the land that are not due to the contact with the barrel.
 
 
-
-\ug{The motivation for removal of GEA data lies in the algorithm proposed by @Hare1; as such, the focus will be on horizontal slices (profiles) of the 3D scans. These slices capture the striation pattern horizontally across the surface, as seen in \autoref{prof}. The sentences seem to come somewhat out of the blue and probably should also explai what happens in the algorithm by @Hare1 that requires the GEA removal.}  
-
-\kr{Is this better??:}  
-
-\kr{Our focus will be on horizontal slices (profiles) of the 3D scans. These profiles, which are the data used by @Hare1 to extract 2D signatures, capture the striation pattern horizontally across the surface of the object, as seen in \autoref{prof}.}
-
-\ug{I would like to add an explanation of how the data exactly look like, namely in matrix format consisting of $x$, $y$ and $z$ unles you think it really is not necessary.} \kr{See below in the section that discusses ISO standard.} The scanned bullets come from Hamby Set 44 [@Hamby]. Each Hamby set consists of \ug{35 bullets fired from 10 consecutively?} rifled Ruger P85 barrels. Of the 35 bullets 20 bullets are known. There are two bullets for each of the ten barrels, and the remaining 15 bullets in each set are questioned bullets.  
+The 3D scans of Hamby Set 44 were captured at Iowa State University's Roy J. Carver High Resolution Microscopy Facility with a Sensofar Confocal light microscope at 20x magnification resulting in a resolution of 0.645 microns per pixel. Physically, each land is approximately 2 millimeters in width; as such, data structures for a single LEA can contain more than 3 million individual data points. 
 
 
 
-
-
-
-Each fired bullet in Hamby Set 44 has 6 LEAs; every LEA was scanned for each of the 35 bullets, producing data for 210 individual lands.  Two lands -- Barrel 9, Bullet 2, Land 3 and Questioned Bullet L, Land 5 -- were removed from consideration due to "tank rash". \kr{Do we need to define this for AFTE?:} Tank rash results from a bullet striking the bottom of a water recovery tank after exiting the barrel, thereby creating marks on the land that are not due to the contact with the barrel.}  
-
-The 3D scans of Hamby Set 44 were captured with a Sensofar Confocal light microscope at 20x magnification resulting in a resolution of 0.645 microns per pixel. These LEAs were scanned at Iowa State University's High Resolution Microscopy Facility, 
-
-Physically, each land is approximately 2 millimeters in width; as such, data structures for a single LEA can contain more than 3 million individual data points. 
-
-
-
-
-
-
-
-
-```{r prof, echo = F, warning = F, message = F, fig.height = 3, fig.cap = "\\label{prof}Single profile of 3D bullet land data. The main data structure, located in the center, is comprised of the land engraved area. The groove engraved areas are found on the left and right sides of the profile."}
+```{r prof, echo = F, warning = F, message = F, fig.height = 3.3, fig.cap = "\\label{prof}The black points show measured heights for a single crosscut of a 3D LEA scan. The main data structure, located in the center, is comprised of the land engraved area. The groove engraved areas are found on the left and right sides of the crosscut. The lines show fits of two non-parametric LOESS smooths, with and without GEA data. When GEA data is included, the smooth fails to estimate the main LEA structure near the boundaries."}
 hamby44_eval <- readRDS("data/hamby44/hamby44_eval.rda")
 bullet <- hamby44_eval$ccdata_w_resid[[48]]
 bullet %>% ggplot() + 
@@ -156,24 +130,28 @@ bullet %>% ggplot() +
             colour = "grey50", size = 3, hjust = 0.5, alpha = 0.8) +
   geom_point(aes(x = x, y = value_std), size = 1) + 
   labs(x = expression(paste("Relative Location (", mu, "m)")), 
-       y = expression(paste("Relative Height (", mu, "m)"))) 
+       y = expression(paste("Relative Height (", mu, "m)"))) + 
+  geom_smooth(aes(x = x, y = value_std, color = "Smooth affected by GEA points"), alpha = 0.8) + 
+  geom_smooth(aes(x = x, y = value_std, color = "Smooth of LEA only"), data = bullet %>% filter(between(x, 230, 2220)), alpha = 0.8) + 
+  scale_colour_manual(name = "", values = c("steelblue", "darkorange")) + 
+  theme(legend.position = "bottom")
   
 ```
 
 
-The final data consists of 2D profiles gathered from 3D imaging. The height values in the profiles were averaged over ten crosscuts spaced out along the 3D image. This ensures predicted locations will be relatively applicable across the depth of the LEA scan. \ug{Again, I would like to provide again an example of the actual data. This may not be necessary for AFTE but it is important for the dissertation that you submit.} \kr{I added a small description above.}  
+The data used to assess performance of the two methods consists of 2D crosscuts gathered from the 3D scans, as shown in \autoref{prof}. 
 
 
 \section{Methodology}  
 
 
-The structure in the 2D profiles is dominated by the curvature of the physical object (the bullet). To assess the  similarity of features from two land engraved areas, this curvature has to be removed.  
+The structure in the 2D crosscuts is dominated by the curvature of the physical object (the bullet). To assess the similarity of features from two land engraved areas, this curvature has to be removed.  
 
-Non-parametric methods suggested in the literature, such as a LOESS fit [@Hare1] or a Gaussian filter [@Chu1] are very effective for removing the curvature \kr{to extract a signature. However, they are prone to boundary effects, which are mischaracterizations of data patterns near the boundaries of the data domain. In the case of LEA profiles, the boundary data values are often the same values that originate from the GEA structure.} \ug{(can you give a brief definition of what the boundary effect entails in this setting?)}. \kr{These boundary effects are exaggerated by the fact that GEA data are a secondary structure that differs from the overall structure of the LEA, seen in \autoref{prof}. As demonstrated in \autoref{groove-no-groove}, this secondary structure of outlying data results in obfuscation of the true signature pattern during the extraction process.} \kr{This next sentence woudl then get deleted: are exacerbated by the presence of the secondary structure: groove engraved areas at either end of the LEA (see \autoref{groove-no-groove}).}
+Non-parametric methods suggested in the literature, such as a LOESS fit [@Hare1] or a Gaussian filter [@Chu1] are very effective for removing the curvature to extract a signature. However, they are prone to boundary effects, which are mischaracterizations of data patterns near the boundaries of the data domain. In the case of crosscuts, the boundaries are often dominated by values originating from the GEA structure. This structure exaggerates existing boundary effects because GEAs introduce a secondary structure different from the main curvature of the LEA. This can be seen in both \autoref{prof} and \autoref{groove-no-groove}. \autoref{prof} shows how much a non-parametric LOESS fit is affected by including GEA data. \autoref{groove-no-groove} shows the effect this same inclusion has on extracted signatures. If included, GEA data result in strong boundary effects in the signatures. Statistically, the GEA data introduces outliers into the LEA data. In the next sections, we introduce two methods for fitting the LEA structure. Both methods aim to describe the relationship between horizontal position and relative height on a crosscut. While the two approaches differ in methodology, they are both rooted in the ability to mitigate influence caused by outlying data.  
 
-\hh{ describe the figure in words, in particular the boundary effect }
 
-```{r groove-no-groove, echo = F, warning = F, message = F, fig.cap = "\\label{groove-no-groove}An example of the impact failure to remove GEA data can have on an extracted 2D signature. Important data features are obfuscated in the signature by remaining GEA structure.", fig.height=4, fig.width = 6}
+```{r groove-no-groove, echo = F, warning = F, message = F, fig.cap = "\\label{groove-no-groove}An example of the impact failure to remove GEA data can have on an extracted 2D signature. The extracted signatures are dominated by boundary effects introduced by remaining GEA structure.", fig.height=4, fig.width = 6}
+library(latex2exp)
 h44 <- readRDS("data/hamby44/hamby44_eval.rda")
 bullet <- h44[1,]
 
@@ -187,52 +165,51 @@ prof_1 <- bullet_sig %>%
   ggplot() + 
   geom_line(aes(x = x, y = value)) + 
   theme_bw() + 
-  labs(x = "Relative Location", y = "Relative Height", 
-       title = "Profile, groove data removed") + 
+  labs(x = TeX("Relative Location $x_i$"), y = TeX("Relative Height $z_i$"), 
+       title = "Crosscut, groove data removed") + 
   theme(plot.title = element_text(size = 10), axis.title = element_text(size = 9))
 
 sig_1 <- bullet_sig %>% ggplot() + 
   geom_line(aes(x = x, y = sig)) + 
   theme_bw() + 
-  labs(x = "Relative Location", y = "Signature Height",
+  labs(x = TeX("Relative Location $x_i$"), y = "Signature Height",
        title = "Signature, groove data removed") + 
-  theme(plot.title = element_text(size = 10), axis.title = element_text(size = 9))
+  theme(plot.title = element_text(size = 10), axis.title = element_text(size = 9)) + 
+  ylim(c(-5, 22))
 
 prof_2 <- bullet_sig_noremove %>% ggplot() + 
   geom_line(aes(x = x, y = value)) + 
   theme_bw() + 
-  labs(x = "Relative Location", y = "Relative Height",
-       title = "Profile, groove data remains") + 
+  labs(x = TeX("Relative Location $x_i$"), y = TeX("Relative Height $z_i$"),
+       title = "Crosscut, groove data remains") + 
   theme(plot.title = element_text(size = 10), axis.title = element_text(size = 9))
 
 sig_2 <- bullet_sig_noremove %>% ggplot() + 
   geom_line(aes(x = x, y = sig)) + 
   theme_bw() + 
-  labs(x = "Relative Location", y = "Signature Height", 
+  labs(x = TeX("Relative Location $x_i$"), y = "Signature Height", 
        title = "Signature, groove data remains") + 
   theme(plot.title = element_text(size = 10), axis.title = element_text(size = 9))
 
 grid.arrange(prof_1, sig_1, prof_2, sig_2, ncol = 2)
 ```
 
-\ug{the mentioning of outlying data comes out of the blue. We probably should briefly report why we go this route. This might involve a brief description of why existing methods don’t always do well which should play right into the issue of outliers.}
-
-We implement and compare two methods for fitting the LEA structure. While the two approaches differ in methodology, they are both rooted in the ability to mitigate  influence caused by outlying data.  
-
-\ug{The next sentence is too big of a jump. }
-
-\kr{I think we can just remove this next sentence:} Once an appropriate fit is obtained, the fitted curve is used to obtain residual values and to determine a cutoff which separates the two competing structures.  
+In the following, we will describe the horizontal position on a crosscut of a scan as $x_i$ and measured relative height as $z_i$, where $i = 1, \dots, n$, the number of data points along a crosscut. 
 
 \subsection{Robust Linear Models}  
 
-A natural candidate for a curved structure is a quadratic linear model.  
+A natural candidate for a curved structure is a quadratic linear model of the form 
 
-\hh{write the model out in math notation - that will give you a way to talk about the difference in fitting in a less abstract way.}  
+$$
+z_i = \beta_0 + \beta_1x_i + \beta_2 x_i^2 + \epsilon_i,
+$$
+where $\epsilon_i \stackrel{iid}{\sim} N(0, \sigma^2)$ is the error term. 
+
 
 Quadratic linear models fit by finding the values of $\beta_0, \beta_1, \beta_2$ which minimize: 
 
-$$\arg\min_{\mathbf{\beta}} \left(z_i - (\beta_0 + \beta_1x_i + \beta_2x_i^2)\right)^2,$$
-the vertical squared distance between each measured height value and a fitted quadratic line. The quadratic line is fit to predict measured height values, $z_i$, by location, $x_i$. \hh{the following line needs to go into the description of the previous figure. This figure already looks at the difference by using a robust method} The presence of unusual data near the boundaries results in a line that is pulled upwards towards GEA data during the minimization process, as seen in \autoref{lms}. 
+$$\arg\min_{\mathbf{\beta}} \sum_{i=1}^n \left(z_i - (\beta_0 + \beta_1x_i + \beta_2x_i^2)\right)^2,$$
+the vertical squared distance between each measured height value and a fitted quadratic line. \autoref{lms} shows that the presence of unusual data near the boundaries pulls the fitted curve upwards towards GEA data. 
 
 An alternative approach is a robust linear model which minimizes absolute deviations in place of squared deviations: 
 
