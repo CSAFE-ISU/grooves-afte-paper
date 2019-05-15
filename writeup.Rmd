@@ -103,7 +103,7 @@ The algorithm proposed by @Hare1 uses so-called crosscuts, height measurements a
 \label{fig:process}
 \end{figure}
 
-\kr{These next few paragraphs still need some work: Removal of the overall curve of the bullet -- the global structure captured in the 3D scanning process -- transforms these profiles into to what @Hare1 refer to as *signatures* (see \autoref{fig:process}). Similarity between two LEAs is then based on a set of extracted features such as cross-correlation function, number of consecutively matching striae [see @Biasotti] and maximum number of consecutively non-matching striae. Successful extraction of this set of features depends on how well we can remove the global bullet structure to translate from a crosscut to the corresponding signature.  
+\kr{These next few paragraphs still need some work: Removal of the overall curve of the bullet -- the global structure captured in the 3D scanning process -- transforms these profiles into to what @Hare1 refer to as *signatures* (see \autoref{fig:process}). Similarity between two LEAs is then based on a set of extracted features such as cross-correlation function, number of consecutively matching striae [see @Biasotti] and maximum number of consecutively non-matching striae. Successful extraction of this set of features depends on how well we can remove the global bullet structure to translate from a crosscut to the corresponding signature.}  
 
 
 
@@ -111,9 +111,7 @@ The algorithm proposed by @Hare1 uses so-called crosscuts, height measurements a
 
 
 
-However, this practice introduces a challenging data structure; namely, correctly identifying between data from LEAs and GEAs. 
-
-}  
+\kr{However, this practice introduces a challenging data structure; namely, correctly identifying between data from LEAs and GEAs.}  
 
 
 
