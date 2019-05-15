@@ -85,7 +85,7 @@ The algorithm proposed by @Hare1 uses so-called crosscuts, height measurements a
     Step 2: Horizontal crosscut with identified GEA data
 \end{minipage}\\
 
-\vspace{.5cm}
+\vspace{.3cm}
 \begin{minipage}[b]{0.45\linewidth}
     \raggedleft
     \includegraphics[width=\textwidth]{images/profile_paper_loess}
