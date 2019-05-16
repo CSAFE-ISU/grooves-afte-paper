@@ -21,7 +21,6 @@ abstract: Forensic firearms examiners analyze bullets through a process of visua
 
 TODO: 
 - \kr{Redo abstract}  
-- \kr{Update "process" image, instructions in caption}  
 - \kr{Update scores to match area of misidentification formula}    
 
 
@@ -96,7 +95,7 @@ The algorithm proposed by @Hare1 uses so-called crosscuts, height measurements a
     \centering
     Step 4: Extracted LEA signature
 \end{minipage}
-\caption{The process of extracting a 2D signature from a 3D LEA scan described by \cite{Hare1}. GEA removal between Step 2 and Step 3 is critical to ensure precise signature extraction. UPDATE TO BE PROMINENT GEAs. ADD ZERO LINE TO SIGNATURE.}  
+\caption{The process of extracting a 2D signature from a 3D LEA scan described by \cite{Hare1}. GEA removal between Step 2 and Step 3 is critical to ensure precise signature extraction.}  
 \label{fig:process}
 \end{figure}
 
