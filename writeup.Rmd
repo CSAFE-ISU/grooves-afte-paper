@@ -20,8 +20,8 @@ abstract: Forensic firearms examiners analyze bullets through a process of visua
 \newcommand{\ug}[1]{{\color{purple}{#1}}}
 
 TODO: 
-- \kr{Redo abstract}  
-- \kr{Update scores to match area of misidentification formula}    
+- \kr{Abstract}  
+- \kr{End of background summary}
 
 
 ```{r, echo = F, warning = F, message = F}
