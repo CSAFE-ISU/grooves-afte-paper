@@ -12,7 +12,7 @@ output:
 bibliography: bibliography.bib
 nocite: | 
   @locfit, @MASS
-abstract: Forensic firearms examiners analyze bullets through a process of visual feature comparison to determine whether two bullets originate from the same source. Striation marks found on land engraved areas (LEAs) provide evidence to address this same source-different source problem. Advances in technology have led to an increase in research focused on applying image-analysis algorithms to the automated, quantitative analysis of bullet evidence. One prominent example is an algorithm developed by [@Hare1] based on 3D imaging data of LEAs. The currently accepted best practice for collection of 3D images of bullet LEAs requires capturing portions of the neighboring groove engraved areas (GEAs). Analyzing LEA and GEA data separately is imperative to achieve high accuracy and precision in subsequent feature calculations. However, existing standard statistical modeling techniques fall short when applied to the atypical structure of 3D bullet data, often failing to adequately separate LEA and GEA data.  We propose a method based on robust locally weighted regression and show that this method outperforms current methods at separating LEA and GEA data. 
+abstract: Forensic firearms examiners analyze bullets through a process of visual feature comparison to determine whether two bullets originate from the same source. Striation marks found on land engraved areas (LEAs) provide evidence to address this same source-different source problem. Advances in technology have led to \ug{new} research on applying image-analysis algorithms to the automated, quantitative analysis of bullet evidence. One prominent example is an algorithm developed by [@Hare1] based on 3D imaging data of LEAs. \ug{C}urrently accepted best practice for collecti\ug{ng} 3D images of bullet LEAs requires capturing portions of the neighboring groove engraved areas (GEAs). Analyzing LEA and GEA data separately is imperative to achieve high accuracy and precision in subsequent feature \ug{comparison}s. However, existing standard statistical modeling techniques fall short when applied to the atypical structure of 3D bullet data, often failing to adequately separate LEA and GEA data.  We propose a method based on robust locally weighted regression and show that this method outperforms current methods at separating LEA and GEA data. 
 ---
 
 \newcommand{\hh}[1]{{\color{orange}{#1}}}
@@ -32,9 +32,9 @@ library(gridExtra)
 
 \section{Background}  
 
-Forensic firearms examiners analyze bullets through a process of visual feature comparison to determine whether two bullets originate from the same source. Two bullets in question are placed under a comparison microscope and firearms examiners evaluate similarities and differences between the bullets' striation marks according to the AFTE Theory of Identification [@AFTE] guidelines resulting in a decision about whether both bullets were fired through the same gun barrel. In forensic science, this problem is known as the *same source-different source problem* and focuses on establishing quantitative evidence whether two bullets were fired through the same gun barrel.  
+Forensic firearms examiners analyze bullets through a process of visual feature comparison to determine whether two bullets originate from the same source. Two bullets in question are placed under a comparison microscope and firearms examiners evaluate similarities and differences between the bullets' striation marks according to the AFTE Theory of Identification [@AFTE] guidelines resulting in a decision about whether both bullets were fired through the same gun barrel. In forensic science, this problem is known as the *same source-different source problem* and \ug{it} focuses on establishing quantitative evidence whether two bullets were fired through the same gun barrel.  
 
-Recent advances in technology, particularly wider access to high resolution 3D microscopy tools, have led to an increase in research focused on image-analysis algorithms for automated, quantitative analyses of bullet evidence. The introduction of this scanning technology to the field of forensic science allows for capture of high resolution 3D images of bullet LEAs, depicted in \autoref{microscope} [see @DeKinder1; @DeKinder2; @Bachrach1].  The resulting 3D images have since been used in the development of several methods for automated comparison of land engraved areas [e.g. @Ma1; @Chu1; @Chu2; @Hare1]. 
+Recent advances in technology, particularly wider access to high resolution 3D microscopy tools, have led to an increase in research on image-analysis algorithms for automated, quantitative analyses of bullet evidence. The introduction of \ug{such} scanning technology to the field of forensic science allows for capture of high resolution 3D images of bullet LEAs, depicted in \autoref{microscope} [see @DeKinder1; @DeKinder2; @Bachrach1].  The resulting 3D images have since been used in the development of several\ug{novel?} methods for automated comparison of land engraved areas [e.g. @Ma1; @Chu1; @Chu2; @Hare1]. 
 
 ```{r microscope, echo=FALSE, out.width='0.48\\textwidth', fig.cap='\\label{microscope}(Left) Close-up view of a bullet staged in a confocal light microscope. The green light marks the focal view of the capture area. (Right) Computer-rendered image of the scanned land engraved area with prominent striation marks.', fig.show='hold',fig.align='center'}
 knitr::include_graphics(c(
@@ -42,9 +42,9 @@ knitr::include_graphics(c(
   "./images/HS44-Br1-B1-L2.png"))
 ```
 
-In this paper, we will focus only on barrels with traditional sharp-edged lands and grooves (i.e., no polygonal rifling). Sections of the bullet that make the closest contact with the barrel are called land engraved areas (LEAs). Those alternate with groove engraved areas (GEAs). Microimperfections in the barrel introduce striae on the bullet during the firing process. The resulting striation marks provide evidence to address the same source-different source problem. A guiding principle in forensic firearms analysis is that two bullets fired through the same barrel will bear more similar striation marks on their LEAs than two bullets fired from different barrels. @Hare1 proposes a matching algorithm based on 3D imaging data of LEAs. Horizontal slices of the 3D images, called profiles, provide a detailed representation of striae impressed on the surface at a horizontal cross-section of each LEA. A current limitation of this algorithm is that it can not deal with a mix of striae from both LEA and GEAs. For the human visual system, separating the two areas is straightforward. However, the same cannot be said for automated computer vision techniques.  
+In this paper, we will focus only on barrels with traditional sharp-edged lands and grooves (i.e., no polygonal rifling). Sections of the bullet that make the closest contact with the barrel are called land engraved areas (LEAs). Those alternate with groove engraved areas (GEAs). Microimperfections in the barrel introduce striae on the bullet during the firing process. The resulting striation marks provide evidence to address the same source-different source problem. A guiding principle in forensic firearms analysis is that two bullets fired through the same barrel will bear more similar striation marks on their LEAs than two bullets fired from different barrels. @Hare1 proposes a matching algorithm based on 3D imaging data of LEAs. Horizontal slices of the 3D images, called profiles, provide a detailed representation of striae impressed on the surface at a horizontal cross-section of each LEA. A current limitation of this algorithm is that it \ug{cannot ?} deal with a mix of striae from both LEA and GEAs. For the human visual system, separating the two areas is straightforward. However, the same cannot be said for automated computer vision techniques.  
 
-A correct identification of LEAs is vital to achieve high accuracy and precision in the subsequent downstream analysis. The purpose of this paper is to discuss different automated methods for identifying so-called *shoulder locations*, the locations at which the land engraved areas end and the groove engraved areas begin.  
+A correct identification of LEAs is vital to achieve high accuracy and precision in the subsequent downstream analysis \ug{and our goal is to present and} discuss different automated methods for identifying so-called *shoulder locations*, the locations at which the land engraved areas end and the groove engraved areas begin.  
 
 The structure of the paper is as follows: ... 
 
@@ -54,14 +54,14 @@ The structure of the paper is as follows: ...
 
 \section{Data Source}  
 
-All currently published automated methods rely on high resolution 3D scans of bullet land engraved areas. Currently accepted best practice for collecting 3D images of bullet LEAs requires that bullets are staged such that striae appear vertically in the scan. Scanning across the LEA must begin and end in the neighboring groove engraved areas as shown in \autoref{fig:LEA}. Parts of the breakoff are captured as a visual reference for orientation.  
+All currently published automated methods rely on high resolution 3D scans of bullet land engraved areas. Currently accepted best practice for collecting 3D images of bullet LEAs requires that bullets are staged such that striae appear vertically in the scan. Scanning across the LEA must begin and end in the neighboring groove engraved areas as shown in \autoref{fig:LEA}. Parts of the breakoff \ug{(define?)} are captured as a visual reference for orientation.  
 
 ```{r LEA, echo=FALSE, out.width='\\textwidth', fig.cap='\\label{LEA}Visualization of 3D data collected through high resolution scanning of a land engraved area. Striations on the surface of the object can be seen by viewing this data from "above", as presented here.'}
 knitr::include_graphics("./images/3d_plot_top_context_breakoff.png")
 ```
 
 
-Scans are exported from the microscope as x3p files, conforming to the ISO5436-2 standard [@ISO5436]. Each scan is recorded as a matrix of $(x,y)$ locations with a measured relative height value $z$ recorded for each $(x,y)$ location on the LEA. 
+Scans are exported from the microscope as x3p files, conforming to the ISO5436-2 standard [@ISO5436]. Each scan is recorded as a \ug{3D?} matrix of \ug{prespecified?} $(x,y)$ locations with a measured relative height value $z$ for each $(x,y)$ location on the LEA. 
 
 The algorithm proposed by @Hare1 uses so-called crosscuts, height measurements along $x$ for a fixed $y$. Removal of the overall curve of the bullet -- the global structure captured in the 3D scanning process -- transforms these profiles into to what @Hare1 refer to as *signatures* (see \autoref{fig:process}). The assessment of similarity between two LEAs is then based on a set of extracted features such as cross-correlation function, number of consecutively matching striae [see @Biasotti] and maximum number of consecutively non-matching striae. Successful extraction of this set of features depends on how well we can remove the global bullet structure to translate from a crosscut to the corresponding signature.
 
@@ -95,17 +95,17 @@ The algorithm proposed by @Hare1 uses so-called crosscuts, height measurements a
     \centering
     Step 4: Extracted LEA signature
 \end{minipage}
-\caption{The process of extracting a 2D signature from a 3D LEA scan described by \cite{Hare1}. GEA removal between Step 2 and Step 3 is critical to ensure precise signature extraction.}  
+\caption{The process of extracting a 2D signature from a 3D LEA scan described by \cite{Hare1}. GEA removal between Step\ug{s} 2 and 3 is critical to ensure precise signature extraction.}  
 \label{fig:process}
 \end{figure}
 
 
-In this paper, we are introducing and comparing two methods for identifying shoulder locations. In order to assess the performance of these methods, we are applying the methods on 3D scans of LEAs from Hamby set 44 [@Hamby]. Each Hamby set consists of 35 bullets fired from 10 consecutively rifled Ruger P85 barrels. 
+In th\ug{e following}, we are introducing and comparing two methods for identifying shoulder locations. In order to assess the performance of these methods, we are applying \ug{both} methods on 3D scans of LEAs from Hamby set 44 [@Hamby]. Each Hamby set consists of 35 bullets fired from 10 consecutively rifled Ruger P85 barrels. 
 
 Each fired bullet in Hamby Set 44 has 6 LEAs; every LEA was scanned for each of the 35 bullets, producing data for 210 individual lands.  Two lands -- Barrel 9, Bullet 2, Land 3 and Questioned Bullet L, Land 5 -- were removed from consideration due to "tank rash". Tank rash results from a bullet striking the bottom of a water recovery tank after exiting the barrel, thereby creating marks on the land that are not due to the contact with the barrel.
 
 
-The 3D scans of Hamby Set 44 were captured at Iowa State University's Roy J. Carver High Resolution Microscopy Facility with a Sensofar Confocal light microscope at 20x magnification resulting in a resolution of 0.645 microns per pixel. Physically, each land is approximately 2 millimeters in width; as such, data structures for a single LEA can contain more than 3 million individual data points. 
+\ug{All} 3D scans of Hamby Set 44 were captured at Iowa State University's Roy J.\ Carver High Resolution Microscopy Facility with a Sensofar Confocal light microscope at 20 \ug{times} magnification resulting in a resolution of 0.645 microns per pixel. Physically, each land is approximately 2 millimeters in width; as such, data structures for a single LEA can contain more than 3 million individual data points. 
 
 
 
@@ -135,7 +135,7 @@ bullet %>% ggplot() +
 ```
 
 
-The data used to assess performance of the two methods consists of 2D crosscuts gathered from the 3D scans, as shown in \autoref{prof}. 
+\ug{Data} used to assess performance of the two methods consist of 2D crosscuts gathered from the 3D scans, as shown in \autoref{prof}. 
 
 
 \section{Methodology}  
@@ -143,7 +143,7 @@ The data used to assess performance of the two methods consists of 2D crosscuts 
 
 The structure in the 2D crosscuts is dominated by the curvature of the physical object (the bullet). To assess the similarity of features from two land engraved areas, this curvature has to be removed.  
 
-Non-parametric methods suggested in the literature, such as a LOESS fit [@Hare1] or a Gaussian filter [@Chu1] are effective for removing the curvature to extract a signature. However, they are prone to boundary effects, which cause mischaracterizations of data patterns near the boundaries of the data domain. In the case of crosscuts, the boundaries are often dominated by values originating from the GEA structure. This structure exaggerates existing boundary effects because GEAs introduce a secondary structure different from the main curvature of the LEA, as shown in \autoref{prof} and \autoref{groove-no-groove}. \autoref{prof} shows how much a non-parametric LOESS fit is affected by including GEA data. \autoref{groove-no-groove} illustrates the effect this same inclusion has on extracted signatures. If included, GEA data result in strong boundary effects in the signatures. Statistically, the GEA data introduce outliers into the LEA data. In the next sections, we introduce two methods for fitting the LEA structure. Both methods aim to describe the relationship between horizontal position and relative height on a crosscut. While the two approaches differ in methodology, they are both rooted in the ability to mitigate influence caused by outlying data.  
+Non-parametric methods suggested in the literature, such as a LOESS fit [@Hare1] or a Gaussian filter [@Chu1] are effective for removing the curvature to extract a signature. However, they are prone to boundary effects, which cause mischaracterizations of data patterns near the boundaries of the data domain. In the case of crosscuts, the boundaries are often dominated by values originating from the GEA structure. This structure exaggerates existing boundary effects because GEAs introduce a secondary structure different from the main curvature of the LEA, as shown in \autoref{prof} and \autoref{groove-no-groove}. \autoref{prof} shows how much a non-parametric LOESS fit is affected by including GEA data. \autoref{groove-no-groove} illustrates the effect th\ug{e inclusion of the same} has on extracted signatures. If included, GEA data result in strong boundary effects in the signatures. Statistically, GEA data introduce outliers into the LEA data. In the next sections, we introduce two methods for fitting the LEA structure. Both methods aim to describe the relationship between horizontal position and relative height on a crosscut. While the two approaches differ in methodology, they are both rooted in the ability to mitigate \ug{potential} influence caused by outlying data.  
 
 
 ```{r groove-no-groove, echo = F, warning = F, message = F, fig.cap = "\\label{groove-no-groove}An example of the impact failure to remove GEA data can have on an extracted 2D signature. Even though there are only very few points in the GEA structure, the extracted signatures are dominated by boundary effects.", fig.height=4, fig.width = 6}
@@ -199,7 +199,7 @@ A natural candidate for a curved structure is a quadratic linear model of the fo
 $$
 z_i = \beta_0 + \beta_1x_i + \beta_2 x_i^2 + \epsilon_i,
 $$
-where all error terms $\epsilon_i$ are considered independent and normally distributed with mean $0$ and variance $\sigma^2$. The parameters $\beta_0, \beta_1, \beta_2$ are estimated by finding the values which minimize: 
+where all error terms $\epsilon_i$ are considered independent and normally distributed with mean $0$ and variance $\sigma^2$. \ug{Parameter values of} $\beta_0, \beta_1, \beta_2$ are estimated by finding the values which minimize: 
 
 $$\arg\min_{\mathbf{\beta}} \sum_{i=1}^n \left(z_i - (\beta_0 + \beta_1x_i + \beta_2x_i^2)\right)^2,$$
 the vertical squared distance between each measured height value and the fitted curve. \autoref{lms} shows that the presence of outliers near the boundaries pulls the resulting curve upwards towards groove engraved area data.  
@@ -208,9 +208,9 @@ Alternatively, the curve can be fit by minimizing the absolute deviations in pla
 
 $$\arg\min_{\mathbf{\beta}} \sum_{i=1}^n \left|z_i - (\beta_0 + \beta_1x_i + \beta_2x_i^2) \right|.$$
 
-This method of minimization, known as a robust linear model, is less influenced by large outliers present in the GEA data.  
+This method of minimization is less influenced by large outliers present in the GEA data \ug{and the resulting model is  known as a robust linear model.}  
 
-When the estimation is based on squared distances, the method seeks to balance the fit between the LEA structure and the GEA structure, resulting in a fit which compromises between both structures without adequately fitting either. The use of absolute distances reduces the degree of compromise in favor of fitting the majority structure. \autoref{lms}(a) and (c) show the fitted curves from each model framework. \autoref{lms}(b) and (d) display the differences between predicted height and observed height at each location $x_i$, known as the observed model residuals $e_i$. We will utilize the observed residuals to separate the two structures. The robust model in \autoref{lms} fits the LEA structure more closely and better captures the curvature, allowing for a more accurate separation between GEA and LEA structures. 
+\ug{Estimation based on taking squared deviations seeks to balance the fit between the LEA structure and the GEA structure, resulting in a fit which compromises between both structures without adequately fitting either. The use of absolute d\ug{eviations} reduces the degree of compromise in favor of fitting the majority structure\ug{, here LEA}. \autoref{lms}(a) and (c) show the fitted curves from each model framework. \autoref{lms}(b) and (d) display the differences between predicted height and observed height at each location $x_i$, known as the observed model residuals $e_i$. We will utilize the observed residuals to separate the two structures. The robust model in \autoref{lms} fits the LEA structure more closely and better captures the curvature, allowing for a more accurate separation between GEA and LEA structures. 
 
 
 ```{r lms, echo = F, warning = F, message = F, fig.height = 4, fig.cap = "\\label{lms}Example of a quadratic linear model fit and resulting residuals (a, b) compared to a robust quadratic linear model fit and residuals (c, d) for a single profile. The robust model is able to more effectively capture the curved structure of the LEA without being influenced by the GEA. The dashed line in (d) is drawn at 4 x MAD. Values above the dashed line are considered outliers."}
@@ -283,9 +283,9 @@ grid.arrange(p1_rlm, p2_rlm, p3_rlm, p4_rlm, ncol =2 )
 
 Because the robust approach results in residual values scattered near zero in the land engraved area and larger, mostly positive residuals in the groove engraved area, we will use high residual magnitude as an indicator of GEA membership (see \autoref{lms}). High residual magnitude is determined using the median absolute deviation (MAD) of all residuals from a crosscut.
 
-The MAD is a robust metric for the spread of points, similar to the standard deviation. It is preferable to the standard deviation to quantify the spread in situations with large outlying residuals, such as this.  
+The MAD is a robust metric for the spread of \ug{data}, similar to the standard deviation. It is preferable to the standard deviation to quantify the spread in situations with large outlying \ug{observations such as the residuals in the groove engraved area in our case}.  
 
-Let $m$ denote the median function:  
+Let $m$ denote the median function\ug{. Then the MAD is defined as }  
 $$ MAD(\mathbf{e}) = m(|e_i- m(\mathbf{e})|) \quad \forall\ e_i \in \mathbf{e}.$$
 Any residual value larger than $4 \times$MAD is considered an outlier and likely a member of the GEA structure.  
 
@@ -293,7 +293,7 @@ Shoulder location predictions are then calculated for each crosscut in the follo
 \begin{enumerate}
 \item Fit a robust linear model of order 2 (i.e., quadratic) to the crosscut.   
 \item Calculate a residual value $e_i$ for each data point on the crosscut.  
-\item Calculate the median absolute deviation (MAD) for the crosscut.  
+\item Calculate the \ug{residual} median absolute deviation (MAD) for the crosscut.  
 \item Remove all data points on the crosscut with a residual magnitude greater than $4 \times$MAD.  
 \item Identify the minimum $x_{L}$ and maximum $x_{R}$ of the remaining $x_i$ values. Then, $x_L$ and $x_R$ are the predicted left and right shoulder locations for that crosscut.   
 \end{enumerate}  
@@ -305,22 +305,22 @@ Shoulder location predictions are then calculated for each crosscut in the follo
 
 One of the drawbacks of the linear approach is its rigidity in the shape of the curve. Locally weighted regression, known as LOESS, is a more flexible approach. This is advantageous when working with bullets, as it is unrealistic to expect a circular shape to remain after the bullet has been subjected to the forces of a gun barrel.  
 
-LOESS models estimate a predicted value $\hat{z}_i$ for each height $z_i$ corresponding to location $x_i$ by estimating values $\beta_0, \beta_1$ which minimize: 
+LOESS models estimate a predicted value $\widehat{z}_i$ for each height $z_i$ corresponding to location $x_i$ by estimating values $\beta_0, \beta_1$ which minimize 
 
-$$\arg\min_{\mathbf{\beta}} \sum_{k=1}^n w_k(x_{i})\left(z_{k} - (\beta_0 + \beta_1x_k)\right)^2,$$
+\begin{equation}\label{eq:RobLOESS} \arg\min_{\mathbf{\beta}} \sum_{k=1}^n w_k(x_{i})\left(z_{k} - (\beta_0 + \beta_1x_k)\right)^2,\end{equation}
 
-where $w_k(x_i)$ is a weight assigned to each data point $x_k$ based on proximity to $x_i$. Weights $w_k$ decrease as the distance to $x_i$ increases, so that data points closest to $x_i$ influence the prediction $\hat{z}_i$ most. This can also be described as a non-parametric weighted average of many parametric models fit to subsets of the data.  
+where $w_k(x_i)$ is a weight assigned to each data point $x_k$ based on \ug{its} proximity to $x_i$. Weights $w_k$ decrease as the distance to $x_i$ increases, so that data points closest to $x_i$ influence the prediction $\widehat{z}_i$ most. This \ug{? more clear if specified} can also be described as a non-parametric weighted average of many parametric models fit to subsets of the data.  
 
-This approach allows for greater flexibility. However, it also means that LOESS models are affected by GEA structures more. Data points near and in the GEA structure are most influenced by other GEA data rather than the overall global structure. This results in a set of predictions which misrepresents much of the data near the boundaries (see \autoref{loess}).
+\ug{Although t}his approach allows for greater flexibility\ug{,}} LOESS models are affected \ug{more}  by GEA structures \ug{than what? (robust) linear models?}. Data points near and in the GEA structure are most influenced by other GEA data rather than the overall global structure. This results in a set of predictions which misrepresents much of the data near the boundaries (see \autoref{loess}).
 
-Similar to the linear approach, there is a robust approach to LOESS to deal with these boundary effects. 
+Similar to the linear approach, there \ug{exists} a robust approach to LOESS to \ug{adjust for} these boundary effects. 
 
-The robust approach to LOESS uses an iterative re-weighting process to reduce the influence of outlying data points [see @Cleveland1]. First, an initial LOESS is fit. This is followed by a redistribution of the weights $w_k(x_i)$ based on residual values, $e_i = (z_i - \hat{z}_i)$. New weights are calculated as 
-$$\left(1-\left(\frac{e_k}{6\times MAD}\right)^2\right)^2 \times w_k(x_i) \quad \quad \mbox{if}\ \left|\frac{e_k}{6\times MAD}\right| < 1.$$
-Otherwise, weights are set to 0. These new weights are applied and updated predictions are calculated. This reduces the influence of data points with large residual values $e_k$ in subsequent iterations. In the context of LEA crosscuts, this re-weighting reduces the influence of GEA data.
+The robust approach to LOESS uses an iterative re-weighting process to reduce the influence of outlying data points [see @Cleveland1]. First, an initial LOESS is fit. This \ug{step} is followed by a redistribution of the weights $w_k(x_i)$ based on residual values, $e_i = (z_i - \widehat{z}_i)$. New weights are calculated as 
+$$\left(1-\left(\frac{e_k}{6\times MAD}\right)^2\right)^2 \times w_k(x_i) \quad \quad \mbox{if}\quad \ \left|\frac{e_k}{6\times MAD}\right| < 1,$$
+\ug{else}, weights are set to 0. These new weights are \ug{re-applied in (\ref{eq:RobLOESS})} and updated predictions are \ug{obtained}. This reduces the influence of data points with large residual values $e_k$ in subsequent iterations. In the context of LEA crosscuts, this re-weighting reduces the influence of GEA data.
 
 
-While robust LOESS methods are more flexible than robust linear models, a model that is accurately fit to the LEA structure results in the same expected residual structure as with robust linear models: positive and negative residuals scattered around zero in the land engraved areas, and positive, possibly large residuals in the groove engraved areas. We are using a similar approach as with the linear shoulder location predictions, i.e. we use a cutoff value to identify large magnitude residual values. The LOESS approach fits more closely to the crosscut and allows us to choose a lower cutoff for separation. A cutoff that performs well on the Hamby set 44 is twice the median absolute deviation ($2\times MAD$). 
+\ug{Not sure the following sentence/paragraph expresses clearly what I think you want to say.} While robust LOESS methods are more flexible than robust linear models, a model that is accurately fit to the LEA structure \ug{still} results in the same expected residual structure as with robust linear models: positive and negative residuals scattered around zero in the land engraved areas, and positive, possibly large residuals in the groove engraved areas. We are using a similar approach as with the linear shoulder location predictions, i.e., we use a cutoff value to identify large magnitude residual values. The LOESS approach fits more closely to the crosscut and allows us to choose a lower cutoff for separation. A cutoff that performs well on the Hamby set 44 is twice the median absolute deviation ($2\times MAD$). 
 
 
 ```{r loess, echo = F, warning = F, message = F, fig.height = 4, fig.cap = "\\label{loess}Example of a LOESS model fit and residuals (a, b) compared to a robust LOESS model fit and residuals (c, d) for a single profile. The robust model is again able to more effectively capture the curved structure of the LEA without being influenced by the GEA. The dashed line in (d) represents a cutoff of 2 x MAD. Values above the dashed line are considered outliers."}
@@ -388,9 +388,9 @@ grid.arrange(p1_rlo, p2_rlo, p3_rlo, p4_rlo, ncol =2 )
 
 Shoulder location predictions are calculated for each crosscut in the following manner (\textbf{LOESS shoulder location prediction}): 
 \begin{enumerate}
-\item Fit a robust LOESS model with a span of 1 to the crosscut. This can be fit using the `locfit.robust` function in the `locfit` package in R.
+\item Fit a robust LOESS model with \ug{a span of 1?, not mentioned before and possibly uninformative to some readers} to the crosscut. This can be fit using the `locfit.robust` function in the `locfit` package in R. \ug{(Is span=1 by any chance the default setting?)}
 \item Calculate a residual value $e_i$ for each data point on the crosscut.  
-\item Calculate the median absolute deviation (MAD) for the crosscut.  
+\item Calculate the \ug{residual} median absolute deviation (MAD) for the crosscut.  
 \item Remove all data points on the crosscut with a residual magnitude greater than $2 \times$MAD.  
 \item Identify the minimum $x_{L'}$ and maximum $x_{R'}$ of the remaining $x_i$ values. Then, $x_{L'}$ and $x_{R'}$ are the predicted left and right shoulder locations for that crosscut.   
 \end{enumerate}
@@ -400,24 +400,24 @@ Shoulder location predictions are calculated for each crosscut in the following 
 
 \section{Results}  
 
-In order to assess the accuracy of the two alternative models based on a quantitative measure for their overall performance of predictions, we first  identified "ground truth" of shoulder locations by visual inspection for each of the 208 crosscuts in Hamby set 44.
+\ug{T}o \ug{quantitatively} assess the \ug{predictive ability} of the two alternative models, we first  identified "ground truth" of shoulder locations by visual inspection for each of the 208 crosscuts in Hamby set 44.
 
 
-In order to assess performance of each method, we define a measure for the error as the "area of misidentification", i.e. the area of each crosscut which is identified incorrectly by the method. This metric is calculated for the left shoulder location as:  
+\ug{As a} performance \ug{measure}, we define the error as the "area of misidentification", i.e., the area of each crosscut which is identified incorrectly by the method. This metric is calculated for the left shoulder location as:  
 
-$$ \hat{A}_{jL} = \sum_{e_{ij} \in \tilde{X}_{jL}} \left|e_{ij} \right| \times \left(x_{i+1} - x_i \right),$$
-where $\tilde{X}_{jL}$ is the set of points in crosscut $j$ that fall between the predicted and actual left shoulder location, $e_{ij}$ is the residual value at location $x_i$ from the robust LOESS fit to crosscut $j$, and $(x_{i+1} - x_i)$ is the distance between two subsequent locations in the crosscut. For the scans of Hamby set 44, this distance is equal to $0.645 \mu m$ for all locations.  
+$$ \widehat{A}_{jL} = \sum_{e_{ij} \in \widetilde{X}_{jL}} \left|e_{ij} \right| \times \left(x_{i+1} - x_i \right),$$
+where $\widetilde{X}_{jL}$ is the set of points in crosscut $j$ that fall between the predicted and actual left shoulder location, $e_{ij}$ \ug{corresponds to} the residual value at location $x_i$ from the robust LOESS fit to crosscut $j$, and $(x_{i+1} - x_i)$ is the distance between two subsequent locations in the crosscut. For the scans of Hamby set 44, this distance is equal to $0.645 \mu m$ for all locations.  
 
-The analogous area is calculated for the right shoulder location as: 
+\ug{Similarly, the} area is calculated for the right shoulder location as: 
 
-$$ \hat{A}_{jR} = \sum_{e_{ij} \in \tilde{X}_{jR}} \left|e_{ij} \right| \times \left(x_{i+1} - x_i \right),$$
-where $\tilde{X}_{jR}$ is the set of points in crosscut $j$ that fall between the predicted and actual right shoulder location. 
+$$ \widehat{A}_{jR} = \sum_{e_{ij} \in \widetilde{X}_{jR}} \left|e_{ij} \right| \times \left(x_{i+1} - x_i \right),$$
+where $\widetilde{X}_{jR}$ is the set of points in crosscut $j$ that fall between the predicted and actual right shoulder location. 
 
 Both the left and right areas of misindentification are thus in terms of microns and represent the area of loss we incur from incorrectly identifying a shoulder location.  
 
-The quantification of results as an area is preferable to a distance metric as it captures not only the width of profile area that is misidentified, but also the relative heights of the data. Larger areas of misidentification indicate larger portions of the GEA remain included in a profile, and thus signal an area which is more likely to have influence on an extracted signature. Smaller areas of misidentification indicate minimal loss is incurred, and these areas will have minimal effect on an extracted signature.  
+\ug{Quantifying the}  results as an area is preferable to a distance metric as it captures not only the width of \ug{the} profile area that is misidentified, but also the relative heights of the data. Larger areas of misidentification \ug{(Larger misidentified areas) indicate larger portions of the GEA remain included in a profile, and thus signal an area which is more likely to have influence on an extracted signature. Smaller areas of misidentification \ug{suggest} minimal loss is incurred, and these areas will have minimal effect on an extracted signature.  
 
-An area of misidentification was calculated separately for the left hand side and right hand side predictions for each profile in the data set. This was calculated for the Robust Linear Model and Robust LOESS methods, as well as the Rollapply method suggested in @Hare1.  
+An area of misidentification was calculated separately for the left hand side and right hand side predictions for each \ug{of the 208} profile\ug{s} in the data set\ug{, where predictions were based on} the Robust Linear Model and Robust LOESS methods, as well as the Rollapply method suggested in @Hare1.  
 
 <!-- \kr{How is the section above now? Would replace everything below until XXX.}   -->
 
@@ -433,7 +433,7 @@ An area of misidentification was calculated separately for the left hand side an
 
 <!-- \hh{XXX} -->
 
-To assess the performance of the methods, we are investigating the distribution of the \kr{areas of misidentification} across all 208 lands of Hamby set 44 (see \autoref{results1}). A distribution that has a smaller spread and is close to zero is ideal; this suggests many of the predicted shoulder locations are very close to the manually identified locations, and predictions are removing many of the outlying GEA points. A distribution with a wider spread or many high, outlying areas of misidentification suggests a greater degree of uncertainty and inaccuracy for a particular method.  
+To assess the performance of \ug{all three} methods, we \ug{consider} the distribution of the \kr{areas of misidentification} across all 208 lands of Hamby set 44 (see \autoref{results1}). A distribution \ug{starting at or close to zero with minimal} spread is ideal \ug{as} this suggests many of the predicted shoulder locations are very close to the manually identified locations, and predictions are removing many of the outlying GEA points. A distribution with a wider spread or many high, outlying areas of misidentification suggests a greater degree of uncertainty and inaccuracy for a particular method.  
 
 ```{r results1, echo = F, warning = F, message = F, fig.height = 8, fig.width = 8, fig.cap = "\\label{results1}Distribution of areas of misidentification for data smoothing method, robust linear model method, and robust LOESS method, separated by left and right shoulder locations. A tight distribution with few high values indicates good performance across the LEAs in the data set."}
 hamby44_eval_paper <- readRDS("data/hamby44/hamby44_eval_paper.rda")
@@ -482,7 +482,7 @@ hamby44_eval_paper <- readRDS("data/hamby44/hamby44_eval_paper.rda")
 
 ```
 
-The raw distributions can be difficult to visually compare, so another way to inspect the results is to place areas of misidentification into categories: satisfactory, borderline, unsatisfactory. Scores under 100 are satisfactory, scores between 100 and 1000 are borderline, and scores above 1000 are unsatisfactory (see \autoref{results2}). Unsatisfactory cases are the most likely to cause mistakes in subsequent analyses. 
+\ug{Because the} raw distributions \ug{are} difficult to visually compare, \ug{we categorized} areas of misidentification \ug{as} satisfactory, borderline, \ug{and} unsatisfactory. Scores under 100 are \ug{considered} satisfactory, scores between 100 and 1000 are borderline, and scores above 1000 are \ug{considered} unsatisfactory (see \autoref{results2}). Unsatisfactory cases are the most likely to cause \ug{poor or flawed resutls} in subsequent analyses. 
 
 It is important to note that different results are expected for the left and right shoulder locations. Within Hamby set 44, almost all scans have a well-defined left groove. Left here is defined as visually left on the scan; this is the side the scan begins on, so a well-defined distinction between GEA and LEA is expected. Often, a less clear distinction is seen on the right side of the scan, with sometimes no apparent shoulder location visible. For this reason it is preferable to separate the left and right for visual inspection of results; a method may excel on one side but fall short on another.   
 
@@ -533,7 +533,7 @@ It is important to note that different results are expected for the left and rig
 
 Both the robust linear model and robust LOESS approaches outperform currently implemented solutions based on data smoothers. Of the two, the robust LOESS approach clearly outperforms the robust linear model. This hierarchy of performance is well within expectation given the strength of robust approaches in general as well as the flexibility of LOESS applied to this data type. Robust LOESS also readily handles variation introduced in the process of translating the physical bullet into a 3D object. If there is too much variability in how the bullet is placed relative to the plane of reference on the microscope, profiles can have tilted shapes relative to the x-axis which a quadratic linear model would fail to address. In these situations, LOESS excels.  
 
-While the cutoff values presented work well on Hamby set 44, additional validation will need to be executed on a wider variety of barrel types. Depth of striae, physical size of bullet due to caliber, and non-traditional rifling techniques may require alterations to this cutoff value. In addition, a study of the effect of implementing robust LOESS shoulder location identification on the downstream similarity assessment will need to be completed. Due to increased accuracy of predicted shoulder locations, the authors expect an increase in accuracy in bullet matching algorithms. However, this will need to be validated on a variety of data sets prior to implementation without human intervention in the automated process.   
+While the \ug{proposed} cutoff values \ug{(I would reference that you are talking about 4\times MAD...)} work well on Hamby set 44, additional validation will need to be executed on a wider variety of barrel types. Depth of striae, physical size of bullet due to caliber, and non-traditional rifling techniques may require alterations to this cutoff value. In addition, a study of the effect of implementing robust LOESS shoulder location identification on the downstream similarity assessment will need to be completed. Due to increased accuracy of predicted shoulder locations, the authors expect an increase in accuracy in bullet matching algorithms. However, this will need to be validated on a variety of data sets prior to implementation without human intervention in the automated process.   
 
 
 
