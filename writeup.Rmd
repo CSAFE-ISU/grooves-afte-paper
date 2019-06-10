@@ -551,7 +551,7 @@ Rollapply & `r round((180/208)*100, 2)` & `r round((17/208)*100, 2)` & `r round(
 Robust Linear Model & `r round((164/208)*100, 2)` & `r round((29/208)*100, 2)` & `r round((15/208)*100, 2)` & 62.50 & `r round((64/208)*100, 2)`&`r round((14/208)*100, 2)` \\ \hline
 Robust LOESS & `r round((196/208)*100, 2)` & `r round((11/208)*100, 2)` & `r round((1/208)*100, 2)` & `r round((152/208)*100, 2)`& `r round((50/208)*100, 2)`&`r round((6/208)*100, 2)`\\ \hline
 \end{tabular}
-\caption{Table of results for areas of misidentification resulting from automated shoulder location identification methods applied to Hamby set 44. }
+\caption{Table of results for areas of misidentification resulting from automated shoulder location identification methods applied to Hamby set 44. Results are presented as percentage of shoulder location predictions which fall into each category: satisfactory (less than 100), borderline (between 100 and 1000), and unsatisfactory (greater than 1000).}
 \label{results-table}
 \end{table}
 
