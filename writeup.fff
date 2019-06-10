@@ -1,0 +1,119 @@
+\begin{figure}
+
+{\centering \includegraphics[width=0.48\textwidth]{./images/microscope-small} \includegraphics[width=0.48\textwidth]{./images/HS44-Br1-B1-L2}
+
+}
+
+\caption{\label{microscope}(Left) Close-up view of a bullet staged in a confocal light microscope. The green light marks the focal view of the capture area. (Right) Computer-rendered image of the scanned land engraved area with prominent striation marks.}\label{fig:microscope}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}
+\includegraphics[width=\textwidth]{./images/3d_plot_top_context_breakoff} \caption{\label{LEA}Visualization of 3D data collected through high resolution scanning of a land engraved area. Striations on the surface of the object can be seen by viewing this data from "above", as presented here.}\label{fig:LEA}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}
+\begin{minipage}[b]{0.45\linewidth}
+    \raggedleft
+    \includegraphics[width=\textwidth]{images/3d_plot_top_crosscut}
+    \centering
+    Step 1: 3D scan with identified horizontal crosscut
+\end{minipage}
+\hspace{.5cm}
+\begin{minipage}[b]{0.45\linewidth}
+    \raggedright
+    \includegraphics[width=\textwidth]{images/profile_paper}
+    \centering
+    Step 2: Horizontal crosscut with identified GEA data
+\end{minipage}\\
+
+\vspace{.3cm}
+\begin{minipage}[b]{0.45\linewidth}
+    \raggedleft
+    \includegraphics[width=\textwidth]{images/profile_paper_loess}
+    \centering
+    Step 3: Non-parametric curvature estimation
+\end{minipage}
+\hspace{.5cm}
+\begin{minipage}[b]{0.45\linewidth}
+    \raggedright
+    \includegraphics[width=\textwidth]{images/signature_paper}
+    \centering
+    Step 4: Extracted LEA signature
+\end{minipage}
+\caption{The process of extracting a 2D signature from a 3D LEA scan described by \cite{Hare1}. GEA removal between Steps 2 and 3 is critical to ensure precise signature extraction.}
+\label{fig:process}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}
+\centering
+\includegraphics{writeup_files/figure-latex/prof-1.pdf}
+\caption{\label{prof}The black points show measured heights for a single
+crosscut of a 3D LEA scan. The main data structure, located in the
+center, is comprised of the land engraved area. The groove engraved
+areas are found on the left and right sides of the crosscut. The lines
+show fits of two non-parametric LOESS smooths, with and without GEA
+data. When GEA data is included, the smooth fails to estimate the main
+LEA structure near the boundaries.}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}
+\centering
+\includegraphics{writeup_files/figure-latex/groove-no-groove-1.pdf}
+\caption{\label{groove-no-groove}An example of the impact failure to
+remove GEA data can have on an extracted 2D signature. Even though there
+are only very few points in the GEA structure, the extracted signatures
+are dominated by boundary effects.}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}
+\centering
+\includegraphics{writeup_files/figure-latex/lms-1.pdf}
+\caption{\label{lms}Example of a quadratic linear model fit and
+resulting residuals (a, b) compared to a robust quadratic linear model
+fit and residuals (c, d) for a single profile. The robust model is able
+to more effectively capture the curved structure of the LEA without
+being influenced by the GEA. The dashed line in (d) is drawn at 4 x MAD.
+Values above the dashed line are considered outliers.}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}
+\centering
+\includegraphics{writeup_files/figure-latex/loess-1.pdf}
+\caption{\label{loess}Example of a LOESS model fit and residuals (a, b)
+compared to a robust LOESS model fit and residuals (c, d) for a single
+profile. The robust model is again able to more effectively capture the
+curved structure of the LEA without being influenced by the GEA. The
+dashed line in (d) represents a cutoff of 2 x MAD. Values above the
+dashed line are considered outliers.}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}
+\centering
+\includegraphics{writeup_files/figure-latex/results1-1.pdf}
+\caption{\label{results1}Distribution of areas of misidentification for
+rollapply (data smoothing) method, robust linear model method, and
+robust LOESS method, separated by left and right shoulder locations. A
+dense distribution with few high values indicates good performance
+across the LEAs in the data set.}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}
+\centering
+\includegraphics{writeup_files/figure-latex/results2-1.pdf}
+\caption{\label{results2}Distribution of areas of misidentification for
+rollapply (data smoothing) method, robust linear model method, and
+robust LOESS method, separated by left and right shoulder locations.
+Areas of misidentification are placed into three categories: less than
+100 microns (satisfactory), between 100 and 1000 microns, and greater
+than 1000 microns. A larger proportion of areas of misidentification
+under 100 microns indicates good performance across LEAs in the data
+set.}
+\end{figure}
