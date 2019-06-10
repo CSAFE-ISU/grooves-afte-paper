@@ -542,6 +542,20 @@ It is important to note that different results are expected for the left and rig
 ```
 
 
+\begin{table}[]
+\centering
+\begin{tabular}{lrrr|rrr}
+& \multicolumn{3}{c}{\textbf{Left Shoulder Location}} & \multicolumn{3}{c}{\textbf{Right Shoulder Location}} \\
+\textbf{Method} & $< 100$ & $ \in (100, 1000) $ & $>1000$ & $< 100$ & $\in (100, 1000)$ & $>1000$ \\ \hline
+Rollapply & `r round((180/208)*100, 2)` & `r round((17/208)*100, 2)` & `r round((11/208)*100, 2)` & `r round((110/208)*100, 2)`& `r round((71/208)*100, 2)`&`r round((27/208)*100, 2)`  \\ \hline
+Robust Linear Model & `r round((164/208)*100, 2)` & `r round((29/208)*100, 2)` & `r round((15/208)*100, 2)` & 62.50 & `r round((64/208)*100, 2)`&`r round((14/208)*100, 2)` \\ \hline
+Robust LOESS & `r round((196/208)*100, 2)` & `r round((11/208)*100, 2)` & `r round((1/208)*100, 2)` & `r round((152/208)*100, 2)`& `r round((50/208)*100, 2)`&`r round((6/208)*100, 2)`\\ \hline
+\end{tabular}
+\caption{Table of results for areas of misidentification resulting from automated shoulder location identification methods applied to Hamby set 44. }
+\label{results-table}
+\end{table}
+
+
 
 \section{Conclusions}  
 
