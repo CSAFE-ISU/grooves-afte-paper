@@ -1,10 +1,10 @@
 \begin{figure}
 
-{\centering \includegraphics[width=0.48\textwidth]{./images/microscope-small} \includegraphics[width=0.48\textwidth]{./images/HS44-Br1-B1-L2}
+{\centering \includegraphics[width=0.48\textwidth]{./images/microscope-small} \includegraphics[width=0.48\textwidth]{./images/HS44-Br1-B1-L2-annotated}
 
 }
 
-\caption{\label{microscope}(Left) Close-up view of a bullet staged in a confocal light microscope. The green light marks the focal view of the capture area. (Right) Computer-rendered image of the scanned land engraved area with prominent striation marks.}\label{fig:microscope}
+\caption{\label{microscope}(Left) Close-up view of a bullet staged in a confocal light microscope. The green light marks the focal view of the capture area. (Right) Computer-rendered image of the scanned land engraved area with prominent striation marks. Breakoff is seen visually on the bottom right hand side of the scan.}\label{fig:microscope}
 \end{figure}
 \efloatseparator
  

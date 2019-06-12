@@ -110,27 +110,27 @@ Scans}
 
 \bigskip
 \begin{abstract}
-Forensic firearms examiners analyze bullets through a process of visual
-feature comparison to determine whether two bullets originate from the
-same source. Striation marks found on land engraved areas (LEAs) provide
-evidence to address this same source-different source problem. Advances
-in technology have led to new research on applying image-analysis
-algorithms to the automated, quantitative analysis of bullet evidence.
-One prominent example is an algorithm developed by \citep{Hare1} based
-on 3D imaging data of LEAs. Currently accepted best practice for
-collecting 3D images of bullet LEAs requires capturing portions of the
-neighboring groove engraved areas (GEAs). Analyzing LEA and GEA data
-separately is imperative to achieve high accuracy and precision in
-subsequent feature comparisons. However, existing standard statistical
-modeling techniques fall short when applied to the atypical structure of
-3D bullet data, often failing to adequately separate LEA and GEA data.
-We propose a method based on robust locally weighted regression and show
-that this method outperforms current methods at separating LEA and GEA
-data.
+Land engraved areas (LEAs) provide evidence to address the same
+source-different source problem in forensic firearms examination.
+Advances in technology have led to new research on applying
+image-analysis algorithms to the automated, quantitative analysis of
+bullet evidence. One prominent example is an algorithm developed by Hare
+et. al \citep{Hare1} based on 3D imaging data of LEAs. Currently
+accepted best practice for collecting 3D images of bullet LEAs requires
+capturing portions of the neighboring groove engraved areas (GEAs).
+Analyzing LEA and GEA data separately is imperative to achieve high
+accuracy and precision in subsequent feature comparisons. However,
+existing standard statistical modeling techniques fall short when
+applied to the atypical structure of 3D bullet data, often failing to
+adequately separate LEA and GEA data. We developed a method for
+automated removal of GEA data based on robust locally weighted
+regression. This automated method was tested on high resolution 3D scans
+of LEAs from Hamby set 44. This separation method outperforms current
+methods at separating LEA and GEA data.
 \end{abstract}
 
 \noindent%
-{\it Keywords:} 3 to 6 keywords, that do not appear in the title
+{\it Keywords:} land engraved areas (LEAs), groove engraved areas (GEAs), 3D scans, bullet identification, automatic matching
 \vfill
 
 \newpage
@@ -140,8 +140,9 @@ data.
 \newcommand{\kr}[1]{{\color{teal}{#1}}}
 \newcommand{\ug}[1]{{\color{purple}{#1}}}
 
-TODO: - \kr{Abstract}\\
-- \kr{End of background summary}
+
+
+
 
 \section{Background}
 
@@ -169,11 +170,11 @@ automated comparison of land engraved areas
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.48\textwidth]{./images/microscope-small} \includegraphics[width=0.48\textwidth]{./images/HS44-Br1-B1-L2} 
+{\centering \includegraphics[width=0.48\textwidth]{./images/microscope-small} \includegraphics[width=0.48\textwidth]{./images/HS44-Br1-B1-L2-annotated} 
 
 }
 
-\caption{\label{microscope}(Left) Close-up view of a bullet staged in a confocal light microscope. The green light marks the focal view of the capture area. (Right) Computer-rendered image of the scanned land engraved area with prominent striation marks.}\label{fig:microscope}
+\caption{\label{microscope}(Left) Close-up view of a bullet staged in a confocal light microscope. The green light marks the focal view of the capture area. (Right) Computer-rendered image of the scanned land engraved area with prominent striation marks. Breakoff is seen visually on the bottom right hand side of the scan.}\label{fig:microscope}
 \end{figure}
 
 In this paper, we will focus only on barrels with traditional
@@ -201,7 +202,10 @@ present and discuss different automated methods for identifying
 so-called \emph{shoulder locations}, the locations at which the land
 engraved areas end and the groove engraved areas begin.
 
-The structure of the paper is as follows: \ldots{}
+The structure of the paper is as follows: a description of the data
+storage format and data set, an explanation of methodology to predict
+shoulder locations, and finally an illustration of improved prediction
+accuracy results.
 
 \section{Data Source}
 
@@ -210,8 +214,8 @@ scans of bullet land engraved areas. Currently accepted best practice
 for collecting 3D images of bullet LEAs requires that bullets are staged
 such that striae appear vertically in the scan. Scanning across the LEA
 must begin and end in the neighboring groove engraved areas as shown in
-\autoref{fig:LEA}. Parts of the breakoff \ug{(define?)} are captured as
-a visual reference for orientation.
+\autoref{fig:LEA}. Parts of the breakoff are captured as a visual
+reference for orientation (see \autoref{fig:microscope}).
 
 \begin{figure}
 \includegraphics[width=\textwidth]{./images/3d_plot_top_context_breakoff} \caption{\label{LEA}Visualization of 3D data collected through high resolution scanning of a land engraved area. Striations on the surface of the object can be seen by viewing this data from "above", as presented here.}\label{fig:LEA}
@@ -284,9 +288,10 @@ contact with the barrel.
 All 3D scans of Hamby Set 44 were captured at Iowa State University's
 Roy J.~Carver High Resolution Microscopy Facility with a Sensofar
 Confocal light microscope at 20 times magnification resulting in a
-resolution of 0.645 microns per pixel. Physically, each land is
-approximately 2 millimeters in width; as such, data structures for a
-single LEA can contain more than 3 million individual data points.
+resolution of 0.645 microns per pixel (1 micron = 1\(\mu\)m = 0.001mm).
+Physically, each land is approximately 2 millimeters in width; as such,
+data structures for a single LEA can contain more than 3 million
+individual data points.
 
 \begin{figure}
 \centering
@@ -464,20 +469,16 @@ the influence of data points with large residual values \(e_k\) in
 subsequent iterations. In the context of LEA crosscuts, this
 re-weighting reduces the influence of GEA data.
 
-\ug{Not sure the following sentence/paragraph expresses clearly what I think you want to say.}
-\kr{Updated paragraph below would replace this:} While robust LOESS
-methods are more flexible than robust linear models, a model that is
-accurately fit to the LEA structure \ug{still} results in the same
-expected residual structure as with robust linear models: positive and
-negative residuals scattered around zero in the land engraved areas, and
-positive, possibly large residuals in the groove engraved areas. We are
-using a similar approach as with the linear shoulder location
-predictions, i.e., we use a cutoff value to identify large magnitude
-residual values. The LOESS approach fits more closely to the crosscut
-and allows us to choose a lower cutoff for separation. A cutoff that
-performs well on the Hamby set 44 is twice the median absolute deviation
-(\(2\times MAD\)).
-\kr{Updated: A robust LOESS model which accurately fits the LEA structure should result in a similar residual structure as that expected for the robust linear model: small residuals scattered near zero for $x_i$ locations in the land engraved area, and positive, possibly large residuals for $x_i$ locations in the groove engraved areas. The increased flexibility of LOESS models lead to a closer fit to the curvature and thus the robust LOESS more reliably results in the aforementioned residual pattern. We can thus use a lower cutoff for separation of the residuals via magnitude. A cutoff that performs well on the Hamby set 44 is twice the median absolute deviation ($2 \times MAD$).}
+A robust LOESS model which accurately fits the LEA structure should
+result in a similar residual structure as that expected for the robust
+linear model: small residuals scattered near zero for \(x_i\) locations
+in the land engraved area, and positive, possibly large residuals for
+\(x_i\) locations in the groove engraved areas. The increased
+flexibility of LOESS models lead to a closer fit to the curvature and
+thus the robust LOESS more reliably results in the aforementioned
+residual pattern. We can thus use a lower cutoff for separation of the
+residuals via magnitude. A cutoff that performs well on the Hamby set 44
+is twice the median absolute deviation (\(2 \times MAD\)).
 
 \begin{figure}
 \centering
@@ -494,7 +495,7 @@ Shoulder location predictions are calculated for each crosscut in the
 following manner (\textbf{LOESS shoulder location prediction}):
 
 \begin{enumerate}
-\item Fit a robust LOESS model with \ug{a span of 1?, not mentioned before and possibly uninformative to some readers} to the crosscut. This can be fit using the `locfit.robust` function in the `locfit` package in R. \ug{(Is span=1 by any chance the default setting?)}
+\item Fit a robust LOESS model to the crosscut \citep{locfit}.
 \item Calculate a residual value $e_i$ for each data point on the crosscut.  
 \item Calculate the residual median absolute deviation (MAD) for the crosscut.  
 \item Remove all data points on the crosscut with a residual magnitude greater than $2 \times$MAD.  
@@ -600,12 +601,12 @@ set.}
 \centering
 \begin{tabular}{lrrr|rrr}
 & \multicolumn{3}{c}{\textbf{Left Shoulder Location}} & \multicolumn{3}{c}{\textbf{Right Shoulder Location}} \\
-\textbf{Method} & $< 100$ & $ \in (100, 1000) $ & $>1000$ & $< 100$ & $\in (100, 1000)$ & $>1000$ \\ \hline
+\textbf{Method} & $(0,100)$ & $ (100, 1000) $ & $(1000, \infty)$ & $(0,100)$ & $ (100, 1000) $ & $(1000, \infty)$ \\ \hline
 Rollapply & 86.54 & 8.17 & 5.29 & 52.88& 34.13&12.98  \\ \hline
 Robust Linear Model & 78.85 & 13.94 & 7.21 & 62.50 & 30.77&6.73 \\ \hline
 Robust LOESS & 94.23 & 5.29 & 0.48 & 73.08& 24.04&2.88\\ \hline
 \end{tabular}
-\caption{Table of results for areas of misidentification resulting from automated shoulder location identification methods applied to Hamby set 44. Results are presented as percentage of shoulder location predictions which fall into each category: satisfactory (less than 100), borderline (between 100 and 1000), and unsatisfactory (greater than 1000).}
+\caption{Table of results for areas of misidentification (in $\mu m^2$) resulting from automated shoulder location identification methods applied to Hamby set 44. Results are presented as percentage of shoulder location predictions which fall into each category: satisfactory (less than 100), borderline (between 100 and 1000), and unsatisfactory (greater than 1000).}
 \label{results-table}
 \end{table}
 

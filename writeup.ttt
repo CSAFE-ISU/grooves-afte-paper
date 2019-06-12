@@ -2,11 +2,11 @@
 \centering
 \begin{tabular}{lrrr|rrr}
 & \multicolumn{3}{c}{\textbf{Left Shoulder Location}} & \multicolumn{3}{c}{\textbf{Right Shoulder Location}} \\
-\textbf{Method} & $< 100$ & $ \in (100, 1000) $ & $>1000$ & $< 100$ & $\in (100, 1000)$ & $>1000$ \\ \hline
+\textbf{Method} & $(0,100)$ & $ (100, 1000) $ & $(1000, \infty)$ & $(0,100)$ & $ (100, 1000) $ & $(1000, \infty)$ \\ \hline
 Rollapply & 86.54 & 8.17 & 5.29 & 52.88& 34.13&12.98  \\ \hline
 Robust Linear Model & 78.85 & 13.94 & 7.21 & 62.50 & 30.77&6.73 \\ \hline
 Robust LOESS & 94.23 & 5.29 & 0.48 & 73.08& 24.04&2.88\\ \hline
 \end{tabular}
-\caption{Table of results for areas of misidentification resulting from automated shoulder location identification methods applied to Hamby set 44. Results are presented as percentage of shoulder location predictions which fall into each category: satisfactory (less than 100), borderline (between 100 and 1000), and unsatisfactory (greater than 1000).}
+\caption{Table of results for areas of misidentification (in $\mu m^2$) resulting from automated shoulder location identification methods applied to Hamby set 44. Results are presented as percentage of shoulder location predictions which fall into each category: satisfactory (less than 100), borderline (between 100 and 1000), and unsatisfactory (greater than 1000).}
 \label{results-table}
 \end{table}
