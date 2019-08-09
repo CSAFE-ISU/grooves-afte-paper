@@ -42,7 +42,7 @@
     \centering
     Step 4: Extracted LEA signature
 \end{minipage}
-\caption{The process of extracting a 2D signature from a 3D LEA scan described by \cite{Hare1}. GEA removal between Steps 2 and 3 is critical to ensure precise signature extraction.}
+\caption{The process of extracting a signature from a 3D LEA scan described by \cite{Hare1}. GEA removal between Steps 2 and 3 is critical to ensure precise signature extraction.}
 \label{fig:process}
 \end{figure}
 \efloatseparator
@@ -56,7 +56,8 @@ center, is comprised of the land engraved area. The groove engraved
 areas are found on the left and right sides of the crosscut. The lines
 show fits of two non-parametric LOESS smooths, with and without GEA
 data. When GEA data is included, the smooth fails to estimate the main
-LEA structure near the boundaries.}
+LEA structure near the boundaries. The LEA pictured here is Hamby 44,
+Barrel 10, Bullet 2, Land 2.}
 \end{figure}
 \efloatseparator
  
@@ -64,9 +65,10 @@ LEA structure near the boundaries.}
 \centering
 \includegraphics{writeup_files/figure-latex/groove-no-groove-1.pdf}
 \caption{\label{groove-no-groove}An example of the impact failure to
-remove GEA data can have on an extracted 2D signature. Even though there
+remove GEA data can have on an extracted signature. Even though there
 are only very few points in the GEA structure, the extracted signatures
-are dominated by boundary effects.}
+are dominated by boundary effects. The LEA pictured here is Hamby 44,
+Barrel 10, Bullet 2, Land 2.}
 \end{figure}
 \efloatseparator
  
@@ -77,8 +79,11 @@ are dominated by boundary effects.}
 resulting residuals (a, b) compared to a robust quadratic linear model
 fit and residuals (c, d) for a single profile. The robust model is able
 to more effectively capture the curved structure of the LEA without
-being influenced by the GEA. The dashed line in (d) is drawn at 4 x MAD.
-Values above the dashed line are considered outliers.}
+being influenced by the GEA. The dashed horizontal line in (d) is drawn
+at 4 x MAD. Values above the dashed line are considered outliers. The
+vertical lines in (d) are drawn where the left and right shoulder
+locations would be identified. The LEA pictured here is Hamby 44, Barrel
+10, Bullet 2, Land 2.}
 \end{figure}
 \efloatseparator
  
@@ -90,18 +95,20 @@ compared to a robust LOESS model fit and residuals (c, d) for a single
 profile. The robust model is again able to more effectively capture the
 curved structure of the LEA without being influenced by the GEA. The
 dashed line in (d) represents a cutoff of 2 x MAD. Values above the
-dashed line are considered outliers.}
+dashed line are considered outliers. The vertical lines in (d) are drawn
+where the left and right shoulder locations would be identified. The LEA
+pictured here is Hamby 44, Barrel 10, Bullet 2, Land 2.}
 \end{figure}
 \efloatseparator
  
 \begin{figure}
 \centering
 \includegraphics{writeup_files/figure-latex/results1-1.pdf}
-\caption{\label{results1}Distribution of areas of misidentification for
-rollapply (data smoothing) method, robust linear model method, and
-robust LOESS method, separated by left and right shoulder locations. A
-dense distribution with few high values indicates good performance
-across the LEAs in the data set.}
+\caption{\label{results1}Distribution, presented here as a boxplot, of
+areas of misidentification for rollapply (data smoothing) method, robust
+linear model method, and robust LOESS method, separated by left and
+right shoulder locations. A dense distribution with few high values
+indicates good performance across the LEAs in the data set.}
 \end{figure}
 \efloatseparator
  
@@ -112,8 +119,8 @@ across the LEAs in the data set.}
 rollapply (data smoothing) method, robust linear model method, and
 robust LOESS method, separated by left and right shoulder locations.
 Areas of misidentification are placed into three categories: less than
-100 microns (satisfactory), between 100 and 1000 microns, and greater
-than 1000 microns. A larger proportion of areas of misidentification
-under 100 microns indicates good performance across LEAs in the data
-set.}
+100 microns (small deviations), between 100 and 1000 microns, and
+greater than 1000 microns. A larger proportion of areas of
+misidentification under 100 microns indicates good performance across
+LEAs in the data set.}
 \end{figure}

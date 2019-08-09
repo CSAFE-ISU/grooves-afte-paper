@@ -1,12 +1,12 @@
 ---
-title: "A Robust Approach to Automatic Groove Identification in 3D Bullet Land Scans"
+title: "A Robust Approach to Automatically Locating Grooves in 3D Bullet Land Scans"
 authors:
 - affiliation: Department of Statistics, Iowa State University 
   name: Kiegan Rice
-  thanks: We would like to thank the efforts of CSAFE and the Roy J. Carver High Resolution Microscopy lab in scanning the Hamby set 44 and providing the scans to us. This work was partially funded by the Center for Statistics and Applications in Forensic Evidence (CSAFE) through Cooperative Agreement No. 70NANB15H176 between NIST and Iowa State University, which includes activities carried out at Carnegie Mellon University, University of California Irvine, and University of Virginia. 
-- affiliation: Department of Statistics and CSAFE, Iowa State University 
+  thanks: We would like to thank the efforts of the Center for Statistics and Applications in Forensic Evidence (CSAFE) and the Roy J. Carver High Resolution Microscopy lab in scanning the Hamby set 44 and providing the scans to us. This work was partially funded by the Center for Statistics and Applications in Forensic Evidence (CSAFE) through Cooperative Agreement No. 70NANB15H176 between NIST and Iowa State University, which includes activities carried out at Carnegie Mellon University, University of California Irvine, and University of Virginia. 
+- affiliation: Department of Statistics and the Center for Statistics and Applications in Forensic Evidence (CSAFE), Iowa State University 
   name: Ulrike Genschel
-- affiliation: Department of Statistics and CSAFE, Iowa State University 
+- affiliation: Department of Statistics and the Center for Statistics and Applications in Forensic Evidence (CSAFE), Iowa State University 
   name: Heike Hofmann
 biblio-style: jfs-authoryear
 output:
@@ -44,11 +44,85 @@ library(gridExtra)
 library(latex2exp)
 ```
 
+\section{Reviewer Comments}  
+
+Below are the reviewer comments with proposed responses. Proposed changes in accordance with reviewer comments within the text are colored teal.  
+
+\subsection{Reviewer 1}  
+
+1. "Currently accepted best practice..."  
+    - We have rephrased in accordance with the reviewer's comment. 
+2. "2D crosscuts" should be "1D profiles". 
+    - Profiles are recorded in two dimensions - location and height. Traditionally in imaging, 3D topographies such as these might be considered 2.5-D, which would make profiles 1.5-D. In order to avoid discussion of dimensionality here, we choose to remove dimension entirely and refer to them as simply "crosscuts" and "profiles".  
+3. Duplicate paragraph. 
+    - Noted and removed. 
+4. Describe rollapply, whether it is publicly available, etc. 
+    - An additional paragraph describing the rollapply method and where it is available has been added to the background section. 
+5. Figure 8 (boxplots).
+    - We have rewritten to clarify what we are plotting. The description of Figure 8 within the text has been updated to clarify this point, as well as the figure caption. 
+6. Figure 9/Table 1 are duplicated. 
+    - They are in fact based on the same numbers. However, the figure gives an overview of trend while the table provides the specific quantitative information. For this reason, we believe they both provide the audience with useful insight. A sentence clarifying that they are sourced from the same information has been added. 
+7. Defend choice of cutoffs for results. 
+    - The binning could be done differently. What we want to see is essentially a rough categorization of different levels of deviation from the "ground truth" shoulder location. To clarify this, we have renamed the categories as "small deviation", "medium deviation", and "large deviation". 
+8. X3P should be all caps
+    - The ISO standard, referenced in the "Data Source" section, defines x3p as "x3p", with lowercase "x" and "p". 
+9. Caliber, ammo brand, bullet material
+    - We have updated the data source section to include this information.
+10. Why was 0.645 chosen as the resolution? 
+    - This is the resolution of our instrument at 20x magnification, so we are bound by 0.645. For reference, Hamby sets scanned at NIST and posted publicly on the NIST Ballistics and Toolmark Research Database (NBTRD) are gathered at a resolution of 1.5625 microns/pixel. Our machine's resolution is higher than that. 
+11. Is rollapply only other method? Is it current-best?
+    - Rollapply is the only other automated approach available in the literature for methods which perform LEA-to-LEA comparisons. 
+12. Fig. 5 and 6 should be same data, or clarify if they are not. 
+    - We have added information about which LEA is shown in Figures 5, 6, and 7 for clarity. 
+    - Figure 5 has also been updated to be the same LEA data as Figures 5 and 6 for clarity.  
+13. Why is right shoulder harder to find? 
+    - We added additional details to support our hypothesis on this point.  
+
+\subsection{Reviewer 2}  
+
+1. Title is confusing  
+    - We have updated the title for clarification. 
+2. "Visual feature comparison" vs "pattern matching"
+    - We use "visual feature comparison" over "pattern matching" because we want to emphasize the process of comparison, not the result. However, for clarification, we have re-worded to simply "visual comparison". 
+3. "Striated tool marks"
+    - Reworded to use the phrase striated tool marks instead of striations. 
+4. Citation for "same source-different source problem". 
+    - Added a citation.
+5. Spell out LEA. Use "toolmarks produced on fired bullets". 
+    - Spelled out LEA on its first appearance. 
+    - Added a statement to clarify that we are referring to toolmarks on fired bullets.
+6. "3rd paragraph..."
+    - We are assuming you would like us to rephrase. We have done so.
+7. "Impressed" should be "engraved".
+    - You are correct. We have rephrased.
+8. "Automated Computer Vision Techniques"
+    - We were referring to automated computer vision techniques in general. However, to clarify for this specific application, we have rephrased.
+9. "Data source..."
+    - Yes, there are some papers that assume operators will manually trim. This is not what the Hare et. al. paper does. Rollapply is an automated approach to this in that paper.
+10. "Tank rash"
+    - Have rephrased.  
+11. 
+
+12. Misread of process in Fig. 7
+    - Note that our process, described step-by-step on page 8, is simply to identify shoulder locations. All LEA data inside those shoulder locations are preserved and remain as part of the data included in further analysis.
+    - Lines to reference where identified shoulder locations would be have been added to Figs. 6d and 7d, and clarifications have been added to the figure captions. 
+13. Bullets with smooth GEA
+    - This particular method is meant for sharp-edged rifling. Smooth GEAs would not cause the same structural issues as sharp-edged rifling. In downstream analysis, a LOESS fit to the bullet structure can capture the more gradual changes present with a smooth GEA and still produce a useful signature. 
+14. Shoulders not aligned along longitude could cause a problem 
+    - We have noted this limitation in our conclusions section. 
+15. "MUST rely on operator to manually crop"
+    - There is not really a comment or suggested change that we can address.
+16. "Comparison of manually cropped vs. automated using CCF"
+17. "Diversity in scan sets"
+    - \kr{We have added an additional test set, Phoenix PD, to our results section. This has also been detailed in the data source section.}  
+
+
+
 \section{Background}  
 
-Forensic firearms examiners analyze bullets through a process of visual feature comparison to determine whether two bullets originate from the same source. Two bullets in question are placed under a comparison microscope and firearms examiners evaluate similarities and differences between the bullets' striation marks according to the AFTE Theory of Identification [@AFTE] guidelines resulting in a decision about whether both bullets were fired through the same gun barrel. In forensic science, this problem is known as the *same source-different source problem* and it focuses on establishing quantitative evidence whether two bullets were fired through the same gun barrel.  
+Forensic firearms examiners analyze bullets through a process of \kr{visual comparison} to determine whether two bullets originate from the same source. Two bullets in question are placed under a comparison microscope and firearms examiners evaluate similarities and differences between \kr{striated toolmarks produced on fired bullets from rifled barrels. The assessment of these patterns follows} the AFTE Theory of Identification [@AFTE] guidelines resulting in a decision about whether both bullets were fired through the same gun barrel. In forensic science, this problem is known as the *same source-different source problem* \kr{[see @Ommen1]} and it focuses on establishing quantitative evidence whether two bullets were fired through the same gun barrel.  
 
-Recent advances in technology, particularly wider access to high resolution 3D microscopy tools, have led to an increase in research on image-analysis algorithms for automated, quantitative analyses of bullet evidence. The introduction of such scanning technology to the field of forensic science allows for capture of high resolution 3D images of bullet LEAs, depicted in \autoref{microscope} [see @DeKinder1; @DeKinder2; @Bachrach1].  The resulting 3D images have since been used in the development of several novel methods for automated comparison of land engraved areas [e.g. @Ma1; @Chu1; @Chu2; @Hare1]. 
+Recent advances in technology, particularly wider access to high resolution 3D microscopy tools, have led to an increase in research on image-analysis algorithms for automated, quantitative analyses of bullet evidence. The introduction of such scanning technology to the field of forensic science allows for capture of high resolution 3D images of bullet land engraved areas (LEAs), depicted in \autoref{microscope} [see @DeKinder1; @DeKinder2; @Bachrach1].  The resulting 3D images have since been used in the development of several novel methods for automated comparison of land engraved areas [e.g. @Ma1; @Chu1; @Chu2; @Hare1]. 
 
 ```{r microscope, echo=FALSE, out.width='0.48\\textwidth', fig.cap='\\label{microscope}(Left) Close-up view of a bullet staged in a confocal light microscope. The green light marks the focal view of the capture area. (Right) Computer-rendered image of the scanned land engraved area with prominent striation marks. Breakoff is seen visually on the bottom right hand side of the scan.', fig.show='hold', fig.align='center', dev='pdf'}
 knitr::include_graphics(c(
@@ -56,9 +130,11 @@ knitr::include_graphics(c(
   "./images/HS44-Br1-B1-L2-annotated.png"), dpi =300)
 ```
 
-In this paper, we will focus only on barrels with traditional sharp-edged lands and grooves (i.e., no polygonal rifling). Sections of the bullet that make the closest contact with the barrel are called land engraved areas (LEAs). Those alternate with groove engraved areas (GEAs). Micro imperfections in the barrel introduce striae on the bullet during the firing process. The resulting striation marks provide evidence to address the same source-different source problem. A guiding principle in forensic firearms analysis is that two bullets fired through the same barrel will bear more similar striation marks on their LEAs than two bullets fired from different barrels. @Hare1 proposes a matching algorithm based on 3D imaging data of LEAs. Horizontal slices of the 3D images, called crosscuts, provide a detailed representation of striae impressed on the surface at a horizontal cross-section of each LEA. A current limitation of this algorithm is that it cannot deal with a mix of striae from both LEA and GEAs. For the human visual system, separating the two areas is straightforward. However, the same cannot be said for automated computer vision techniques.  
+In this paper, we will focus only on barrels with traditional sharp-edged lands and grooves (i.e., no polygonal rifling). Sections of the bullet that make \kr{contact with high points inside the barrel are called land engraved areas (LEAs) and alternate with low points called groove engraved areas (GEAs).} Micro imperfections in the barrel introduce striae on the bullet during the firing process. The resulting striation marks provide evidence to address the same source-different source problem. A guiding principle in forensic firearms analysis is that two bullets fired through the same barrel will bear more similar striation marks on their LEAs than two bullets fired from different barrels. @Hare1 proposes a matching algorithm based on 3D imaging data of LEAs. Horizontal slices of the 3D images, called crosscuts, provide a detailed representation of striae engraved on the surface at a horizontal cross-section of each LEA. A current limitation of this algorithm is that it cannot deal with a mix of striae from both LEA and GEAs. For the human visual system, separating the two areas is straightforward. However, the same cannot be said for automated \kr{computer toolmark comparison} techniques.  
 
 A correct identification of LEAs is vital to achieve high accuracy and precision in the subsequent downstream analysis and our goal is to present and discuss different automated methods for identifying so-called *shoulder locations*, the locations at which the land engraved areas end and the groove engraved areas begin.  
+
+\kr{The best currently available method to identify these shoulder locations is the ``rollapply" method proposed by @Hare1. This method is publicly available through the \texttt{bulletxtrctr} package for the open source statistical computing language \texttt{R}. The authors propose first applying a rolling average to each profile to smooth out bumps in data, followed by identifying the local minima closest to the edges of each smoothed profile.}  
 
 The structure of the paper is as follows: a description of the data storage format and data set, an explanation of methodology to predict shoulder locations, and finally an illustration of improved prediction accuracy results.  
 
@@ -67,7 +143,7 @@ The structure of the paper is as follows: a description of the data storage form
 
 \section{Data Source}  
 
-All currently published automated methods rely on high resolution 3D scans of bullet land engraved areas. Currently accepted best practice for collecting 3D images of bullet LEAs requires that bullets are staged such that striae appear vertically in the scan. Scanning across the LEA must begin and end in the neighboring groove engraved areas as shown in \autoref{fig:LEA}. Parts of the breakoff are captured as a visual reference for orientation (see \autoref{fig:microscope}).  
+All currently published automated methods rely on high resolution 3D scans of bullet land engraved areas. \kr{Our approach to the collection of}  3D images of bullet LEAs requires that bullets are staged such that striae appear vertically in the scan. Scanning across the LEA must begin and end in the neighboring groove engraved areas as shown in \autoref{fig:LEA}. Parts of the breakoff are captured as a visual reference for orientation (see \autoref{fig:microscope}).  
 
 ```{r LEA, echo=FALSE, out.width='\\textwidth', fig.cap='\\label{LEA}Visualization of 3D data collected through high resolution scanning of a land engraved area. Striations on the surface of the object can be seen by viewing this data from "above", as presented here.', fig.path = 'paper_images/LEA', dev='pdf'}
 knitr::include_graphics("./images/3d_plot_top_context_breakoff.png", dpi = 300)
@@ -108,21 +184,21 @@ The algorithm proposed by @Hare1 uses so-called crosscuts, height measurements a
     \centering
     Step 4: Extracted LEA signature
 \end{minipage}
-\caption{The process of extracting a 2D signature from a 3D LEA scan described by \cite{Hare1}. GEA removal between Steps 2 and 3 is critical to ensure precise signature extraction.}  
+\caption{The process of extracting a signature from a 3D LEA scan described by \cite{Hare1}. GEA removal between Steps 2 and 3 is critical to ensure precise signature extraction.}  
 \label{fig:process}
 \end{figure}
 
 
-In the following, we are introducing and comparing two methods for identifying shoulder locations. In order to assess the performance of these methods, we are applying both methods on 3D scans of LEAs from Hamby set 44 [@Hamby]. Each Hamby set consists of 35 bullets fired from 10 consecutively rifled Ruger P85 barrels. 
+In the following, we are introducing and comparing two methods for identifying shoulder locations. In order to assess the performance of these methods, we are applying both methods on 3D scans of LEAs from Hamby set 44 [@Hamby]. Each Hamby set consists of 35 \kr{Winchester 9mm copper} bullets fired from 10 consecutively rifled Ruger P-85 \kr{9mm Luger} barrels. 
 
-Each fired bullet in Hamby Set 44 has 6 LEAs; every LEA was scanned for each of the 35 bullets, producing data for 210 individual lands.  Two lands -- Barrel 9, Bullet 2, Land 3 and Questioned Bullet L, Land 5 -- were removed from consideration due to "tank rash". Tank rash results from a bullet striking the bottom of a water recovery tank after exiting the barrel, thereby creating marks on the land that are not due to the contact with the barrel.
+Each fired bullet in Hamby Set 44 has 6 LEAs; every LEA was scanned for each of the 35 bullets, producing data for 210 individual LEAs.  Two LEAs -- Barrel 9, Bullet 2, Land 3 and Questioned Bullet L, Land 5 -- were removed from consideration \kr{because they were deemed unsuitable for comparison. These two LEAs contained significant abrasians created by contact with the bottom of a water recovery tank after exiting the barrel. These abrasians are thus marks present on the LEAs that are not due to contact with the barrel itself}.
 
 
 All 3D scans of Hamby Set 44 were captured at Iowa State University's Roy J.\ Carver High Resolution Microscopy Facility with a Sensofar Confocal light microscope at 20 times magnification resulting in a resolution of 0.645 microns per pixel (1 micron = 1$\mu$m = 0.001mm). Physically, each land is approximately 2 millimeters in width; as such, data structures for a single LEA can contain more than 3 million individual data points. 
 
 
 
-```{r prof, echo = F, warning = F, message = F, fig.height = 3.3, fig.cap = "\\label{prof}The black points show measured heights for a single crosscut of a 3D LEA scan. The main data structure, located in the center, is comprised of the land engraved area. The groove engraved areas are found on the left and right sides of the crosscut. The lines show fits of two non-parametric LOESS smooths, with and without GEA data. When GEA data is included, the smooth fails to estimate the main LEA structure near the boundaries.", dpi = 300}
+```{r prof, echo = F, warning = F, message = F, fig.height = 3.3, fig.cap = "\\label{prof}The black points show measured heights for a single crosscut of a 3D LEA scan. The main data structure, located in the center, is comprised of the land engraved area. The groove engraved areas are found on the left and right sides of the crosscut. The lines show fits of two non-parametric LOESS smooths, with and without GEA data. When GEA data is included, the smooth fails to estimate the main LEA structure near the boundaries. The LEA pictured here is Hamby 44, Barrel 10, Bullet 2, Land 2.", dpi = 300}
 hamby44_eval <- readRDS("data/hamby44/hamby44_eval.rda")
 bullet <- hamby44_eval$ccdata_w_resid[[48]]
 bullet %>% ggplot() + 
@@ -148,20 +224,20 @@ bullet %>% ggplot() +
 ```
 
 
-Data used to assess performance of the two methods consist of 2D crosscuts gathered from the 3D scans, as shown in \autoref{prof}. 
+Data used to assess performance of the two methods consist of crosscuts gathered from the 3D scans, as shown in \autoref{prof}. 
 
 
 \section{Methodology}  
 
 
-The structure in the 2D crosscuts is dominated by the curvature of the physical object (the bullet). To assess the similarity of features from two land engraved areas, this curvature has to be removed.  
+The structure in the crosscuts is dominated by the curvature of the physical object (the bullet). To assess the similarity of features from two land engraved areas, this curvature has to be removed.  
 
 Non-parametric methods suggested in the literature, such as a LOESS fit [@Hare1] or a Gaussian filter [@Chu1] are effective for removing the curvature to extract a signature. However, they are prone to boundary effects, which cause mischaracterizations of data patterns near the boundaries of the data domain. In the case of crosscuts, the boundaries are often dominated by values originating from the GEA structure. This structure exaggerates existing boundary effects because GEAs introduce a secondary structure different from the main curvature of the LEA, as shown in \autoref{prof} and \autoref{groove-no-groove}. \autoref{prof} shows how much a non-parametric LOESS fit is affected by including GEA data. \autoref{groove-no-groove} illustrates the effect the inclusion of the same has on extracted signatures. If included, GEA data result in strong boundary effects in the signatures. Statistically, GEA data introduce outliers into the LEA data. In the next sections, we introduce two methods for fitting the LEA structure. Both methods aim to describe the relationship between horizontal position and relative height on a crosscut. While the two approaches differ in methodology, they are both rooted in the ability to mitigate potential influence caused by outlying data.  
 
 
-```{r groove-no-groove, echo = F, warning = F, message = F, fig.cap = "\\label{groove-no-groove}An example of the impact failure to remove GEA data can have on an extracted 2D signature. Even though there are only very few points in the GEA structure, the extracted signatures are dominated by boundary effects.", fig.height=4, fig.width = 6, dpi = 300}
+```{r groove-no-groove, echo = F, warning = F, message = F, fig.cap = "\\label{groove-no-groove}An example of the impact failure to remove GEA data can have on an extracted signature. Even though there are only very few points in the GEA structure, the extracted signatures are dominated by boundary effects. The LEA pictured here is Hamby 44, Barrel 10, Bullet 2, Land 2.", fig.height=4, fig.width = 6, dpi = 300}
 h44 <- readRDS("data/hamby44/hamby44_eval.rda")
-bullet <- h44[1,]
+bullet <- h44[48,]
 
 groove <- list(groove = c(bullet$left_groove, bullet$right_groove))
 bullet_sig <- bulletxtrctr::cc_get_signature(bullet$ccdata_w_resid[[1]], groove)
@@ -229,7 +305,12 @@ This method of minimization is less influenced by large outliers present in the 
 Estimation based on taking squared deviations seeks to balance the fit between the LEA structure and the GEA structure, resulting in a fit which compromises between both structures without adequately fitting either. The use of absolute deviations reduces the degree of compromise in favor of fitting the majority structure, here LEA. \autoref{lms}(a) and (c) show the fitted curves from each model framework. \autoref{lms}(b) and (d) display the differences between predicted height and observed height at each location $x_i$, known as the observed model residuals $e_i$. We will utilize the observed residuals to separate the two structures. The robust model in \autoref{lms} fits the LEA structure more closely and better captures the curvature, allowing for a more accurate separation between GEA and LEA structures. 
 
 
-```{r lms, echo = F, warning = F, message = F, fig.height = 4, fig.cap = "\\label{lms}Example of a quadratic linear model fit and resulting residuals (a, b) compared to a robust quadratic linear model fit and residuals (c, d) for a single profile. The robust model is able to more effectively capture the curved structure of the LEA without being influenced by the GEA. The dashed line in (d) is drawn at 4 x MAD. Values above the dashed line are considered outliers.", dpi = 300}
+```{r lms, echo = F, warning = F, message = F, fig.height = 4, fig.cap = "\\label{lms}Example of a quadratic linear model fit and resulting residuals (a, b) compared to a robust quadratic linear model fit and residuals (c, d) for a single profile. The robust model is able to more effectively capture the curved structure of the LEA without being influenced by the GEA. The dashed horizontal line in (d) is drawn at 4 x MAD. Values above the dashed line are considered outliers. The vertical lines in (d) are drawn where the left and right shoulder locations would be identified. The LEA pictured here is Hamby 44, Barrel 10, Bullet 2, Land 2.", dpi = 300}
+
+
+#> hamby44_eval_paper$grooves_pred_mad4rlm[[48]]
+#[1]  137.225 2227.345
+
 hamby44_eval <- readRDS("data/hamby44/hamby44_eval.rda")
 bullet <- hamby44_eval$ccdata_w_resid[[48]]
 lm <- lm(value_std~poly(x,2), data = bullet)
@@ -289,7 +370,8 @@ p4_rlm <- bullet %>% ggplot() +
         axis.text.y = element_text(size = rel(1)), 
         title = element_text(size = rel(0.7))) + 
   ylim(c(-25, 85)) + 
-  geom_hline(yintercept = 4*mad(bullet$rlm_resid, na.rm = T), lty = 2, color = "red")
+  geom_hline(yintercept = 4*mad(bullet$rlm_resid, na.rm = T), lty = 2, color = "red") + 
+  geom_vline(xintercept = c(177.225, 2227.345), color = "grey30")
 
 library(gridExtra)
 grid.arrange(p1_rlm, p2_rlm, p3_rlm, p4_rlm, ncol =2 )
@@ -338,7 +420,9 @@ else, weights are set to 0. These new weights are re-applied in (\ref{eq:RobLOES
 A robust LOESS model which accurately fits the LEA structure should result in a similar residual structure as that expected for the robust linear model: small residuals scattered near zero for $x_i$ locations in the land engraved area, and positive, possibly large residuals for $x_i$ locations in the groove engraved areas. The increased flexibility of LOESS models lead to a closer fit to the curvature and thus the robust LOESS more reliably results in the aforementioned residual pattern. We can thus use a lower cutoff for separation of the residuals via magnitude. A cutoff that performs well on the Hamby set 44 is twice the median absolute deviation ($2 \times MAD$).
 
 
-```{r loess, echo = F, warning = F, message = F, fig.height = 4, fig.cap = "\\label{loess}Example of a LOESS model fit and residuals (a, b) compared to a robust LOESS model fit and residuals (c, d) for a single profile. The robust model is again able to more effectively capture the curved structure of the LEA without being influenced by the GEA. The dashed line in (d) represents a cutoff of 2 x MAD. Values above the dashed line are considered outliers.", dpi = 300}
+```{r loess, echo = F, warning = F, message = F, fig.height = 4, fig.cap = "\\label{loess}Example of a LOESS model fit and residuals (a, b) compared to a robust LOESS model fit and residuals (c, d) for a single profile. The robust model is again able to more effectively capture the curved structure of the LEA without being influenced by the GEA. The dashed line in (d) represents a cutoff of 2 x MAD. Values above the dashed line are considered outliers. The vertical lines in (d) are drawn where the left and right shoulder locations would be identified. The LEA pictured here is Hamby 44, Barrel 10, Bullet 2, Land 2.", dpi = 300}
+#> hamby44_eval_paper$grooves_pred_mad2[[48]]
+#[1]  207.530 2227.345
 lo <- loess(value_std~x, data = bullet, span = 1)
 bullet$lo_pred <- predict(lo, newdata = bullet)
 bullet$lo_resid <- bullet$value_std - bullet$lo_pred
@@ -393,7 +477,8 @@ p4_rlo <- bullet %>% ggplot() +
         axis.text.x = element_text(size = rel(1)),
         axis.text.y = element_text(size = rel(1)), 
         title = element_text(size = rel(0.7))) + 
-  geom_hline(yintercept = 2*mad(bullet$rlm_resid, na.rm = T), lty = 2, color = "red")
+  geom_hline(yintercept = 2*mad(bullet$rlm_resid, na.rm = T), lty = 2, color = "red") + 
+  geom_vline(xintercept = c(207.530, 2227.345), color = "grey30")
 
 
 #library(gridExtra)
@@ -448,11 +533,14 @@ An area of misidentification was calculated separately for the left hand side an
 
 <!-- \hh{XXX} -->
 
-To assess the performance of all three methods, we consider the distribution of the areas of misidentification across all 208 lands of Hamby set 44 (see \autoref{results1}). A distribution starting at or close to zero with minimal spread is ideal as this suggests many of the predicted shoulder locations are very close to the manually identified locations, and predictions are removing many of the outlying GEA points. A distribution with a wider spread or many high, outlying areas of misidentification suggests a greater degree of uncertainty and inaccuracy for a particular method.  
+To assess the performance of all three methods, we consider the distribution of the areas of misidentification across all 208 lands of Hamby set 44. \kr{\autoref{results1} presents each distribution as a boxplot. The box encompasses the middle 50\% of values, spanning the 25th to 75th percentile. The line inside each box represents the median value, and individual data points are unusually large values we call outliers.} A distribution starting at or close to zero with minimal spread is ideal as this suggests many of the predicted shoulder locations are very close to the manually identified locations, and predictions are removing many of the outlying GEA points. A distribution with a wider spread or many high, outlying areas of misidentification suggests a greater degree of uncertainty and inaccuracy for a particular method. \kr{Some of the outliers are so extreme, statistics appear very close to one another or on top of each other.}  
 
-```{r results1, echo = F, warning = F, message = F, fig.height = 6, fig.width = 6, fig.cap = "\\label{results1}Distribution of areas of misidentification for rollapply (data smoothing) method, robust linear model method, and robust LOESS method, separated by left and right shoulder locations. A dense distribution with few high values indicates good performance across the LEAs in the data set.", dpi = 300}
+```{r results1, echo = F, warning = F, message = F, fig.height = 6, fig.width = 6, fig.cap = "\\label{results1}Distribution, presented here as a boxplot, of areas of misidentification for rollapply (data smoothing) method, robust linear model method, and robust LOESS method, separated by left and right shoulder locations. A dense distribution with few high values indicates good performance across the LEAs in the data set.", dpi = 300}
 hamby44_eval_paper <- readRDS("data/hamby44/hamby44_eval_paper.rda")
+#phoenix <- readRDS("data/phoenix_eval.rda")
+#hamby44_eval_paper <- hamby44_eval_paper %>% ungroup() %>% select(source, crosscuts, score_left_rollapply, score_right_rollapply, score_left_mad2:score_right_mad4rlm)
 
+  #dataset <- full_join(hamby44_eval_paper, phoenix)
   dataset <- hamby44_eval_paper
   methods <- c("rollapply", "mad2", "mad4rlm")
   colnames <- c()
@@ -497,17 +585,19 @@ hamby44_eval_paper <- readRDS("data/hamby44/hamby44_eval_paper.rda")
 
 ```
 
-Because the raw distributions are difficult to visually compare due to extreme outliers, we categorized areas of misidentification as satisfactory, borderline, and unsatisfactory. Scores under 100 are considered satisfactory, scores between 100 and 1000 are borderline, and scores above 1000 are considered unsatisfactory (see \autoref{results2}). Unsatisfactory cases are the most likely to cause poor or flawed results in subsequent analyses. 
+Because the raw distributions are difficult to visually compare due to extreme outliers, we categorized areas of misidentification as \kr{small, medium, and large deviations. Scores under 100 are considered small deviations, scores between 100 and 1000 are medium, and scores above 1000 are considered large deviations (see \autoref{results2}). Cases with large deviations are the most likely to cause poor or flawed results in subsequent analyses.} Note that \autoref{results2} and \autoref{results-table} are based on the same numbers but provide two different presentations of the results.  
 
-It is important to note that different results are expected for the left and right shoulder locations. Within Hamby set 44, almost all scans have a well-defined left groove. Left here is defined as visually left on the scan; this is the side the scan begins on, so a well-defined distinction between GEA and LEA is expected. Often, a less clear distinction is seen on the right side of the scan, with sometimes no apparent shoulder location visible. For this reason it is preferable to separate the left and right for visual inspection of results; a method may excel on one side but fall short on another.   
-
-
+It is important to note that different results are expected for the left and right shoulder locations. Within Hamby set 44, almost all scans have a well-defined left groove. Left here is defined as visually left on the scan; this is the side the scan begins on, so a well-defined distinction between GEA and LEA is expected. Often, a less clear distinction is seen on the right side of the scan, with sometimes no apparent shoulder location visible. \kr{This may be due to the left shoulder corresponding to the leading edge in the twist of a bullet as it is propelled through a gun barrel.} For this reason it is preferable to separate the left and right for visual inspection of results; a method may excel on one side but fall short on another.   
 
 
-```{r results2, echo = F, warning = F, message = F, fig.height = 4, fig.cap = "\\label{results2}Distribution of areas of misidentification for rollapply (data smoothing) method, robust linear model method, and robust LOESS method, separated by left and right shoulder locations. Areas of misidentification are placed into three categories: less than 100 microns (satisfactory), between 100 and 1000 microns, and greater than 1000 microns. A larger proportion of areas of misidentification under 100 microns indicates good performance across LEAs in the data set.", dpi = 300}
 
 
-  dataset <- hamby44_eval_paper
+```{r results2, echo = F, warning = F, message = F, fig.height = 4, fig.cap = "\\label{results2}Distribution of areas of misidentification for rollapply (data smoothing) method, robust linear model method, and robust LOESS method, separated by left and right shoulder locations. Areas of misidentification are placed into three categories: less than 100 microns (small deviations), between 100 and 1000 microns, and greater than 1000 microns. A larger proportion of areas of misidentification under 100 microns indicates good performance across LEAs in the data set.", dpi = 300}
+#phoenix <- readRDS("data/phoenix_eval.rda")
+#hamby44_eval_paper <- hamby44_eval_paper %>% ungroup() %>% select(source, crosscuts, score_left_rollapply, score_right_rollapply, score_left_mad2:score_right_mad4rlm)
+
+  #dataset <- full_join(hamby44_eval_paper, phoenix)
+dataset <- hamby44_eval_paper
   methods <- c("rollapply", "mad2", "mad4rlm")
   colnames <- c()
   for (i in 1:length(methods)){
@@ -552,7 +642,7 @@ Rollapply & `r round((180/208)*100, 2)` & `r round((17/208)*100, 2)` & `r round(
 Robust Linear Model & `r round((164/208)*100, 2)` & `r round((29/208)*100, 2)` & `r round((15/208)*100, 2)` & 62.50 & `r round((64/208)*100, 2)`&`r round((14/208)*100, 2)` \\ \hline
 Robust LOESS & `r round((196/208)*100, 2)` & `r round((11/208)*100, 2)` & `r round((1/208)*100, 2)` & `r round((152/208)*100, 2)`& `r round((50/208)*100, 2)`&`r round((6/208)*100, 2)`\\ \hline
 \end{tabular}
-\caption{Table of results for areas of misidentification (in $\mu m^2$) resulting from automated shoulder location identification methods applied to Hamby set 44. Results are presented as percentage of shoulder location predictions which fall into each category: satisfactory (less than 100), borderline (between 100 and 1000), and unsatisfactory (greater than 1000).}
+\caption{Table of results for areas of misidentification (in $\mu m^2$) resulting from automated shoulder location identification methods applied to Hamby set 44. Results are presented as percentage of shoulder location predictions which fall into each category: small deviations (less than 100), medium deviations (between 100 and 1000), and large deviations (greater than 1000).}
 \label{results-table}
 \end{table}
 
@@ -562,7 +652,7 @@ Robust LOESS & `r round((196/208)*100, 2)` & `r round((11/208)*100, 2)` & `r rou
 
 Both the robust linear model and robust LOESS approaches outperform currently implemented solutions based on data smoothers for the right shoulder location. Of the two, the robust LOESS approach clearly outperforms the robust linear model. This hierarchy of performance is well within expectation given the strength of robust approaches in general as well as the flexibility of LOESS applied to this data type. Robust LOESS also readily handles variation introduced in the process of translating the physical bullet into a 3D object. If there is too much variability in how the bullet is placed relative to the plane of reference on the microscope, profiles can have tilted shapes relative to the x-axis which a quadratic linear model would fail to address. In these situations, LOESS excels.  
 
-While the proposed cutoff values as multiples of MAD work well on Hamby set 44, additional validation will need to be executed on a wider variety of barrel types. Depth of striae, physical size of bullet due to caliber, and non-traditional rifling techniques may require alterations to this cutoff value. In addition, a study of the effect of implementing robust LOESS shoulder location identification on the downstream similarity assessment will need to be completed. Due to increased accuracy of predicted shoulder locations, the authors expect an increase in accuracy in bullet matching algorithms. However, this will need to be validated on a variety of data sets prior to implementation without human intervention in the automated process.   
+While the proposed cutoff values as multiples of MAD work well on Hamby set 44, additional validation will need to be executed on a wider variety of barrel types. Depth of striae, physical size of bullet due to caliber, and non-traditional rifling techniques may require alterations to this cutoff value. LEAs with shoulders which are not aligned horizontally due to tild may also require slight alterations to the method. In addition, a study of the effect of implementing robust LOESS shoulder location identification on the downstream similarity assessment will need to be completed. Due to increased accuracy of predicted shoulder locations, the authors expect an increase in accuracy in bullet matching algorithms. However, this will need to be validated on a variety of data sets prior to implementation without human intervention in the automated process.   
 
 
 
