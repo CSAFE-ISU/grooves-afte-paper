@@ -128,8 +128,8 @@ applied to the atypical structure of 3D bullet data, often failing to
 adequately separate LEA and GEA data. We developed a method for
 automated removal of GEA data based on robust locally weighted
 regression. This automated method was tested on high resolution 3D scans
-of LEAs from Hamby set 44. This separation method outperforms current
-methods at separating LEA and GEA data.
+of LEAs from two bullet test sets. This separation method outperforms
+current methods at separating LEA and GEA data.
 \end{abstract}
 
 \noindent%
@@ -428,6 +428,21 @@ teal.
   \end{itemize}
 \item
   ``Comparison of manually cropped vs.~automated using CCF''
+
+  \begin{itemize}
+  \tightlist
+  \item
+    There are too many factors to account for to properly evaluate this
+    within the scope of this paper. We understand that downstream
+    analysis is the ``gold standard" but the CCF alone is not good
+    enough to evaluate performance here. Calculating a CCF for two
+    profiles will almost always result in a very high value due to the
+    underlying curvature present in LEA profiles. There are multiple
+    methods in the literature to extract a LEA signature, and they do
+    not result in the same CCF values. To demonstrate this property, see
+    the images below. For this reason, we believe discussing the
+    downstream analysis would be out of scope for this paper.
+  \end{itemize}
 \item
   ``Diversity in scan sets''
 
@@ -438,6 +453,10 @@ teal.
     {\color{teal}{The figures have been updated to include the Houston-test set, but the table has not. Should the table for Hamby and Houston be kept separate?}}
   \end{itemize}
 \end{enumerate}
+
+\includegraphics{writeup_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+\includegraphics{writeup_files/figure-latex/unnamed-chunk-4-1.pdf}
 
 \section{Background}
 
@@ -581,18 +600,18 @@ bullets fired from 10 consecutively rifled Ruger P-85
 {\color{teal}{The Houston-test set consists of XXX bullets fired from XXX type of barrels...}}
 
 Each fired bullet in Hamby Set 44 and Houston-test set has 6 LEAs; every
-LEA was scanned for each of the 35 {\color{teal}{plus houston-test}}
-bullets, producing data for 210 individual LEAs. Two LEAs from Hamby Set
-44 -- Barrel 9, Bullet 2, Land 3 and Questioned Bullet L, Land 5 -- were
-removed from consideration
+LEA was scanned for each of the 35 {\color{teal}{(104)}} bullets,
+producing data for 210 {\color{teal}{624}} individual LEAs. Two LEAs
+from Hamby Set 44 -- Barrel 9, Bullet 2, Land 3 and Questioned Bullet L,
+Land 5 -- were removed from consideration
 {\color{teal}{because they were deemed unsuitable for comparison. These two LEAs contained significant abrasians created by contact with the bottom of a water recovery tank after exiting the barrel. These abrasians are thus marks present on the LEAs that are not due to contact with the barrel itself}}.
 
-All 3D scans of Hamby Set 44 and Houston-test were captured at Iowa
-State University's Roy J.~Carver High Resolution Microscopy Facility
-with a Sensofar Confocal light microscope at 20 times magnification
-resulting in a resolution of 0.645 microns per pixel (1 micron =
-1\(\mu\)m = 0.001mm). Physically, each land is approximately 2
-millimeters in width; as such, data structures for a single LEA can
+All 3D scans of Hamby Set 44 {\color{teal}{and Houston-test}} were
+captured at Iowa State University's Roy J.~Carver High Resolution
+Microscopy Facility with a Sensofar Confocal light microscope at 20
+times magnification resulting in a resolution of 0.645 microns per pixel
+(1 micron = 1\(\mu\)m = 0.001mm). Physically, each land is approximately
+2 millimeters in width; as such, data structures for a single LEA can
 contain more than 3 million individual data points.
 
 \begin{figure}
@@ -916,16 +935,17 @@ LEAs in the data set.}
 \begin{tabular}{lrrr|rrr}
 & \multicolumn{3}{c}{\textbf{Left Shoulder Location}} & \multicolumn{3}{c}{\textbf{Right Shoulder Location}} \\
 \textbf{Method} & $(0,100)$ & $ (100, 1000) $ & $(1000, \infty)$ & $(0,100)$ & $ (100, 1000) $ & $(1000, \infty)$ \\ \hline
-Rollapply & 86.54 & 8.17 & 5.29 & 52.88& 34.13&12.98  \\ \hline
-Robust Linear Model & 78.85 & 13.94 & 7.21 & 62.50 & 30.77&6.73 \\ \hline
-Robust LOESS & 94.23 & 5.29 & 0.48 & 73.08& 24.04&2.88\\ \hline
+Rollapply & 37.78 & 8.20 & 54.02 & 44.37& 32.48&23.15  \\ \hline
+Robust Linear Model & 28.30 & 7.88 & 63.83 & 32.32 & 24.28&43.41 \\ \hline
+Robust LOESS & 72.99 & 7.56 & 19.45 & 62.06& 23.79&14.15\\ \hline
 \end{tabular}
-\caption{Table of results for areas of misidentification (in $\mu m^2$) resulting from automated shoulder location identification methods applied to Hamby set 44. Results are presented as percentage of shoulder location predictions which fall into each category: small deviations (less than 100), medium deviations (between 100 and 1000), and large deviations (greater than 1000).}
+\caption{Table of results for areas of misidentification (in $\mu m^2$) resulting from automated shoulder location identification methods applied to Hamby set 44 and Houston-test. Results are presented as percentage of shoulder location predictions which fall into each category: small deviations (less than 100), medium deviations (between 100 and 1000), and large deviations (greater than 1000).}
 \label{results-table}
 \end{table}
 
 \section{Conclusions}
 
+{\color{teal}{Need to update this description because Robust Linear does worse for Houston-test...}}
 Both the robust linear model and robust LOESS approaches outperform
 currently implemented solutions based on data smoothers for the right
 shoulder location. Of the two, the robust LOESS approach clearly
@@ -954,6 +974,6 @@ sets prior to implementation without human intervention in the automated
 process.
 
 \bibliographystyle{jfs-authoryear}
-\bibliography{bibliography.bib}
+\bibliography{bibliography-short.bib}
 
 \end{document}

@@ -3,10 +3,10 @@
 \begin{tabular}{lrrr|rrr}
 & \multicolumn{3}{c}{\textbf{Left Shoulder Location}} & \multicolumn{3}{c}{\textbf{Right Shoulder Location}} \\
 \textbf{Method} & $(0,100)$ & $ (100, 1000) $ & $(1000, \infty)$ & $(0,100)$ & $ (100, 1000) $ & $(1000, \infty)$ \\ \hline
-Rollapply & 86.54 & 8.17 & 5.29 & 52.88& 34.13&12.98  \\ \hline
-Robust Linear Model & 78.85 & 13.94 & 7.21 & 62.50 & 30.77&6.73 \\ \hline
-Robust LOESS & 94.23 & 5.29 & 0.48 & 73.08& 24.04&2.88\\ \hline
+Rollapply & 37.78 & 8.20 & 54.02 & 44.37& 32.48&23.15  \\ \hline
+Robust Linear Model & 28.30 & 7.88 & 63.83 & 32.32 & 24.28&43.41 \\ \hline
+Robust LOESS & 72.99 & 7.56 & 19.45 & 62.06& 23.79&14.15\\ \hline
 \end{tabular}
-\caption{Table of results for areas of misidentification (in $\mu m^2$) resulting from automated shoulder location identification methods applied to Hamby set 44. Results are presented as percentage of shoulder location predictions which fall into each category: small deviations (less than 100), medium deviations (between 100 and 1000), and large deviations (greater than 1000).}
+\caption{Table of results for areas of misidentification (in $\mu m^2$) resulting from automated shoulder location identification methods applied to Hamby set 44 and Houston-test. Results are presented as percentage of shoulder location predictions which fall into each category: small deviations (less than 100), medium deviations (between 100 and 1000), and large deviations (greater than 1000).}
 \label{results-table}
 \end{table}

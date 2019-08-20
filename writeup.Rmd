@@ -24,10 +24,10 @@ keywords:
 - 3D scans
 - bullet identification 
 - automatic matching
-bibliography: bibliography.bib
+bibliography: bibliography-short.bib
 nocite: | 
   @MASS
-abstract: Land engraved areas (LEAs) provide evidence to address the same source-different source problem in forensic firearms examination. Advances in technology have led to new research on applying image-analysis algorithms to the automated, quantitative analysis of bullet evidence. One prominent example is an algorithm developed by Hare et. al [@Hare1] based on 3D imaging data of LEAs. Currently accepted best practice for collecting 3D images of bullet LEAs requires capturing portions of the neighboring groove engraved areas (GEAs). Analyzing LEA and GEA data separately is imperative to achieve high accuracy and precision in subsequent feature comparisons. However, existing standard statistical modeling techniques fall short when applied to the atypical structure of 3D bullet data, often failing to adequately separate LEA and GEA data. We developed a method for automated removal of GEA data based on robust locally weighted regression. This automated method was tested on high resolution 3D scans of LEAs from Hamby set 44. This separation method outperforms current methods at separating LEA and GEA data. 
+abstract: Land engraved areas (LEAs) provide evidence to address the same source-different source problem in forensic firearms examination. Advances in technology have led to new research on applying image-analysis algorithms to the automated, quantitative analysis of bullet evidence. One prominent example is an algorithm developed by Hare et. al [@Hare1] based on 3D imaging data of LEAs. Currently accepted best practice for collecting 3D images of bullet LEAs requires capturing portions of the neighboring groove engraved areas (GEAs). Analyzing LEA and GEA data separately is imperative to achieve high accuracy and precision in subsequent feature comparisons. However, existing standard statistical modeling techniques fall short when applied to the atypical structure of 3D bullet data, often failing to adequately separate LEA and GEA data. We developed a method for automated removal of GEA data based on robust locally weighted regression. This automated method was tested on high resolution 3D scans of LEAs from two bullet test sets. This separation method outperforms current methods at separating LEA and GEA data. 
 ---
 
 
@@ -42,6 +42,8 @@ abstract: Land engraved areas (LEAs) provide evidence to address the same source
 library(tidyverse)
 library(gridExtra)
 library(latex2exp)
+library(bulletxtrctr)
+library(smoother)
 ```
 
 \section{Reviewer Comments}  
@@ -113,15 +115,16 @@ Below are the reviewer comments with proposed responses. Proposed changes in acc
 15. "MUST rely on operator to manually crop"
     - There is not really a comment or suggested change that we can address.
 16. "Comparison of manually cropped vs. automated using CCF"
+    - There are too many factors to account for to properly evaluate this within the scope of this paper. We understand that downstream analysis is the ``gold standard" but the CCF alone is not good enough to evaluate performance here. Calculating a CCF for two profiles will almost always result in a very high value due to the underlying curvature present in LEA profiles. There are multiple methods in the literature to extract a LEA signature, and they do not result in the same CCF values. To demonstrate this property, see the images below. For this reason, we believe discussing the downstream analysis would be out of scope for this paper. 
 17. "Diversity in scan sets"
     - \kr{We have added an additional test set, Houston-test, to our results section. This has also been detailed in the data source section.}  
     - \kr{The figures have been updated to include the Houston-test set, but the table has not. Should the table for Hamby and Houston be kept separate?}
 
 ```{r, echo = F, warning = F}
 hamby44_eval <- readRDS("data/hamby44/hamby44_eval.rda")
-# Barrel 1 Bullet 1 Land 1 - 134
-# Barrel 1 Bullet 2 Land 5 - 129
-# Barrel 1 Bullet 1 Land 1 = 38
+# Barrel 1 Bullet 1 Land 1 - 134 (Land AA)
+# Barrel 1 Bullet 2 Land 5 - 129 (Land AA_2)
+# Barrel 1 Bullet 1 Land 1 - 38  (Land AC)
 landAA <- hamby44_eval$ccdata_w_resid[[134]] %>% 
   filter(between(x, hamby44_eval$left_groove[[134]], hamby44_eval$right_groove[[134]]))
 landAA_2 <- hamby44_eval$ccdata_w_resid[[129]] %>% 
@@ -129,21 +132,117 @@ landAA_2 <- hamby44_eval$ccdata_w_resid[[129]] %>%
 landAC <- hamby44_eval$ccdata_w_resid[[38]] %>% 
   filter(between(x, hamby44_eval$left_groove[[38]], hamby44_eval$right_groove[[38]]))
 
+## Get CCF values for aligned profiles first
 align_profs_AAs <- bulletxtrctr::sig_align(landAA$value_std, landAA_2$value_std)
-bulletxtrctr::extract_feature_ccf(align_profs_AAs$lands)
+#bulletxtrctr::extract_feature_ccf(align_profs_AAs$lands)
 align_profs_AAAC <- bulletxtrctr::sig_align(landAA$value_std, landAC$value_std)
-bulletxtrctr::extract_feature_ccf(align_profs_AAAC$lands)
+#bulletxtrctr::extract_feature_ccf(align_profs_AAAC$lands)
 
+## Extract signatures the bulletxtrctr way
 sigAA <- bulletxtrctr::cc_get_signature(landAA, grooves = list(groove = c(hamby44_eval$left_groove[[134]], hamby44_eval$right_groove[[134]])))
 sigAA_2 <- bulletxtrctr::cc_get_signature(landAA_2, grooves = list(groove = c(hamby44_eval$left_groove[[129]], hamby44_eval$right_groove[[129]])))
 sigAC <- bulletxtrctr::cc_get_signature(landAC, grooves = list(groove = c(hamby44_eval$left_groove[[38]], hamby44_eval$right_groove[[38]])))
 
+## Align signatures and get CCF values for bulletxtrctr signatures
 align_sigs_AAs <- bulletxtrctr::sig_align(sigAA$sig, sigAA_2$sig)
-bulletxtrctr::extract_feature_ccf(align_sigs_AAs$lands)
+#bulletxtrctr::extract_feature_ccf(align_sigs_AAs$lands)
 align_sigs_AAAC <- bulletxtrctr::sig_align(sigAA$sig, sigAC$sig)
-bulletxtrctr::extract_feature_ccf(align_sigs_AAAC$lands)
+#bulletxtrctr::extract_feature_ccf(align_sigs_AAAC$lands)
+
+
+## Now extract signatures using a Gaussian filter
+sigAA_bp <- landAA %>% mutate(structure_pass = smth.gaussian(value_std), 
+                             value_pass1 = value_std - structure_pass,
+                             sig_pass = smth.gaussian(value_pass1, window = 50))
+
+sigAA_2_bp <- landAA_2 %>% mutate(structure_pass = smth.gaussian(value_std), 
+                             value_pass1 = value_std - structure_pass,
+                             sig_pass = smth.gaussian(value_pass1, window = 50))
+
+sigAC_bp <- landAC %>% mutate(structure_pass = smth.gaussian(value_std), 
+                             value_pass1 = value_std - structure_pass,
+                             sig_pass = smth.gaussian(value_pass1, window = 50))
+
+align_sigs_AAs_bp <- bulletxtrctr::sig_align(sigAA_bp$sig_pass, sigAA_2_bp$sig_pass)
+#  bulletxtrctr::extract_feature_ccf(align_sigs_AAs_bp$lands)
+align_sigs_AAAC_bp <- bulletxtrctr::sig_align(sigAA_bp$sig_pass, sigAC_bp$sig_pass)
+#bulletxtrctr::extract_feature_ccf(align_sigs_AAAC_bp$lands)
 ```
 
+```{r, echo = F, warning = F, message = F}
+profs_AAs_plot <- align_profs_AAs$lands %>% 
+  ggplot() + 
+  geom_line(aes(x = x, y = sig1), color = "grey30") + 
+  geom_line(aes(x = x, y = sig2), color = "grey70") + 
+  theme_bw() + 
+  labs(x = "Relative Location", y = "Profile Height", title  = "Profile",
+  subtitle = "Maximum CCF = 0.9986")
+
+sigs_AAs_plot <- align_sigs_AAs$lands %>% 
+  ggplot() + 
+  geom_line(aes(x = x, y = sig1), color = "grey30") + 
+  geom_line(aes(x = x, y = sig2), color = "grey70") + 
+  theme_bw() + 
+  labs(x = "Relative Location", y = "Signature Height", 
+       title  = "Signature Method 1", subtitle = "Maximum CCF = 0.9106")
+
+sigs_AAs_bp_plot <- align_sigs_AAs_bp$lands %>% 
+  ggplot() + 
+  geom_line(aes(x = x, y = sig1), color = "grey30") + 
+  geom_line(aes(x = x, y = sig2), color = "grey70") + 
+  theme_bw() + 
+  labs(x = "Relative Location", y = "Signature Height", 
+       title  = "Signature Method 2", subtitle = "Maximum CCF = 0.9252")
+
+
+grid.arrange(
+  profs_AAs_plot, sigs_AAs_plot, sigs_AAs_bp_plot,
+  #widths = c(8, 4, 4, 4),
+  layout_matrix = rbind(c(1, 1),
+                        c(1, 1),
+                        c(2, 3)),
+  top = "Known Match"
+)
+
+```
+
+
+```{r, echo = F, warning = F, message = F}
+profs_AAAC_plot <- align_profs_AAAC$lands %>% 
+  ggplot() + 
+  geom_line(aes(x = x, y = sig1), color = "grey30") + 
+  geom_line(aes(x = x, y = sig2), color = "grey70") + 
+  theme_bw() + 
+  labs(x = "Relative Location", y = "Profile Height", title  = "Profile",
+  subtitle = "Maximum CCF = 0.9964")
+
+sigs_AAAC_plot <- align_sigs_AAAC$lands %>% 
+  ggplot() + 
+  geom_line(aes(x = x, y = sig1), color = "grey30") + 
+  geom_line(aes(x = x, y = sig2), color = "grey70") + 
+  theme_bw() + 
+  labs(x = "Relative Location", y = "Signature Height", 
+       title  = "Signature Method 1", subtitle = "Maximum CCF = 0.3913")
+
+sigs_AAAC_bp_plot <- align_sigs_AAAC_bp$lands %>% 
+  ggplot() + 
+  geom_line(aes(x = x, y = sig1), color = "grey30") + 
+  geom_line(aes(x = x, y = sig2), color = "grey70") + 
+  theme_bw() + 
+  labs(x = "Relative Location", y = "Signature Height", 
+       title  = "Signature Method 2", subtitle = "Maximum CCF = 0.4171")
+
+
+grid.arrange(
+  profs_AAAC_plot, sigs_AAAC_plot, sigs_AAAC_bp_plot,
+  #widths = c(8, 4, 4, 4),
+  layout_matrix = rbind(c(1, 1),
+                        c(1, 1),
+                        c(2, 3)),
+  top = "Known Non-Match"
+)
+
+```
 
 
 
@@ -220,10 +319,10 @@ The algorithm proposed by @Hare1 uses so-called crosscuts, height measurements a
 
 In the following, we are introducing and comparing two methods for identifying shoulder locations. In order to assess the performance of these methods, we are applying both methods on 3D scans of LEAs from Hamby set 44 [@Hamby] \kr{and the Houston-test set}. Each Hamby set consists of 35 \kr{Winchester 9mm copper} bullets fired from 10 consecutively rifled Ruger P-85 \kr{9mm Luger} barrels. \kr{The Houston-test set consists of XXX bullets fired from XXX type of barrels...}  
 
-Each fired bullet in Hamby Set 44 and Houston-test set has 6 LEAs; every LEA was scanned for each of the 35 \kr{plus houston-test} bullets, producing data for 210 individual LEAs.  Two LEAs from Hamby Set 44 -- Barrel 9, Bullet 2, Land 3 and Questioned Bullet L, Land 5 -- were removed from consideration \kr{because they were deemed unsuitable for comparison. These two LEAs contained significant abrasians created by contact with the bottom of a water recovery tank after exiting the barrel. These abrasians are thus marks present on the LEAs that are not due to contact with the barrel itself}.
+Each fired bullet in Hamby Set 44 and Houston-test set has 6 LEAs; every LEA was scanned for each of the 35 \kr{(104)} bullets, producing data for 210 \kr{624} individual LEAs.  Two LEAs from Hamby Set 44 -- Barrel 9, Bullet 2, Land 3 and Questioned Bullet L, Land 5 -- were removed from consideration \kr{because they were deemed unsuitable for comparison. These two LEAs contained significant abrasians created by contact with the bottom of a water recovery tank after exiting the barrel. These abrasians are thus marks present on the LEAs that are not due to contact with the barrel itself}.
 
 
-All 3D scans of Hamby Set 44 and Houston-test were captured at Iowa State University's Roy J.\ Carver High Resolution Microscopy Facility with a Sensofar Confocal light microscope at 20 times magnification resulting in a resolution of 0.645 microns per pixel (1 micron = 1$\mu$m = 0.001mm). Physically, each land is approximately 2 millimeters in width; as such, data structures for a single LEA can contain more than 3 million individual data points. 
+All 3D scans of Hamby Set 44 \kr{and Houston-test} were captured at Iowa State University's Roy J.\ Carver High Resolution Microscopy Facility with a Sensofar Confocal light microscope at 20 times magnification resulting in a resolution of 0.645 microns per pixel (1 micron = 1$\mu$m = 0.001mm). Physically, each land is approximately 2 millimeters in width; as such, data structures for a single LEA can contain more than 3 million individual data points. 
 
 
 
@@ -667,11 +766,11 @@ It is important to note that different results are expected for the left and rig
 \begin{tabular}{lrrr|rrr}
 & \multicolumn{3}{c}{\textbf{Left Shoulder Location}} & \multicolumn{3}{c}{\textbf{Right Shoulder Location}} \\
 \textbf{Method} & $(0,100)$ & $ (100, 1000) $ & $(1000, \infty)$ & $(0,100)$ & $ (100, 1000) $ & $(1000, \infty)$ \\ \hline
-Rollapply & `r round((180/208)*100, 2)` & `r round((17/208)*100, 2)` & `r round((11/208)*100, 2)` & `r round((110/208)*100, 2)`& `r round((71/208)*100, 2)`&`r round((27/208)*100, 2)`  \\ \hline
-Robust Linear Model & `r round((164/208)*100, 2)` & `r round((29/208)*100, 2)` & `r round((15/208)*100, 2)` & 62.50 & `r round((64/208)*100, 2)`&`r round((14/208)*100, 2)` \\ \hline
-Robust LOESS & `r round((196/208)*100, 2)` & `r round((11/208)*100, 2)` & `r round((1/208)*100, 2)` & `r round((152/208)*100, 2)`& `r round((50/208)*100, 2)`&`r round((6/208)*100, 2)`\\ \hline
+Rollapply & `r round((235/622)*100, 2)` & 8.20 & `r round((336/622)*100, 2)` & `r round((276/622)*100, 2)`& `r round((202/622)*100, 2)`&`r round((144/622)*100, 2)`  \\ \hline
+Robust Linear Model & 28.30 & `r round((49/622)*100, 2)` & `r round((397/622)*100, 2)` & `r round((201/622)*100, 2)` & `r round((151/622)*100, 2)`&`r round((270/622)*100, 2)` \\ \hline
+Robust LOESS & `r round((454/622)*100, 2)` & `r round((47/622)*100, 2)` & `r round((121/622)*100, 2)` & `r round((386/622)*100, 2)`& `r round((148/622)*100, 2)`&`r round((88/622)*100, 2)`\\ \hline
 \end{tabular}
-\caption{Table of results for areas of misidentification (in $\mu m^2$) resulting from automated shoulder location identification methods applied to Hamby set 44. Results are presented as percentage of shoulder location predictions which fall into each category: small deviations (less than 100), medium deviations (between 100 and 1000), and large deviations (greater than 1000).}
+\caption{Table of results for areas of misidentification (in $\mu m^2$) resulting from automated shoulder location identification methods applied to Hamby set 44 and Houston-test. Results are presented as percentage of shoulder location predictions which fall into each category: small deviations (less than 100), medium deviations (between 100 and 1000), and large deviations (greater than 1000).}
 \label{results-table}
 \end{table}
 
