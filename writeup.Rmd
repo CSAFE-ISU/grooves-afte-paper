@@ -114,7 +114,36 @@ Below are the reviewer comments with proposed responses. Proposed changes in acc
     - There is not really a comment or suggested change that we can address.
 16. "Comparison of manually cropped vs. automated using CCF"
 17. "Diversity in scan sets"
-    - \kr{We have added an additional test set, Phoenix PD, to our results section. This has also been detailed in the data source section.}  
+    - \kr{We have added an additional test set, Houston-test, to our results section. This has also been detailed in the data source section.}  
+    - \kr{The figures have been updated to include the Houston-test set, but the table has not. Should the table for Hamby and Houston be kept separate?}
+
+```{r, echo = F, warning = F}
+hamby44_eval <- readRDS("data/hamby44/hamby44_eval.rda")
+# Barrel 1 Bullet 1 Land 1 - 134
+# Barrel 1 Bullet 2 Land 5 - 129
+# Barrel 1 Bullet 1 Land 1 = 38
+landAA <- hamby44_eval$ccdata_w_resid[[134]] %>% 
+  filter(between(x, hamby44_eval$left_groove[[134]], hamby44_eval$right_groove[[134]]))
+landAA_2 <- hamby44_eval$ccdata_w_resid[[129]] %>% 
+  filter(between(x, hamby44_eval$left_groove[[129]], hamby44_eval$right_groove[[129]]))
+landAC <- hamby44_eval$ccdata_w_resid[[38]] %>% 
+  filter(between(x, hamby44_eval$left_groove[[38]], hamby44_eval$right_groove[[38]]))
+
+align_profs_AAs <- bulletxtrctr::sig_align(landAA$value_std, landAA_2$value_std)
+bulletxtrctr::extract_feature_ccf(align_profs_AAs$lands)
+align_profs_AAAC <- bulletxtrctr::sig_align(landAA$value_std, landAC$value_std)
+bulletxtrctr::extract_feature_ccf(align_profs_AAAC$lands)
+
+sigAA <- bulletxtrctr::cc_get_signature(landAA, grooves = list(groove = c(hamby44_eval$left_groove[[134]], hamby44_eval$right_groove[[134]])))
+sigAA_2 <- bulletxtrctr::cc_get_signature(landAA_2, grooves = list(groove = c(hamby44_eval$left_groove[[129]], hamby44_eval$right_groove[[129]])))
+sigAC <- bulletxtrctr::cc_get_signature(landAC, grooves = list(groove = c(hamby44_eval$left_groove[[38]], hamby44_eval$right_groove[[38]])))
+
+align_sigs_AAs <- bulletxtrctr::sig_align(sigAA$sig, sigAA_2$sig)
+bulletxtrctr::extract_feature_ccf(align_sigs_AAs$lands)
+align_sigs_AAAC <- bulletxtrctr::sig_align(sigAA$sig, sigAC$sig)
+bulletxtrctr::extract_feature_ccf(align_sigs_AAAC$lands)
+```
+
 
 
 
@@ -189,12 +218,12 @@ The algorithm proposed by @Hare1 uses so-called crosscuts, height measurements a
 \end{figure}
 
 
-In the following, we are introducing and comparing two methods for identifying shoulder locations. In order to assess the performance of these methods, we are applying both methods on 3D scans of LEAs from Hamby set 44 [@Hamby]. Each Hamby set consists of 35 \kr{Winchester 9mm copper} bullets fired from 10 consecutively rifled Ruger P-85 \kr{9mm Luger} barrels. 
+In the following, we are introducing and comparing two methods for identifying shoulder locations. In order to assess the performance of these methods, we are applying both methods on 3D scans of LEAs from Hamby set 44 [@Hamby] \kr{and the Houston-test set}. Each Hamby set consists of 35 \kr{Winchester 9mm copper} bullets fired from 10 consecutively rifled Ruger P-85 \kr{9mm Luger} barrels. \kr{The Houston-test set consists of XXX bullets fired from XXX type of barrels...}  
 
-Each fired bullet in Hamby Set 44 has 6 LEAs; every LEA was scanned for each of the 35 bullets, producing data for 210 individual LEAs.  Two LEAs -- Barrel 9, Bullet 2, Land 3 and Questioned Bullet L, Land 5 -- were removed from consideration \kr{because they were deemed unsuitable for comparison. These two LEAs contained significant abrasians created by contact with the bottom of a water recovery tank after exiting the barrel. These abrasians are thus marks present on the LEAs that are not due to contact with the barrel itself}.
+Each fired bullet in Hamby Set 44 and Houston-test set has 6 LEAs; every LEA was scanned for each of the 35 \kr{plus houston-test} bullets, producing data for 210 individual LEAs.  Two LEAs from Hamby Set 44 -- Barrel 9, Bullet 2, Land 3 and Questioned Bullet L, Land 5 -- were removed from consideration \kr{because they were deemed unsuitable for comparison. These two LEAs contained significant abrasians created by contact with the bottom of a water recovery tank after exiting the barrel. These abrasians are thus marks present on the LEAs that are not due to contact with the barrel itself}.
 
 
-All 3D scans of Hamby Set 44 were captured at Iowa State University's Roy J.\ Carver High Resolution Microscopy Facility with a Sensofar Confocal light microscope at 20 times magnification resulting in a resolution of 0.645 microns per pixel (1 micron = 1$\mu$m = 0.001mm). Physically, each land is approximately 2 millimeters in width; as such, data structures for a single LEA can contain more than 3 million individual data points. 
+All 3D scans of Hamby Set 44 and Houston-test were captured at Iowa State University's Roy J.\ Carver High Resolution Microscopy Facility with a Sensofar Confocal light microscope at 20 times magnification resulting in a resolution of 0.645 microns per pixel (1 micron = 1$\mu$m = 0.001mm). Physically, each land is approximately 2 millimeters in width; as such, data structures for a single LEA can contain more than 3 million individual data points. 
 
 
 
@@ -500,13 +529,13 @@ Shoulder location predictions are calculated for each crosscut in the following 
 
 \section{Results}  
 
-To quantitatively assess the predictive ability of the two alternative models, we first  identified "ground truth" of shoulder locations by visual inspection for each of the 208 crosscuts in Hamby set 44.
+To quantitatively assess the predictive ability of the two alternative models, we first  identified "ground truth" of shoulder locations by visual inspection for each of the 208 crosscuts in Hamby set 44 \kr{and each of the 414 crosscuts in Houston-test}.
 
 
 As a performance measure, we define the error as the "area of misidentification", i.e., the area of each crosscut which is identified incorrectly by the method. This metric is calculated for the left shoulder location as:  
 
 $$ \widehat{A}_{jL} = \sum_{e_{ij} \in \widetilde{X}_{jL}} \left|e_{ij} \right| \times \left(x_{i+1} - x_i \right),$$
-where $\widetilde{X}_{jL}$ is the set of points in crosscut $j$ that fall between the predicted and actual left shoulder location, $e_{ij}$ corresponds to the residual value at location $x_i$ from the robust LOESS fit to crosscut $j$, and $(x_{i+1} - x_i)$ is the distance between two subsequent locations in the crosscut. For the scans of Hamby set 44, this distance is equal to $0.645 \mu m$ for all locations.  
+where $\widetilde{X}_{jL}$ is the set of points in crosscut $j$ that fall between the predicted and actual left shoulder location, $e_{ij}$ corresponds to the residual value at location $x_i$ from the robust LOESS fit to crosscut $j$, and $(x_{i+1} - x_i)$ is the distance between two subsequent locations in the crosscut. For the scans of Hamby set 44 \kr{and Houston-test}, this distance is equal to $0.645 \mu m$ for all locations.  
 
 Similarly, the area is calculated for the right shoulder location as: 
 
@@ -517,7 +546,7 @@ Both the left and right areas of misindentification are thus in terms of microns
 
 Quantifying the results as an area is preferable to a distance metric as it captures not only the width of the profile area that is misidentified, but also the relative heights of the data. Larger misidentified areas indicate larger portions of the GEA remain included in a profile, and thus signal an area which is more likely to have influence on an extracted signature. Smaller areas of misidentification suggest minimal loss is incurred, and these areas will have minimal effect on an extracted signature.  
 
-An area of misidentification was calculated separately for the left hand side and right hand side predictions for each of the 208 profiles in the data set, where predictions were based on the Robust Linear Model and Robust LOESS methods, as well as the Rollapply method suggested in @Hare1.  
+An area of misidentification was calculated separately for the left hand side and right hand side predictions for each of the 208 \kr{+414} profiles in the data set, where predictions were based on the Robust Linear Model and Robust LOESS methods, as well as the Rollapply method suggested in @Hare1.  
 
 <!-- \kr{How is the section above now? Would replace everything below until XXX.}   -->
 
@@ -533,15 +562,15 @@ An area of misidentification was calculated separately for the left hand side an
 
 <!-- \hh{XXX} -->
 
-To assess the performance of all three methods, we consider the distribution of the areas of misidentification across all 208 lands of Hamby set 44. \kr{\autoref{results1} presents each distribution as a boxplot. The box encompasses the middle 50\% of values, spanning the 25th to 75th percentile. The line inside each box represents the median value, and individual data points are unusually large values we call outliers.} A distribution starting at or close to zero with minimal spread is ideal as this suggests many of the predicted shoulder locations are very close to the manually identified locations, and predictions are removing many of the outlying GEA points. A distribution with a wider spread or many high, outlying areas of misidentification suggests a greater degree of uncertainty and inaccuracy for a particular method. \kr{Some of the outliers are so extreme, statistics appear very close to one another or on top of each other.}  
+To assess the performance of all three methods, we consider the distribution of the areas of misidentification across all 208 \kr{+414} lands of Hamby set 44 \kr{and Houston-test}. \kr{\autoref{results1} presents each distribution as a boxplot. The box encompasses the middle 50\% of values, spanning the 25th to 75th percentile. The line inside each box represents the median value, and individual data points are unusually large values we call outliers.} A distribution starting at or close to zero with minimal spread is ideal as this suggests many of the predicted shoulder locations are very close to the manually identified locations, and predictions are removing many of the outlying GEA points. A distribution with a wider spread or many high, outlying areas of misidentification suggests a greater degree of uncertainty and inaccuracy for a particular method. \kr{Some of the outliers are so extreme, statistics appear very close to one another or on top of each other.}  
 
 ```{r results1, echo = F, warning = F, message = F, fig.height = 6, fig.width = 6, fig.cap = "\\label{results1}Distribution, presented here as a boxplot, of areas of misidentification for rollapply (data smoothing) method, robust linear model method, and robust LOESS method, separated by left and right shoulder locations. A dense distribution with few high values indicates good performance across the LEAs in the data set.", dpi = 300}
 hamby44_eval_paper <- readRDS("data/hamby44/hamby44_eval_paper.rda")
+houston <- readRDS("data/houston_eval.rda")
 #phoenix <- readRDS("data/phoenix_eval.rda")
-#hamby44_eval_paper <- hamby44_eval_paper %>% ungroup() %>% select(source, crosscuts, score_left_rollapply, score_right_rollapply, score_left_mad2:score_right_mad4rlm)
-
-  #dataset <- full_join(hamby44_eval_paper, phoenix)
-  dataset <- hamby44_eval_paper
+hamby44_eval_paper <- hamby44_eval_paper %>% ungroup() %>% select(source, crosscuts, score_left_rollapply, score_right_rollapply, score_left_mad2:score_right_mad4rlm)
+  dataset <- full_join(hamby44_eval_paper, houston)
+  #dataset <- hamby44_eval_paper
   methods <- c("rollapply", "mad2", "mad4rlm")
   colnames <- c()
   for (i in 1:length(methods)){
@@ -596,8 +625,8 @@ It is important to note that different results are expected for the left and rig
 #phoenix <- readRDS("data/phoenix_eval.rda")
 #hamby44_eval_paper <- hamby44_eval_paper %>% ungroup() %>% select(source, crosscuts, score_left_rollapply, score_right_rollapply, score_left_mad2:score_right_mad4rlm)
 
-  #dataset <- full_join(hamby44_eval_paper, phoenix)
-dataset <- hamby44_eval_paper
+  dataset <- full_join(hamby44_eval_paper, houston)
+#dataset <- hamby44_eval_paper
   methods <- c("rollapply", "mad2", "mad4rlm")
   colnames <- c()
   for (i in 1:length(methods)){
@@ -650,9 +679,9 @@ Robust LOESS & `r round((196/208)*100, 2)` & `r round((11/208)*100, 2)` & `r rou
 
 \section{Conclusions}  
 
-Both the robust linear model and robust LOESS approaches outperform currently implemented solutions based on data smoothers for the right shoulder location. Of the two, the robust LOESS approach clearly outperforms the robust linear model. This hierarchy of performance is well within expectation given the strength of robust approaches in general as well as the flexibility of LOESS applied to this data type. Robust LOESS also readily handles variation introduced in the process of translating the physical bullet into a 3D object. If there is too much variability in how the bullet is placed relative to the plane of reference on the microscope, profiles can have tilted shapes relative to the x-axis which a quadratic linear model would fail to address. In these situations, LOESS excels.  
+\kr{Need to update this description because Robust Linear does worse for Houston-test...} Both the robust linear model and robust LOESS approaches outperform currently implemented solutions based on data smoothers for the right shoulder location. Of the two, the robust LOESS approach clearly outperforms the robust linear model. This hierarchy of performance is well within expectation given the strength of robust approaches in general as well as the flexibility of LOESS applied to this data type. Robust LOESS also readily handles variation introduced in the process of translating the physical bullet into a 3D object. If there is too much variability in how the bullet is placed relative to the plane of reference on the microscope, profiles can have tilted shapes relative to the x-axis which a quadratic linear model would fail to address. In these situations, LOESS excels.  
 
-While the proposed cutoff values as multiples of MAD work well on Hamby set 44, additional validation will need to be executed on a wider variety of barrel types. Depth of striae, physical size of bullet due to caliber, and non-traditional rifling techniques may require alterations to this cutoff value. LEAs with shoulders which are not aligned horizontally due to tild may also require slight alterations to the method. In addition, a study of the effect of implementing robust LOESS shoulder location identification on the downstream similarity assessment will need to be completed. Due to increased accuracy of predicted shoulder locations, the authors expect an increase in accuracy in bullet matching algorithms. However, this will need to be validated on a variety of data sets prior to implementation without human intervention in the automated process.   
+While the proposed cutoff values as multiples of MAD work well on Hamby set 44 \kr{and Houston-test}, additional validation will need to be executed on a wider variety of barrel types. Depth of striae, physical size of bullet due to caliber, and non-traditional rifling techniques may require alterations to this cutoff value. \kr{LEAs with shoulders which are not aligned horizontally due to tild may also require slight alterations to the method.} In addition, a study of the effect of implementing robust LOESS shoulder location identification on the downstream similarity assessment will need to be completed. Due to increased accuracy of predicted shoulder locations, the authors expect an increase in accuracy in bullet matching algorithms. However, this will need to be validated on a variety of data sets prior to implementation without human intervention in the automated process.   
 
 
 

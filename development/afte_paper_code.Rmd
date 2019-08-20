@@ -28,6 +28,18 @@ phoenix <- phoenix %>% mutate(ccdata_w_resid = purrr::map(ccdata_w_resid, .f = f
   bullet$y <- 0
   return(bullet)
 }))
+phoenix <- phoenix %>% mutate(bullet = purrr::map(source, .f = function(source){
+  strsplit(strsplit(as.character(source), "//")[[1]][2], "/")[[1]][2]
+}))
+
+houston <- readRDS("../../../grooves/data/houston-test/houstontest_paper.rda")
+houston <- houston %>% select(source, crosscut, ccdata, left_groove_kr1, right_groove_kr1, grooves_rollapply)
+houston <- houston %>% mutate(ccdata_w_resid = purrr::map(ccdata, .f = function(bullet){
+  bullet$y <- 0
+  bullet$value_std <- bullet$value - min(bullet$value, na.rm = T)
+  return(bullet)
+}))
+
 ```
 
 
@@ -305,7 +317,9 @@ saveRDS(hamby44_eval, file = "../data/hamby44/hamby44_eval_paper.rda")
 
 ```{r run-get_grooves_mad_pho, echo = F, warning = F, message = F}
 
-phoenix <- phoenix %>% mutate(grooves_pred_mad2 = purrr::map(ccdata_w_resid, .f = function(bullet){
+phoenix_filter <- phoenix %>% 
+  filter(bullet != "B3") %>%
+  mutate(grooves_pred_mad2 = purrr::map(ccdata_w_resid, .f = function(bullet){
  grooves <- get_grooves_mad(bullet, adjust = 5, multiplier = 2)$groove 
  return(grooves)
 }))
@@ -314,7 +328,7 @@ phoenix <- phoenix %>% mutate(grooves_pred_mad2 = purrr::map(ccdata_w_resid, .f 
 
 
 ```{r run-get_grooves_mad_rlm_pho, echo = F, warning = F, message = F}
-phoenix <- phoenix %>% mutate(grooves_pred_mad4rlm = purrr::map(ccdata_w_resid, .f = function(bullet){
+phoenix_filter <- phoenix_filter %>% mutate(grooves_pred_mad4rlm = purrr::map(ccdata_w_resid, .f = function(bullet){
  grooves <- get_grooves_mad_rlm(bullet, adjust = 5, multiplier = 4)$groove 
  return(grooves)
 }))
@@ -349,8 +363,8 @@ prediction_scores_pho <- function(dataset, method){
 
 
 
-phoenix <- phoenix %>% mutate(left_groove = left_groove_kr1, right_groove = right_groove_kr1)
-phoenix_eval <- prediction_scores_pho(phoenix, "mad2")
+phoenix_filter <- phoenix_filter %>% mutate(left_groove = left_groove_kr1, right_groove = right_groove_kr1)
+phoenix_eval <- prediction_scores_pho(phoenix_filter, "mad2")
 phoenix_eval <- prediction_scores_pho(phoenix_eval, "mad4rlm")
 phoenix_eval <- phoenix_eval %>% mutate(grooves_pred_rollapply = purrr::map(grooves_rollapply, .f = function(grooves_pred){
   grooves_pred$groove
@@ -358,12 +372,21 @@ phoenix_eval <- phoenix_eval %>% mutate(grooves_pred_rollapply = purrr::map(groo
 phoenix_eval <- prediction_scores_pho(phoenix_eval, "rollapply")
 phoenix_eval <- prediction_scores_pho(phoenix_eval, "mad5")
 
-plot_categories(hamby44_eval, methods = c("rollapply", "mad4", "mad4rlm", "mad5"))
+plot_categories(phoenix_eval, methods = c("rollapply", "mad2", "mad4rlm"))
 
 
 
 saveRDS(phoenix_eval, "../data/phoenix_eval.rda")
 ```
+
+
+
+
+
+
+
+
+
 
 ```{r}
 phoenix <- phoenix %>% mutate(grooves_pred_mad5 = purrr::map(ccdata_w_resid, .f = function(bullet){
@@ -394,6 +417,105 @@ plot_categories(phoenix_eval, methods = c("rollapply", "mad2", "mad4rlm", "mad5"
 
 
 
+## HOUSTON
 
+```{r run-get_grooves_mad_hou, echo = F, warning = F, message = F}
+
+houston <- houston %>% 
+  mutate(grooves_pred_mad2 = purrr::map(ccdata_w_resid, .f = function(bullet){
+ grooves <- get_grooves_mad(bullet, adjust = 5, multiplier = 2)$groove 
+ return(grooves)
+}))
+
+```
+
+
+```{r run-get_grooves_mad_rlm_hou, echo = F, warning = F, message = F}
+houston <- houston %>% mutate(grooves_pred_mad4rlm = purrr::map(ccdata_w_resid, .f = function(bullet){
+ grooves <- get_grooves_mad_rlm(bullet, adjust = 5, multiplier = 4)$groove 
+ return(grooves)
+}))
+```
+
+
+```{r predictions-evaluation_pho, echo = F, warning = F, message = F}
+prediction_scores_pho <- function(dataset, method){
+  colname <- paste0("grooves_pred_", method)
+  new_colname <- paste0("score_left_", method)
+  new_colname2 <- paste0("score_right_", method)
+  dataset[,new_colname] <- 0
+  dataset[,new_colname2] <- 0
+  for(i in 1:nrow(dataset)){
+    bullet <- dataset[i,]
+    left_pred <- bullet[,colname][[1]][1]
+    left_groove <- as.numeric(bullet[,"left_groove"])
+    dat <- bullet$ccdata_w_resid[[1]]
+    dat <- dat %>% filter(between(x, min(left_pred, left_groove), max(left_pred, left_groove)))
+    dataset[i,new_colname] <- sum(abs(dat$rlo_resid), na.rm = T)
+    
+    right_pred <- bullet[,colname][[1]][2]
+    right_groove <- as.numeric(bullet[,"right_groove"])
+    dat2 <- bullet$ccdata_w_resid[[1]]
+    dat2 <- dat2 %>% filter(between(x, min(right_pred, right_groove), max(right_pred, right_groove)))
+    dataset[i, new_colname2] <- sum(abs(dat2$rlo_resid), na.rm = T)
+  }
+  return(dataset)
+}
+
+
+
+
+
+houston <- houston %>% 
+  mutate(left_groove = left_groove_kr1, right_groove = right_groove_kr1) %>%
+  mutate(ccdata_w_resid = purrr::map(ccdata_w_resid, .f = function(bullet){
+    rlo_fit <- robust_loess_fit(bullet, iter = 20)
+    bullet$rlo_pred <- predict(rlo_fit, newdata = bullet)
+    bullet$rlo_resid <- bullet$value_std - bullet$rlo_pred
+    bullet$rlo_absresid <- abs(bullet$rlo_resid)
+    return(bullet)
+  }))
+houston_eval <- prediction_scores_pho(houston, "mad2")
+houston_eval <- prediction_scores_pho(houston_eval, "mad4rlm")
+houston_eval <- houston_eval %>% mutate(grooves_pred_rollapply = purrr::map(grooves_rollapply, .f = function(grooves_pred){
+  grooves_pred$groove
+}))
+houston_eval <- prediction_scores_pho(houston_eval, "rollapply")
+#houston_eval <- prediction_scores_pho(houston_eval, "mad5")
+
+plot_categories(houston_eval, methods = c("rollapply", "mad2", "mad4rlm"))
+
+
+
+saveRDS(houston_eval, "../data/houston_eval.rda")
+```
+
+```{r}
+houston <- houston %>% mutate(grooves_pred_mad5 = purrr::map(ccdata_w_resid, .f = function(bullet){
+ grooves <- get_grooves_mad(bullet, adjust = 5, multiplier = 5)$groove 
+ return(grooves)
+}))
+
+houston_eval$grooves_pred_mad5 <- houston$grooves_pred_mad5
+houston_eval <- prediction_scores_pho(houston_eval, "mad5")
+
+plot_categories(houston_eval, methods = c("rollapply", "mad2", "mad4rlm", "mad5"))
+
+
+
+
+
+houston <- houston %>% mutate(grooves_pred_mad1 = purrr::map(ccdata_w_resid, .f = function(bullet){
+ grooves <- get_grooves_mad(bullet, adjust = 5, multiplier = 1)$groove 
+ return(grooves)
+}))
+
+houston_eval$grooves_pred_mad1 <- houston$grooves_pred_mad1
+houston_eval <- prediction_scores_pho(houston_eval, "mad1")
+
+plot_categories(houston_eval, methods = c("rollapply", "mad2", "mad4rlm", "mad5", "mad1"))
+saveRDS(houston_eval, "../data/houston_eval.rda")
+
+```
 
 

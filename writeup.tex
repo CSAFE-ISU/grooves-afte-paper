@@ -433,7 +433,9 @@ teal.
 
   \begin{itemize}
   \item
-    {\color{teal}{We have added an additional test set, Phoenix PD, to our results section. This has also been detailed in the data source section.}}
+    {\color{teal}{We have added an additional test set, Houston-test, to our results section. This has also been detailed in the data source section.}}
+  \item
+    {\color{teal}{The figures have been updated to include the Houston-test set, but the table has not. Should the table for Hamby and Houston be kept separate?}}
   \end{itemize}
 \end{enumerate}
 
@@ -572,23 +574,26 @@ translate from a crosscut to the corresponding signature.
 In the following, we are introducing and comparing two methods for
 identifying shoulder locations. In order to assess the performance of
 these methods, we are applying both methods on 3D scans of LEAs from
-Hamby set 44 \citep{Hamby}. Each Hamby set consists of 35
-{\color{teal}{Winchester 9mm copper}} bullets fired from 10
-consecutively rifled Ruger P-85 {\color{teal}{9mm Luger}} barrels.
+Hamby set 44 \citep{Hamby} {\color{teal}{and the Houston-test set}}.
+Each Hamby set consists of 35 {\color{teal}{Winchester 9mm copper}}
+bullets fired from 10 consecutively rifled Ruger P-85
+{\color{teal}{9mm Luger}} barrels.
+{\color{teal}{The Houston-test set consists of XXX bullets fired from XXX type of barrels...}}
 
-Each fired bullet in Hamby Set 44 has 6 LEAs; every LEA was scanned for
-each of the 35 bullets, producing data for 210 individual LEAs. Two LEAs
--- Barrel 9, Bullet 2, Land 3 and Questioned Bullet L, Land 5 -- were
+Each fired bullet in Hamby Set 44 and Houston-test set has 6 LEAs; every
+LEA was scanned for each of the 35 {\color{teal}{plus houston-test}}
+bullets, producing data for 210 individual LEAs. Two LEAs from Hamby Set
+44 -- Barrel 9, Bullet 2, Land 3 and Questioned Bullet L, Land 5 -- were
 removed from consideration
 {\color{teal}{because they were deemed unsuitable for comparison. These two LEAs contained significant abrasians created by contact with the bottom of a water recovery tank after exiting the barrel. These abrasians are thus marks present on the LEAs that are not due to contact with the barrel itself}}.
 
-All 3D scans of Hamby Set 44 were captured at Iowa State University's
-Roy J.~Carver High Resolution Microscopy Facility with a Sensofar
-Confocal light microscope at 20 times magnification resulting in a
-resolution of 0.645 microns per pixel (1 micron = 1\(\mu\)m = 0.001mm).
-Physically, each land is approximately 2 millimeters in width; as such,
-data structures for a single LEA can contain more than 3 million
-individual data points.
+All 3D scans of Hamby Set 44 and Houston-test were captured at Iowa
+State University's Roy J.~Carver High Resolution Microscopy Facility
+with a Sensofar Confocal light microscope at 20 times magnification
+resulting in a resolution of 0.645 microns per pixel (1 micron =
+1\(\mu\)m = 0.001mm). Physically, each land is approximately 2
+millimeters in width; as such, data structures for a single LEA can
+contain more than 3 million individual data points.
 
 \begin{figure}
 \centering
@@ -810,7 +815,8 @@ following manner (\textbf{LOESS shoulder location prediction}):
 
 To quantitatively assess the predictive ability of the two alternative
 models, we first identified ``ground truth'' of shoulder locations by
-visual inspection for each of the 208 crosscuts in Hamby set 44.
+visual inspection for each of the 208 crosscuts in Hamby set 44
+{\color{teal}{and each of the 414 crosscuts in Houston-test}}.
 
 As a performance measure, we define the error as the ``area of
 misidentification'', i.e., the area of each crosscut which is identified
@@ -823,7 +829,8 @@ fall between the predicted and actual left shoulder location, \(e_{ij}\)
 corresponds to the residual value at location \(x_i\) from the robust
 LOESS fit to crosscut \(j\), and \((x_{i+1} - x_i)\) is the distance
 between two subsequent locations in the crosscut. For the scans of Hamby
-set 44, this distance is equal to \(0.645 \mu m\) for all locations.
+set 44 {\color{teal}{and Houston-test}}, this distance is equal to
+\(0.645 \mu m\) for all locations.
 
 Similarly, the area is calculated for the right shoulder location as:
 
@@ -845,14 +852,15 @@ suggest minimal loss is incurred, and these areas will have minimal
 effect on an extracted signature.
 
 An area of misidentification was calculated separately for the left hand
-side and right hand side predictions for each of the 208 profiles in the
-data set, where predictions were based on the Robust Linear Model and
-Robust LOESS methods, as well as the Rollapply method suggested in
-\citet{Hare1}.
+side and right hand side predictions for each of the 208
+{\color{teal}{+414}} profiles in the data set, where predictions were
+based on the Robust Linear Model and Robust LOESS methods, as well as
+the Rollapply method suggested in \citet{Hare1}.
 
 To assess the performance of all three methods, we consider the
-distribution of the areas of misidentification across all 208 lands of
-Hamby set 44.
+distribution of the areas of misidentification across all 208
+{\color{teal}{+414}} lands of Hamby set 44
+{\color{teal}{and Houston-test}}.
 {\color{teal}{\autoref{results1} presents each distribution as a boxplot. The box encompasses the middle 50\% of values, spanning the 25th to 75th percentile. The line inside each box represents the median value, and individual data points are unusually large values we call outliers.}}
 A distribution starting at or close to zero with minimal spread is ideal
 as this suggests many of the predicted shoulder locations are very close
@@ -932,18 +940,18 @@ the x-axis which a quadratic linear model would fail to address. In
 these situations, LOESS excels.
 
 While the proposed cutoff values as multiples of MAD work well on Hamby
-set 44, additional validation will need to be executed on a wider
-variety of barrel types. Depth of striae, physical size of bullet due to
-caliber, and non-traditional rifling techniques may require alterations
-to this cutoff value. LEAs with shoulders which are not aligned
-horizontally due to tild may also require slight alterations to the
-method. In addition, a study of the effect of implementing robust LOESS
-shoulder location identification on the downstream similarity assessment
-will need to be completed. Due to increased accuracy of predicted
-shoulder locations, the authors expect an increase in accuracy in bullet
-matching algorithms. However, this will need to be validated on a
-variety of data sets prior to implementation without human intervention
-in the automated process.
+set 44 {\color{teal}{and Houston-test}}, additional validation will need
+to be executed on a wider variety of barrel types. Depth of striae,
+physical size of bullet due to caliber, and non-traditional rifling
+techniques may require alterations to this cutoff value.
+{\color{teal}{LEAs with shoulders which are not aligned horizontally due to tild may also require slight alterations to the method.}}
+In addition, a study of the effect of implementing robust LOESS shoulder
+location identification on the downstream similarity assessment will
+need to be completed. Due to increased accuracy of predicted shoulder
+locations, the authors expect an increase in accuracy in bullet matching
+algorithms. However, this will need to be validated on a variety of data
+sets prior to implementation without human intervention in the automated
+process.
 
 \bibliographystyle{jfs-authoryear}
 \bibliography{bibliography.bib}
