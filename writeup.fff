@@ -104,11 +104,12 @@ pictured here is Hamby 44, Barrel 10, Bullet 2, Land 2.}
 \begin{figure}
 \centering
 \includegraphics{writeup_files/figure-latex/results1-1.pdf}
-\caption{\label{results1}Distribution, presented here as a boxplot, of
-areas of misidentification for rollapply (data smoothing) method, robust
-linear model method, and robust LOESS method, separated by left and
-right shoulder locations. A dense distribution with few high values
-indicates good performance across the LEAs in the data set.}
+\caption{\label{results1}Distribution for all 622 crosscuts, presented
+here as a boxplot, of areas of misidentification for rollapply (data
+smoothing) method, robust linear model method, and robust LOESS method,
+separated by left and right shoulder locations. A dense distribution
+with few high values indicates good performance across the LEAs in the
+data set.}
 \end{figure}
 \efloatseparator
  

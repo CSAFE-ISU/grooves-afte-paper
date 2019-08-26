@@ -471,9 +471,9 @@ differences between
 the AFTE Theory of Identification \citep{AFTE} guidelines resulting in a
 decision about whether both bullets were fired through the same gun
 barrel. In forensic science, this problem is known as the \emph{same
-source-different source problem} {\color{teal}{[see @Ommen1]}} and it
-focuses on establishing quantitative evidence whether two bullets were
-fired through the same gun barrel.
+source-different source problem} \citep[see][]{Ommen1} and it focuses on
+establishing quantitative evidence whether two bullets were fired
+through the same gun barrel.
 
 Recent advances in technology, particularly wider access to high
 resolution 3D microscopy tools, have led to an increase in research on
@@ -894,17 +894,19 @@ uncertainty and inaccuracy for a particular method.
 \begin{figure}
 \centering
 \includegraphics{writeup_files/figure-latex/results1-1.pdf}
-\caption{\label{results1}Distribution, presented here as a boxplot, of
-areas of misidentification for rollapply (data smoothing) method, robust
-linear model method, and robust LOESS method, separated by left and
-right shoulder locations. A dense distribution with few high values
-indicates good performance across the LEAs in the data set.}
+\caption{\label{results1}Distribution for all 622 crosscuts, presented
+here as a boxplot, of areas of misidentification for rollapply (data
+smoothing) method, robust linear model method, and robust LOESS method,
+separated by left and right shoulder locations. A dense distribution
+with few high values indicates good performance across the LEAs in the
+data set.}
 \end{figure}
 
 Because the raw distributions are difficult to visually compare due to
 extreme outliers, we categorized areas of misidentification as
 {\color{teal}{small, medium, and large deviations. Scores under 100 are considered small deviations, scores between 100 and 1000 are medium, and scores above 1000 are considered large deviations (see \autoref{results2}). Cases with large deviations are the most likely to cause poor or flawed results in subsequent analyses.}}
-Note that \autoref{results2} and \autoref{results-table} are based on
+Note that \autoref{results2}(a) and \autoref{results-table}, as well as
+\autoref{results2}(b) and \autoref{results-table-houston} are based on
 the same numbers but provide two different presentations of the results.
 
 It is important to note that different results are expected for the left
@@ -938,32 +940,48 @@ Houston-test set.}
 \begin{tabular}{lrrr|rrr}
 & \multicolumn{3}{c}{\textbf{Left Shoulder Location}} & \multicolumn{3}{c}{\textbf{Right Shoulder Location}} \\
 \textbf{Method} & $(0,100)$ & $ (100, 1000) $ & $(1000, \infty)$ & $(0,100)$ & $ (100, 1000) $ & $(1000, \infty)$ \\ \hline
-Rollapply & 37.78 & 8.20 & 54.02 & 44.37& 32.48&23.15  \\ \hline
-Robust Linear Model & 28.30 & 7.88 & 63.83 & 32.32 & 24.28&43.41 \\ \hline
-Robust LOESS & 72.99 & 7.56 & 19.45 & 62.06& 23.79&14.15\\ \hline
+Rollapply & 86.54 & 8.17 & 5.29 & 52.88& 34.13&12.98  \\ \hline
+Robust Linear Model & 78.85 & 13.94 & 7.21 & 62.50 & 30.77&6.73 \\ \hline
+Robust LOESS & 94.23 & 5.29 & 0.48 & 73.08& 24.04&2.88\\ \hline \hline
 \end{tabular}
-\caption{Table of results for areas of misidentification (in $\mu m^2$) resulting from automated shoulder location identification methods applied to Hamby set 44 and Houston-test. Results are presented as percentage of shoulder location predictions which fall into each category: small deviations (less than 100), medium deviations (between 100 and 1000), and large deviations (greater than 1000).}
+\caption{Table of results for areas of misidentification (in $\mu m^2$) resulting from automated shoulder location identification methods applied to Hamby set 44. Results are presented as percentage of shoulder location predictions which fall into each category: small deviations (less than 100), medium deviations (between 100 and 1000), and large deviations (greater than 1000).}
 \label{results-table}
+\end{table}
+
+\begin{table}[]
+\centering
+\begin{tabular}{lrrr|rrr}
+& \multicolumn{3}{c}{\textbf{Left Shoulder Location}} & \multicolumn{3}{c}{\textbf{Right Shoulder Location}} \\
+\textbf{Method} & $(0,100)$ & $ (100, 1000) $ & $(1000, \infty)$ & $(0,100)$ & $ (100, 1000) $ & $(1000, \infty)$ \\ \hline
+Rollapply & 13.29 & 8.21 & 78.5 & 40.10 & 31.64&28.26  \\ \hline
+Robust Linear Model & 2.90 & 4.83 & 92.27 & 17.15 & 21.01&61.84 \\ \hline
+Robust LOESS & 62.32 & 8.70 & 28.99 & 56.52& 23.67&19.81\\ \hline \hline
+\end{tabular}
+\caption{Table of results for areas of misidentification (in $\mu m^2$) resulting from automated shoulder location identification methods applied to the Houston test set. Results are presented as percentage of shoulder location predictions which fall into each category: small deviations (less than 100), medium deviations (between 100 and 1000), and large deviations (greater than 1000).}
+\label{results-table-houston}
 \end{table}
 
 \section{Conclusions}
 
-{\color{teal}{Need to update this description because Robust Linear does worse for Houston-test...}}
-Both the robust linear model and robust LOESS approaches outperform
-currently implemented solutions based on data smoothers for the right
-shoulder location. Of the two, the robust LOESS approach clearly
-outperforms the robust linear model. This hierarchy of performance is
-well within expectation given the strength of robust approaches in
-general as well as the flexibility of LOESS applied to this data type.
-Robust LOESS also readily handles variation introduced in the process of
-translating the physical bullet into a 3D object. If there is too much
-variability in how the bullet is placed relative to the plane of
-reference on the microscope, profiles can have tilted shapes relative to
-the x-axis which a quadratic linear model would fail to address. In
-these situations, LOESS excels.
+The robust LOESS approach clearly outperforms both the robust linear
+model and the rollapply method for the right shoulder location Both the
+robust linear model and robust LOESS approaches outperform currently
+implemented solutions based on data smoothers for the both the left and
+right shoulder locations on both Hamby set 44 and the Houston test set.
+While the robust linear model approach outperforms rollapply for the
+right shoulder location on Hamby set 44, it performs the worst for both
+sides of the Houston test data and the left shoulder location of Hamby
+set 44. This hierarchy of performance is well within expectation given
+the strength of robust approaches in general as well as the flexibility
+of LOESS applied to this data type. Robust LOESS also readily handles
+variation introduced in the process of translating the physical bullet
+into a 3D object. If there is too much variability in how the bullet is
+placed relative to the plane of reference on the microscope, profiles
+can have tilted shapes relative to the x-axis which a quadratic linear
+model would fail to address. In these situations, LOESS excels.
 
 While the proposed cutoff values as multiples of MAD work well on Hamby
-set 44 {\color{teal}{and Houston-test}}, additional validation will need
+set 44 {\color{teal}{and Houston test}}, additional validation will need
 to be executed on a wider variety of barrel types. Depth of striae,
 physical size of bullet due to caliber, and non-traditional rifling
 techniques may require alterations to this cutoff value.
