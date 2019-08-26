@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  20 AUG 2019 17:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  25 AUG 2019 22:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -534,19 +534,19 @@ Non-PDF special ignored!
 
 {/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 163.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 165.
 
-Underfull \hbox (badness 10000) in paragraph at lines 171--177
+Underfull \hbox (badness 10000) in paragraph at lines 173--179
 
  []
 
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 276--278
+Underfull \hbox (badness 10000) in paragraph at lines 278--280
 
  []
 
 [3] [4]
-Underfull \hbox (badness 10000) in paragraph at lines 382--383
+Underfull \hbox (badness 10000) in paragraph at lines 384--385
 
  []
 
@@ -556,10 +556,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 382--383
 File: writeup_files/figure-latex/unnamed-chunk-3-1.pdf Graphic file (type pdf)
 <use writeup_files/figure-latex/unnamed-chunk-3-1.pdf>
 Package pdftex.def Info: writeup_files/figure-latex/unnamed-chunk-3-1.pdf  used
- on input line 457.
+ on input line 459.
 (pdftex.def)             Requested size: 463.73135pt x 318.18796pt.
 
-Overfull \hbox (19.08618pt too wide) in paragraph at lines 457--458
+Overfull \hbox (19.08618pt too wide) in paragraph at lines 459--460
 [][] 
  []
 
@@ -569,10 +569,10 @@ Overfull \hbox (19.08618pt too wide) in paragraph at lines 457--458
 File: writeup_files/figure-latex/unnamed-chunk-4-1.pdf Graphic file (type pdf)
 <use writeup_files/figure-latex/unnamed-chunk-4-1.pdf>
 Package pdftex.def Info: writeup_files/figure-latex/unnamed-chunk-4-1.pdf  used
- on input line 459.
+ on input line 461.
 (pdftex.def)             Requested size: 463.73135pt x 318.18796pt.
 
-Overfull \hbox (19.08618pt too wide) in paragraph at lines 459--460
+Overfull \hbox (19.08618pt too wide) in paragraph at lines 461--462
 [][] 
  []
 
@@ -581,7 +581,7 @@ Overfull \hbox (19.08618pt too wide) in paragraph at lines 459--460
 \openout4 = `writeup.fff'.
 
 (writeup.fff) [8] [9] [10] [11]
-Underfull \hbox (badness 10000) in paragraph at lines 744--746
+Underfull \hbox (badness 10000) in paragraph at lines 746--748
 
  []
 
@@ -597,32 +597,32 @@ d Tables [18] (./writeup.lof)
 
 
 ] [20] (./writeup.fff
-<./images/microscope-small.png, id=319, 268.00125pt x 200.75pt>
+<./images/microscope-small.png, id=320, 268.00125pt x 200.75pt>
 File: ./images/microscope-small.png Graphic file (type png)
 <use ./images/microscope-small.png>
 Package pdftex.def Info: ./images/microscope-small.png  used on input line 3.
 (pdftex.def)             Requested size: 221.88762pt x 166.20584pt.
-<./images/HS44-Br1-B1-L2-annotated.png, id=321, 1204.5pt x 903.375pt>
+<./images/HS44-Br1-B1-L2-annotated.png, id=322, 1204.5pt x 903.375pt>
 File: ./images/HS44-Br1-B1-L2-annotated.png Graphic file (type png)
 <use ./images/HS44-Br1-B1-L2-annotated.png>
 Package pdftex.def Info: ./images/HS44-Br1-B1-L2-annotated.png  used on input l
 ine 3.
 (pdftex.def)             Requested size: 221.88762pt x 166.40497pt.
 [21 <./images/microscope-small.png> <./images/HS44-Br1-B1-L2-annotated.png>]
-<./images/3d_plot_top_context_breakoff.png, id=328, 722.7pt x 542.025pt>
+<./images/3d_plot_top_context_breakoff.png, id=329, 722.7pt x 542.025pt>
 File: ./images/3d_plot_top_context_breakoff.png Graphic file (type png)
 <use ./images/3d_plot_top_context_breakoff.png>
 Package pdftex.def Info: ./images/3d_plot_top_context_breakoff.png  used on inp
 ut line 12.
 (pdftex.def)             Requested size: 462.26999pt x 346.70459pt.
 [22 <./images/3d_plot_top_context_breakoff.png>]
-<images/3d_plot_top_crosscut.png, id=334, 752.8125pt x 250.9375pt>
+<images/3d_plot_top_crosscut.png, id=335, 752.8125pt x 250.9375pt>
 File: images/3d_plot_top_crosscut.png Graphic file (type png)
 <use images/3d_plot_top_crosscut.png>
 Package pdftex.def Info: images/3d_plot_top_crosscut.png  used on input line 19
 .
 (pdftex.def)             Requested size: 208.02008pt x 69.33922pt.
-<images/profile_paper.png, id=335, 587.19376pt x 247.92625pt>
+<images/profile_paper.png, id=336, 587.19376pt x 247.92625pt>
 File: images/profile_paper.png Graphic file (type png)
 <use images/profile_paper.png>
 Package pdftex.def Info: images/profile_paper.png  used on input line 26.
@@ -632,20 +632,20 @@ Underfull \hbox (badness 10000) in paragraph at lines 17--30
 
  []
 
-<images/profile_paper_loess.png, id=336, 587.19376pt x 247.92625pt>
+<images/profile_paper_loess.png, id=337, 587.19376pt x 247.92625pt>
 File: images/profile_paper_loess.png Graphic file (type png)
 <use images/profile_paper_loess.png>
 Package pdftex.def Info: images/profile_paper_loess.png  used on input line 34.
 
 (pdftex.def)             Requested size: 208.02008pt x 87.83095pt.
-<images/signature_paper.png, id=337, 587.19376pt x 247.92625pt>
+<images/signature_paper.png, id=338, 587.19376pt x 247.92625pt>
 File: images/signature_paper.png Graphic file (type png)
 <use images/signature_paper.png>
 Package pdftex.def Info: images/signature_paper.png  used on input line 41.
 (pdftex.def)             Requested size: 208.02008pt x 87.83095pt.
 [23 <./images/3d_plot_top_crosscut.png> <./images/profile_paper.png> <./images/
 profile_paper_loess.png> <./images/signature_paper.png>]
-<writeup_files/figure-latex/prof-1.pdf, id=348, 463.7325pt x 223.83624pt>
+<writeup_files/figure-latex/prof-1.pdf, id=349, 463.7325pt x 223.83624pt>
 File: writeup_files/figure-latex/prof-1.pdf Graphic file (type pdf)
 <use writeup_files/figure-latex/prof-1.pdf>
 Package pdftex.def Info: writeup_files/figure-latex/prof-1.pdf  used on input l
@@ -657,7 +657,7 @@ Overfull \hbox (1.46136pt too wide) in paragraph at lines 52--60
  []
 
 [24 <./writeup_files/figure-latex/prof-1.pdf>]
-<writeup_files/figure-latex/groove-no-groove-1.pdf, id=365, 426.59375pt x 278.0
+<writeup_files/figure-latex/groove-no-groove-1.pdf, id=366, 426.59375pt x 278.0
 3876pt>
 File: writeup_files/figure-latex/groove-no-groove-1.pdf Graphic file (type pdf)
 
@@ -666,28 +666,28 @@ Package pdftex.def Info: writeup_files/figure-latex/groove-no-groove-1.pdf  use
 d on input line 66.
 (pdftex.def)             Requested size: 426.5927pt x 278.03807pt.
 [25 <./writeup_files/figure-latex/groove-no-groove-1.pdf>]
-<writeup_files/figure-latex/lms-1.pdf, id=379, 462.72874pt x 278.03876pt>
+<writeup_files/figure-latex/lms-1.pdf, id=380, 462.72874pt x 278.03876pt>
 File: writeup_files/figure-latex/lms-1.pdf Graphic file (type pdf)
 <use writeup_files/figure-latex/lms-1.pdf>
 Package pdftex.def Info: writeup_files/figure-latex/lms-1.pdf  used on input li
 ne 77.
 (pdftex.def)             Requested size: 462.72762pt x 278.03807pt.
 [26 <./writeup_files/figure-latex/lms-1.pdf>]
-<writeup_files/figure-latex/loess-1.pdf, id=392, 462.72874pt x 278.03876pt>
+<writeup_files/figure-latex/loess-1.pdf, id=393, 462.72874pt x 278.03876pt>
 File: writeup_files/figure-latex/loess-1.pdf Graphic file (type pdf)
 <use writeup_files/figure-latex/loess-1.pdf>
 Package pdftex.def Info: writeup_files/figure-latex/loess-1.pdf  used on input 
 line 92.
 (pdftex.def)             Requested size: 462.72762pt x 278.03807pt.
 [27 <./writeup_files/figure-latex/loess-1.pdf>]
-<writeup_files/figure-latex/results1-1.pdf, id=406, 427.5975pt x 401.5pt>
+<writeup_files/figure-latex/results1-1.pdf, id=407, 427.5975pt x 401.5pt>
 File: writeup_files/figure-latex/results1-1.pdf Graphic file (type pdf)
 <use writeup_files/figure-latex/results1-1.pdf>
 Package pdftex.def Info: writeup_files/figure-latex/results1-1.pdf  used on inp
 ut line 106.
 (pdftex.def)             Requested size: 427.59645pt x 401.49901pt.
 [28 <./writeup_files/figure-latex/results1-1.pdf>]
-<writeup_files/figure-latex/results2-1.pdf, id=418, 457.71pt x 277.035pt>
+<writeup_files/figure-latex/results2-1.pdf, id=419, 457.71pt x 277.035pt>
 File: writeup_files/figure-latex/results2-1.pdf Graphic file (type pdf)
 <use writeup_files/figure-latex/results2-1.pdf>
 Package pdftex.def Info: writeup_files/figure-latex/results2-1.pdf  used on inp
@@ -720,23 +720,23 @@ Overfull \hbox (18.19005pt too wide) in paragraph at lines 3--10
  []
 
 ) [31]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 979.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 979.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 982.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 982.
 (./writeup.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 979.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 979.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 982.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 982.
 Package rerunfilecheck Info: File `writeup.out' has not changed.
 (rerunfilecheck)             Checksum: 5AF21575EE2B91B5D8D35539E6A6009E;526.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 979.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 982.
  ) 
 Here is how much of TeX's memory you used:
  10583 strings out of 492649
  157493 string characters out of 6129622
- 279617 words of memory out of 5000000
+ 279682 words of memory out of 5000000
  14172 multiletter control sequences out of 15000+600000
  11905 words of font info for 43 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 61i,12n,96p,901b,468s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 61i,12n,96p,901b,472s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
@@ -753,10 +753,10 @@ exlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/tex
 live/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texli
 ve/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texliv
 e/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on writeup.pdf (31 pages, 3100311 bytes).
+Output written on writeup.pdf (31 pages, 3101349 bytes).
 PDF statistics:
- 524 PDF objects out of 1000 (max. 8388607)
- 431 compressed objects within 5 object streams
+ 525 PDF objects out of 1000 (max. 8388607)
+ 432 compressed objects within 5 object streams
  109 named destinations out of 1000 (max. 500000)
  156 words of extra memory for PDF output out of 10000 (max. 10000000)
 

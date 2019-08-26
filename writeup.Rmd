@@ -50,6 +50,8 @@ library(smoother)
 
 Below are the reviewer comments with proposed responses. Proposed changes in accordance with reviewer comments within the text are colored teal.  
 
+\kr{Separate out Table 1 to be for Hamby/Houston data separately. Also, update conclusions section to be correct with updated data.}
+
 \subsection{Reviewer 1}  
 
 1. "Currently accepted best practice..."  
@@ -720,10 +722,11 @@ It is important to note that different results are expected for the left and rig
 
 
 
-```{r results2, echo = F, warning = F, message = F, fig.height = 4, fig.cap = "\\label{results2}Distribution of areas of misidentification for rollapply (data smoothing) method, robust linear model method, and robust LOESS method, separated by left and right shoulder locations. Areas of misidentification are placed into three categories: less than 100 microns (small deviations), between 100 and 1000 microns, and greater than 1000 microns. A larger proportion of areas of misidentification under 100 microns indicates good performance across LEAs in the data set.", dpi = 300}
+```{r results2, echo = F, warning = F, message = F, fig.height = 4, fig.cap = "\\label{results2}Distribution of areas of misidentification for rollapply (data smoothing) method, robust linear model method, and robust LOESS method, separated by left and right shoulder locations. Areas of misidentification are placed into three categories: less than 100 microns (small deviations), between 100 and 1000 microns, and greater than 1000 microns. A larger proportion of areas of misidentification under 100 microns indicates good performance across LEAs in the data set. Results are split between Hamby set 44 and the  Houston-test set.", dpi = 300}
 #phoenix <- readRDS("data/phoenix_eval.rda")
 #hamby44_eval_paper <- hamby44_eval_paper %>% ungroup() %>% select(source, crosscuts, score_left_rollapply, score_right_rollapply, score_left_mad2:score_right_mad4rlm)
-
+  hamby44_eval_paper$testset <- "hamby"
+  houston$testset <- "houston"
   dataset <- full_join(hamby44_eval_paper, houston)
 #dataset <- hamby44_eval_paper
   methods <- c("rollapply", "mad2", "mad4rlm")
@@ -733,8 +736,8 @@ It is important to note that different results are expected for the left and rig
     colnames <- c(colnames, paste0("score_right_", methods[i]))
   }
   plot_df <- dataset %>% ungroup() %>% 
-    select(colnames) %>%  
-    gather(method, score) %>% 
+    select(colnames, testset) %>%  
+    gather(method, score, -testset) %>% 
     mutate(GrooveMethod = unlist(purrr::map(method, .f = function(x){
       strsplit(x, "_")[[1]][3]
         })), GrooveSide = unlist(purrr::map(method, .f = function(x){
@@ -746,9 +749,10 @@ It is important to note that different results are expected for the left and rig
     mutate(AccuracyCategory = ifelse(abs(score) >= 1000, ">1000", AccuracyCategory))
   
   plot_df$GrooveLabels <- ifelse(plot_df$GrooveSide=="left", "left shoulder location", "right shoulder location")
-  plot_df %>% 
+  plot_cat_1 <- plot_df %>% 
+    filter(testset == "hamby") %>%
     ggplot() + geom_bar(aes(x = GrooveMethod, fill=factor(AccuracyCategory, levels=c(">1000","100, 1000", "<100"))), position = "stack") + 
-      theme_bw() + labs(x = "Groove Method", y = "Number of LEAs") + 
+      theme_bw() + labs(x = "Groove Method", y = "Number of LEAs", title = "Hamby set 44") + 
     facet_wrap(~GrooveLabels ) + 
     scale_fill_manual(name="Area of Misidentification", values=c("black", "grey50", "grey80"), #values=c("#E69F00", "#56B4E9", "#009E73"),
                          breaks=c(">1000", "100, 1000", "<100"),
@@ -757,6 +761,21 @@ It is important to note that different results are expected for the left and rig
                      labels = c("Rollapply", "Robust Linear Model", "Robust LOESS"), 
                      limits=c("rollapply","mad4rlm","mad2")) + 
     theme(axis.text.x = element_text(angle =10, size = 8))
+  
+  plot_cat_2 <- plot_df %>% 
+    filter(testset == "houston") %>%
+    ggplot() + geom_bar(aes(x = GrooveMethod, fill=factor(AccuracyCategory, levels=c(">1000","100, 1000", "<100"))), position = "stack") + 
+      theme_bw() + labs(x = "Groove Method", y = "Number of LEAs", title = "Houston test set") + 
+    facet_wrap(~GrooveLabels ) + 
+    scale_fill_manual(name="Area of Misidentification", values=c("black", "grey50", "grey80"), #values=c("#E69F00", "#56B4E9", "#009E73"),
+                         breaks=c(">1000", "100, 1000", "<100"),
+                         labels=c("Greater than 1000", "Between 100 and 1000", "Less than 100")) + 
+    scale_x_discrete(name = "Method", breaks = c("rollapply", "mad4rlm", "mad2"), 
+                     labels = c("Rollapply", "Robust Linear Model", "Robust LOESS"), 
+                     limits=c("rollapply","mad4rlm","mad2")) + 
+    theme(axis.text.x = element_text(angle =10, size = 8))
+  
+  grid.arrange(plot_cat_1, plot_cat_2)
   
 ```
 

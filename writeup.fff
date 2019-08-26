@@ -122,5 +122,6 @@ Areas of misidentification are placed into three categories: less than
 100 microns (small deviations), between 100 and 1000 microns, and
 greater than 1000 microns. A larger proportion of areas of
 misidentification under 100 microns indicates good performance across
-LEAs in the data set.}
+LEAs in the data set. Results are split between Hamby set 44 and the
+Houston-test set.}
 \end{figure}
